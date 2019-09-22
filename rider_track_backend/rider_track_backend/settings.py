@@ -79,8 +79,13 @@ WSGI_APPLICATION = 'rider_track_backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        #'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'djongo',
+        'NAME': 'tracker',
+        'HOST': 'mongodb+srv://root-user:admin@softwarefactory-erwi0.mongodb.net/tracker',
+        'USER': 'root-user',
+        'PASSWORD': 'admin',
     }
 }
 
