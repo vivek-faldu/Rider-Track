@@ -1,0 +1,43 @@
+/**
+ * Author: Shaunak Shah
+ * Task: Create styles for the header for better interface.
+ * Task no: 44
+ * Date: 09/22/2019
+ */
+
+.country_bar {
+    background-color: #eee;
+    font-size: 14px;
+    padding-top: 4px;
+    padding-bottom: 4px !important;
+}
+
+.info_bar {
+    color: white;
+    background-color: black;
+    font-size: 12px;
+    padding-top: 9px;
+    padding-bottom: 9px;
+}
+
+.nav_bar {
+    background-color: white !important;
+    color: black;
+    padding-top: 23px;
+    padding-bottom: 23px;
+}
+
+.menu_button {
+    font-size: 16px !important;
+    font-weight: bold;
+}
+
+.home_button {
+    font-size: 23px !important;
+    font-weight: bold;
+    font-family: "Times New Roman"
+}
+
+p {
+    margin-block-end: 0 !important;
+}
