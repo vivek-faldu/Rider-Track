@@ -20,4 +20,5 @@ Backend development setup
 . install django - pip install Django
 . install django rest framework - pip3 install djangorestframework
 . install corsheader - pip install django-cors-headers
+. install djongo - pip install djongo
 . python manage.py runserver 
