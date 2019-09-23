@@ -1,0 +1,29 @@
+/**
+ * Author: Shaunak Shah
+ * Task: Add style to the footer and compatibility for small screens.
+ * Task no: 44
+ * Date: 09/22/2019
+ */
+
+.bottom {
+    position: absolute;
+    bottom: 0;
+    background-color: black !important;
+    width: 100%;
+    font-color: white !important;
+    padding-top: 5px;
+}
+
+.quick_actions {
+    fill: rgb(1,1,1);
+    filter: brightness(10);
+}
+
+.footer_button {
+    fill: rgb(1,1,1);
+    filter: brightness(10);
+    font-size: 0.7em !important;
+    font-weight: bold;
+}
+
+
