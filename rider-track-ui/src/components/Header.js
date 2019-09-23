@@ -8,11 +8,13 @@
 import React from 'react';
 import './Header.css';
 
-import {AppBar,Button,IconButton,Toolbar} from "@material-ui/core";
+import {Button} from "@material-ui/core";
 import Grid from '@material-ui/core/Grid';
 import Person from '@material-ui/icons/Person';
 import AddBox from '@material-ui/icons/AddBox';
 import Room from '@material-ui/icons/Room';
+import Hidden from '@material-ui/core/Hidden';
+import withWidth from '@material-ui/core/withWidth';
 
 class Header extends React.Component {
     render() {
@@ -21,28 +23,30 @@ class Header extends React.Component {
 
                 <Grid container alignItems="center" className="country_bar">
                     <Grid item lg={10}></Grid>
-                    <Grid intem lg={2}><p>United States</p></Grid>
+                    <Hidden mdDown><Grid intem lg={2}><p>United States</p></Grid></Hidden>
                 </Grid>
 
-                <Grid container alignItems="center" className="nav_bar">
-                        <Grid xs={2} item>
-                            <Button color="inherit" className="home_button">Rider Track</Button>
+                <Grid container alignItems="center" justify="center" className="nav_bar">
+                        <Grid md={12} lg={2} item>
+                            <Button className="home_button">Rider Track</Button>
                         </Grid>
-                        <Grid item xs={8}r>
+                        <Grid item md={12} lg={8}r>
                             <Button className="menu_button" color="inherit">Home</Button>
                             <Button className="menu_button" color="inherit">Organizers</Button>
                             <Button className="menu_button" color="inherit">About</Button>
                             <Button className="menu_button" color="inherit">Login</Button>
                         </Grid>
-                        <Grid container alignment="center" justify="center" xs={2} spacing={3}>
-                            <Grid item>{<Person />}</Grid>
-                            <Grid item>{<AddBox />}</Grid>
-                            <Grid item>{<Room />}</Grid>
-                        </Grid>
+                        <Hidden smDown>
+                            <Grid container alignment="center" justify="center" md={12} lg={2} spacing={3}>
+                                <Grid item>{<Person />}</Grid>
+                                <Grid item>{<AddBox />}</Grid>
+                                <Grid item>{<Room />}</Grid>
+                            </Grid>
+                        </Hidden>
                 </Grid>
                 <Grid container alignItems="center" className="info_bar">
                     <Grid item xs={12}>
-                        <p>ORGANIZE, PARTICIPATE, TRACK AND SHARE EVENTS! VISUALIZE THE EVENTS AS THEY TAKE PLACE</p>
+                        <Hidden smDown><p>ORGANIZE, PARTICIPATE, TRACK AND SHARE EVENTS! VISUALIZE THE EVENTS AS THEY TAKE PLACE</p></Hidden>
                     </Grid>
                 </Grid>
             </div>
@@ -51,4 +55,4 @@ class Header extends React.Component {
 }
 
 
-export default Header;
+export default withWidth()(Header);

@@ -33,9 +33,8 @@
 }
 
 .home_button {
-    font-size: 23px !important;
     font-weight: bold;
-    font-family: "Times New Roman"
+    font-size: 1.5em !important;
 }
 
 p {
