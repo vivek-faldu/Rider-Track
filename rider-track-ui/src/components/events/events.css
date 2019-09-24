@@ -1,0 +1,27 @@
+/** 
+  *  css file to handle "events list" styling
+  *  Author: Sai Saran Kandimalla
+  *  Date: 09/23/2019 
+  *  User Story: 30
+*/
+
+.rt-events-card {
+    margin: 15px;
+}
+
+.rt-events-card ul {
+    list-style: none;
+    padding: 10px;
+}
+
+.rt-events-header {
+    float: left;
+    padding: 10px 10px 0px 10px;
+}
+
+.rt-event-type-dropdown {
+    padding: 10px 30px 10px 10px;
+    float: right;
+    display: flex;
+    flex-wrap: wrap;
+}
