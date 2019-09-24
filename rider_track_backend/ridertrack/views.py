@@ -1,7 +1,11 @@
+from django.http import Http404
 from django.shortcuts import render
 from rest_framework import generics
-from .models import EventDetails
-from .serializers import EventDetailsSerializer
+from rest_framework.response import Response
+
+from .models import EventDetails, Event
+from .serializers import EventDetailsSerializer, EventSerializer
+
 
 class EventDetailsView(generics.ListAPIView):
     """
@@ -17,3 +21,12 @@ class EventDetailsView(generics.ListAPIView):
         event = self.get_event_details(eventId)
         serializer = EventDetailsSerializer(event)
         return Response(serializer.data)
+
+class EventView(generics.ListAPIView):
+    def get(self, request):
+        events = Event.objects.all()
+        serializer = EventSerializer(events, many=True)
+        return Response({"events": serializer.data})
+
+
+
