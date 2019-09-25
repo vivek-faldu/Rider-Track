@@ -6,7 +6,7 @@
  */
 
 .bottom {
-    position: absolute;
+    position: ralative;
     bottom: 0;
     background-color: black !important;
     width: 100%;

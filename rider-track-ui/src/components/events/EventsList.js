@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, Divider, FormControl, NativeSelect, FormHelperText } from '@material-ui/core';
 import './events.css';
 import { live, upcoming, completed } from './EventsConstants';
+import { EventListItem } from './EventListItem';
 
 /*
     Component that renders the list of events in the web browser
@@ -20,6 +21,9 @@ export const EventsList = () => {
             header: event.target.value
         });
     }
+
+    // remove after AJAX call to backend is made.
+    const numbers = [1,2,3,4,5,6]
 
     return (
         <Card className="rt-events-card">
@@ -48,11 +52,8 @@ export const EventsList = () => {
             <Divider className="row" />
             <div>
                 <ul>
-                    <li> {state.header} one</li>
-                    <Divider variant="middle" />
-                    <li> {state.header} two</li>
-                    <Divider variant="middle" />
-                    <li>{state.header} three</li>
+                    {numbers.map((el) =><div><li><EventListItem/></li>
+                    <Divider variant="middle" /></div>)}
                 </ul>
             </div>
         </Card>

@@ -6,7 +6,8 @@
 */
 
 .rt-events-card {
-    margin: 15px;
+    margin: 25px;
+    overflow:hidden;
 }
 
 .rt-events-card ul {
@@ -24,4 +25,15 @@
     float: right;
     display: flex;
     flex-wrap: wrap;
+}
+
+.rt-event-list-item-text {
+    padding: 15px;
+    font-size: 14px;
+}
+
+.rt-event-register-button {
+    margin: 15px !important;
+    font-size: 14px !important;
+    text-transform: none !important;
 }
