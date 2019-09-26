@@ -6,6 +6,7 @@ import Footer from './components/footer/Footer';
 import { EventsList } from './components/events/EventsList';
 import EventCreationForm from './components/eventcreation/EventCreationForm';
 import EventsDetail from './components/events_detail/EventsDetail';
+import LiveEventMap from './components/maps/LiveEventMap';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Route exact path="/" component={EventsList} />
             <Route path="/createevent" component={EventCreationForm} />
             <Route path="/event/:id" component={EventsDetail} />
+            <Route path="/live" component={LiveEventMap} />
           </Switch>
         </div>
       </BrowserRouter>
