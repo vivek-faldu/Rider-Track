@@ -1,0 +1,40 @@
+/**
+ * Author: Shaunak Shah
+ * Task: Create basic layout of details front end for the event details page.
+ * Task no: 53
+ * Date: 09/26/2019
+ */
+
+.map_image {
+
+    object-fit: contain;
+}
+
+.event_layout {
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+.participants_list {
+    padding-left: 3px;
+}
+
+.event_info_bar {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: grey;
+    border-radius: 20px;
+}
+
+.event_info_column {
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.event_detail_map {
+    border-style: solid;
+}
