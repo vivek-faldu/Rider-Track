@@ -32,4 +32,5 @@ let events = new Schema({
     }]
 });
 
-export default mongoose.model("events", events);
+
+module.exports = mongoose.model("events", events);
