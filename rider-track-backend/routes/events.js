@@ -8,7 +8,10 @@ router.get("/", async (req, res) => {
     Event
         .find()
         .exec(function (error, event) {
-            return res.json(event);
+            if (error) {
+                res.status(500).json("Internal Server Error");
+            } else
+                res.status(200).json(event);
         });
 });
 
