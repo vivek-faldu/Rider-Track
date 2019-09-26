@@ -23,4 +23,15 @@ router.get("/:id", async (req, res) => {
 
 });
 
+router.route('/add').post(bodyParser, (req, res) => {
+    let event = new Event(req.body);
+    event.save()
+        .then(event => {
+            res.status(200).json({ 'event': 'Added successfully' });
+        })
+        .catch(err => {
+            res.status(400).send('Failed to create new event');
+        });
+});
+
 module.exports = router;
