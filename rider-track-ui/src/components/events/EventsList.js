@@ -1,8 +1,8 @@
 import React from 'react';
 import { Card, Divider, FormControl, NativeSelect, FormHelperText } from '@material-ui/core';
 import './events.css';
-import { live, upcoming, completed } from './EventsConstants';
-import {EventListItem} from './EventListItem';
+import {LIVE_EVENTS, UPCOMING_EVENTS, COMPLETED_EVENTS } from './EventsConstants';
+import EventListItem from './EventListItem';
 
 /*
     Component that renders the list of events in the web browser
@@ -11,9 +11,9 @@ import {EventListItem} from './EventListItem';
     US: 30
     The state management has been referred from : https://material-ui.com/components/selects/
 */
-export const EventsList = () => {
+const EventsList = () => {
     const [state, setState] = React.useState({
-        header: live
+        header: LIVE_EVENTS,
     });
 
     const handleEventTypeChange = (name) => (event) => {
@@ -40,9 +40,9 @@ export const EventsList = () => {
                                 }}
                                 onChange = {handleEventTypeChange("event-type-selector")}
                             >
-                                <option value={live}>Live</option>
-                                <option value={upcoming}>Upcoming</option>
-                                <option value={completed}>Completed</option>
+                                <option value={LIVE_EVENTS}>Live</option>
+                                <option value={UPCOMING_EVENTS}>Upcoming</option>
+                                <option value={COMPLETED_EVENTS}>Completed</option>
                             </NativeSelect>
                             <FormHelperText>select events type</FormHelperText>
                         </FormControl>
@@ -60,3 +60,4 @@ export const EventsList = () => {
     );
 }
 
+export default EventsList;

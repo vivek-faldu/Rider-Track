@@ -5,6 +5,6 @@
  * Date: 09/23/2019
  * User Story: 30
  */
-export const live = "Live Events";
-export const completed = "Completed Events";
-export const upcoming = "Upcoming Events"
+export const LIVE_EVENTS = 'Live Events';
+export const COMPLETED_EVENTS = 'Completed Events';
+export const UPCOMING_EVENTS = 'Upcoming Events';
