@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, Divider, FormControl, NativeSelect, FormHelperText } from '@material-ui/core';
 import './events.css';
 import { live, upcoming, completed } from './EventsConstants';
-import { EventListItem } from './EventListItem';
+import {EventListItem} from './EventListItem';
 
 /*
     Component that renders the list of events in the web browser

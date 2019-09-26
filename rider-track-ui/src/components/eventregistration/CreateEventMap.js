@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {render} from 'react-dom';
 import MapGL, {Marker, NavigationControl} from 'react-map-gl';
 import  { Fab } from '@material-ui/core';
 import  AddIcon from '@material-ui/icons/Add';
