@@ -1,16 +1,13 @@
 import React from 'react';
-import { Box, Typography, Link, Button } from '@material-ui/core';
-import { EVENT_DETAIL_PATH, EVENT_REGISTRATION_PATH } from '../../RouteConstants';
-
-
-
+import { Box, Typography, Link, Button} from '@material-ui/core';
+import {withRouter} from 'react-router-dom';
 /**
  * Component to render the event list item to the browser.
  * Author: Sai Saran Kandimalla.
  * Date: 09/24/2019.
  * User Story: 30.
  */
-const EventListItem = () => {
+export const EventListItem = () => {
     
     return (
         <Box className = "row">
@@ -21,7 +18,7 @@ const EventListItem = () => {
             </div>
             <div className = "col-md-3 rt-event-list-item-text">
                 <Typography>
-                    <Link href = {EVENT_DETAIL_PATH}>
+                    <Link href = {"/event/1"}>
                         Terra Australis Bike Epic
                     </Link>
                 </Typography>
@@ -32,7 +29,7 @@ const EventListItem = () => {
                 </p>
             </div>
             <div className = "col-md-2">
-                <Link href ={EVENT_REGISTRATION_PATH}>
+                <Link href ={"/register"}>
                 <Button 
                     variant = "contained" 
                     color = "primary" 
@@ -45,7 +42,6 @@ const EventListItem = () => {
         </Box>
     )
 }
-
 
 /**
  * utility function to format the date to render it on UI. 
@@ -68,5 +64,3 @@ const formatDate = (date) => {
     
       return day + '-' + monthNames[monthIndex] + '-' + year;
 }
-
-export default EventListItem;
