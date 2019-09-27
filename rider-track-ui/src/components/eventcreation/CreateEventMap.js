@@ -1,3 +1,10 @@
+/**
+ * Author: Vivek Faldu
+ * Task: Create event map
+ * Task no: 43
+ * Date: 09/25/2019
+ */
+
 import React, { Component } from 'react';
 import MapGL, { Marker, NavigationControl } from 'react-map-gl';
 import { Fab } from '@material-ui/core';

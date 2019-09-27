@@ -1,3 +1,11 @@
+/**
+ * Author: Vivek Faldu
+ * Task: Create a map to show moving points on map which represent the live location of participant
+ * Task no: 48
+ * Date: 09/26/2019
+ */
+
+
 import React, { Component } from 'react';
 import MapGL, { Marker } from 'react-map-gl';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -25,8 +33,6 @@ export default class LiveEventMap extends Component {
 
 
   componentDidMount() {
-    // animation = window.requestAnimationFrame(this._animatePoint);
-
     setInterval(() => {
       this.updateMarker();
     }, 100);
