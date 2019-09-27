@@ -1,66 +1,49 @@
 import React from 'react';
-import { Box, Typography, Link, Button} from '@material-ui/core';
-import {withRouter} from 'react-router-dom';
+import { Box, Typography, Link, Button } from '@material-ui/core';
+import { EVENT_DETAIL_PATH, EVENT_REGISTRATION_PATH } from '../../RouteConstants';
+import { UPCOMING_EVENTS } from './EventsConstants';
+
 /**
  * Component to render the event list item to the browser.
  * Author: Sai Saran Kandimalla.
  * Date: 09/24/2019.
  * User Story: 30.
  */
-export const EventListItem = () => {
+const EventListItem = (props) => {
     
     return (
-        <Box className = "row">
-            <div className = "col-md-2 rt-event-list-item-text">
+        <Box className="row">
+            <div className="col-md-2 rt-event-list-item-text">
                 <p>
-                    {formatDate(new Date())}
+                    {props.eventDate}
                 </p>
             </div>
             <div className = "col-md-3 rt-event-list-item-text">
                 <Typography>
-                    <Link href = {"/event/1"}>
-                        Terra Australis Bike Epic
+                    <Link href = {EVENT_DETAIL_PATH}>
+                        {props.eventName}
                     </Link>
                 </Typography>
             </div>
-            <div className = "col-md-5 rt-event-list-item-text">
+            <div className={props.eventType === UPCOMING_EVENTS? "col-md-5 rt-event-list-item-text": "col-md-7 rt-event-list-item-text"}>
                 <p>
-                    A 6,300k epic solo self supported ride from Cape York at the top of Australia to Wilsons Promontory the southern tip of mainland Australia.
+                    {props.eventDescription}
                 </p>
             </div>
-            <div className = "col-md-2">
-                <Link href ={"/register"}>
-                <Button 
-                    variant = "contained" 
-                    color = "primary" 
-                    className = "rt-event-register-button"
-                >
-                    Register
-                </Button>
-                </Link>
-            </div>
+            {props.eventType === UPCOMING_EVENTS?
+                (<div className="col-md-2">
+                    <Link href={EVENT_REGISTRATION_PATH}>
+                    <Button 
+                        variant="contained" 
+                        color="primary" 
+                        className="rt-event-register-button"
+                    >
+                        Register
+                    </Button>
+                    </Link>
+                </div>):null}
         </Box>
     )
 }
 
-/**
- * utility function to format the date to render it on UI. 
- * Author: Sai Saran Kandimalla.
- * Date: 09/24/2019
- * User Story: 30
- * Referred from: https://stackoverflow.com/questions/3552461/how-to-format-a-javascript-date
- */
-const formatDate = (date) => {
-    var monthNames = [
-        "Jan", "Feb", "March",
-        "April", "May", "June", "July",
-        "Aug", "Sep", "Oct",
-        "Nov", "Dec"
-      ];
-    
-      var day = date.getDate();
-      var monthIndex = date.getMonth();
-      var year = date.getFullYear();
-    
-      return day + '-' + monthNames[monthIndex] + '-' + year;
-}
+export default EventListItem;
