@@ -7,7 +7,7 @@
 
 .rt-events-card {
     margin: 25px;
-    overflow:hidden;
+    min-height: 450px;
 }
 
 .rt-events-card ul {
