@@ -1,3 +1,10 @@
+/**
+ * Author: Shilpa Bhat
+ * Author: Janani Thiagarajan
+ * Task: Get and Post calls for event
+ * Task no: 45,46,47
+ * Date: 09/20/2019
+ */
 var express = require("express");
 var router = express.Router();
 const Event = require('../models/events');

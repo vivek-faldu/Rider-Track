@@ -1,3 +1,10 @@
+/**
+ * Author: Janani Thiagarjan
+ * Author: Shilpa Bhat
+ * Task: Unit tests for api calls
+ * Task no: 45,46,47,
+ * Date: 09/26/2019
+ */
 let mongoose = require("mongoose");
 let Event = require('../models/events');
 
@@ -53,13 +60,6 @@ describe('GET Event based on _id', () => {
             .get('/api/events/random')
             .end((err, res) => {
                 res.should.have.status(404);
-                // res.body.should.have.property('event_name');
-                // res.body.should.have.property('creator_id');
-                // res.body.should.have.property('date_time');
-                // res.body.should.have.property('duration');
-                // res.body.should.have.property('max_participant');
-                // res.body.should.have.property('checkpoints');
-                // res.body.should.have.property('participants');
                 done();
             });
     });

@@ -1,3 +1,9 @@
+/**
+ * Author: Janani Thiagarjan
+ * Task: Model setup for accessing db
+ * Task no: 45,46,47,
+ * Date: 09/20/2019
+ */
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 

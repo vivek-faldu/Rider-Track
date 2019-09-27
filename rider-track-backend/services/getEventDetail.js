@@ -1,3 +1,9 @@
+/**
+ * Author: Shilpa Bhat
+ * Task: Unit tests for api calls
+ * Task no: 46
+ * Date: 09/22/2019
+ */
 const Event = require('../models/events');
 
 
