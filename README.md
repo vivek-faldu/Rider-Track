@@ -4,7 +4,7 @@ Some longer athletic events, such as ultra-marathon foot races and grand randonn
 
 Technology Stack used to develop this project 
 Frontend - React JS
-Backend - Python Django
+Backend - Node JS, Express
 Database - Mongo
 
 For local development setup
@@ -16,9 +16,7 @@ Frontend development setup -
 . Run 'npm start' to the frontend project
 
 Backend development setup
-. install python -  https://www.python.org/downloads/
-. install django - pip install Django
-. install django rest framework - pip3 install djangorestframework
-. install corsheader - pip install django-cors-headers
-. install djongo - pip install djongo
-. python manage.py runserver 
+. Install node packet manager if it is not already installed
+. Clone the code into local machine and navigate into the folder
+. Run 'npm install' to install dependencies
+. Run 'npm start' to the frontend project
