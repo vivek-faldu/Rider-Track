@@ -1,17 +1,31 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { Route, BrowserRouter, Switch } from 'react-router-dom';
+import Header from './components/header/Header';
+import Footer from './components/footer/Footer';
+import EventsList from './components/events/EventsList';
+import EventsDetail from './components/events_detail/EventsDetail';
+import { HOME_ROUTE, EVENT_REGISTRATION_PATH, EVENT_DETAIL_PATH, EVENT_CREATION_PATH, LIVE_MAP } from './RouteConstants';
+import EventRegistrationForm from './components/eventregistration/EventRegistrationForm';
+import EventCreationForm from './components/eventcreation/EventCreationForm';
+import LiveEventMap from './components/maps/LiveEventMap';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <h1 className="App-title">Welcome to React</h1>
-      </header>
-      <p className="App-intro">
-            Hello World
-      </p>
+      <Header />
+      <BrowserRouter>
+        <div>
+          <Switch>
+            <Route exact path={HOME_ROUTE} component={EventsList} />
+            <Route path={EVENT_REGISTRATION_PATH} component={EventRegistrationForm} />
+            <Route path={EVENT_DETAIL_PATH} component={EventsDetail} />
+            <Route path={EVENT_CREATION_PATH} component={EventCreationForm} />
+            <Route path={LIVE_MAP} component={LiveEventMap} />
+          </Switch>
+        </div>
+      </BrowserRouter>
+      <Footer />
     </div>
   );
 }
