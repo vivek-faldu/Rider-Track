@@ -25,7 +25,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
     Event.findById(req.params.id, (err, event) => {
         if (err) {
-            console.log(err);
+            //console.log(err);
             res.status(404).json();
         }
         else
