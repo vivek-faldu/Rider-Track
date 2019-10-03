@@ -1,19 +1,31 @@
 /**
  * Author: Janani Thiagarjan
- * Modified by: Shilpa Bhat
+ * Modified by: Shilpa Bhat 
  * Task: Backend project setup
  * Task no: 35
  * Date: 09/17/2019
+ * Modified by: Sai Saran Kandimalla
+ * Date: 10/02/2019
+ * Task no: 
  */
 const express = require("express");
 var cors = require('cors');
 const mongoose = require('mongoose');
+const bodyParser = require("body-parser");
 const app = express();
 
 const PORT = process.env.PORT || 4241;
 
 const eventsRoute = require("./routes/events");
 const userRoute = require("./routes/user");
+
+// middleware
+app.use( 
+    bodyParser.urlencoded({
+        extended: false
+    })
+);
+app.use(bodyParser.json());
 
 app.use(cors());
 
