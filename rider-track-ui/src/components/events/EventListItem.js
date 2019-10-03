@@ -18,9 +18,9 @@ const EventListItem = (props) => {
                     {props.eventDate}
                 </p>
             </div>
-            <div className = "col-md-3 rt-event-list-item-text">
+            <div className="col-md-3 rt-event-list-item-text">
                 <Typography>
-                    <Link href = {EVENT_DETAIL_PATH}>
+                    <Link href={EVENT_DETAIL_PATH}>
                         {props.eventName}
                     </Link>
                 </Typography>
