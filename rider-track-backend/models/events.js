@@ -17,7 +17,7 @@ let events = new Schema({
         type: String,
         required: true
     },
-    data_time: {
+    date_time: {
         type: Date,
         default: null
     },
