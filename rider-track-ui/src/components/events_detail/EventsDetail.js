@@ -1,8 +1,8 @@
 /**
  * Author: Shaunak Shah
- * Task: Fix and set code style for tasks to follow eslint.
- * Task no: 44, 53
- * Date: 09/26/2019
+ * Task: Refactored the way states are initialized.
+ * Task no: 66
+ * Date: 10/03/2019
  */
 
 import React, { useState } from 'react';
@@ -21,24 +21,30 @@ import { Button } from '@material-ui/core';
 import map from '../../assets/map.png';
 
 function EventsDetail({ match }) {
-  const [details, setDetails] = useState({});
+  const [state, setState] = React.useState({
+    details: {},
+  });
 
-  var url = 'http://localhost:4241/api/events/';
+  let url = 'http://localhost:4241/api/events/';
   url = url.concat(match.params.id);
     fetch(url)
-      .then(res => res.json())
-      .then(res => setDetails(res));
+      .then((results) => results.json())
+      .then((data) => {
+        setState({
+          details: data,
+        });
+      });
 
   return (
     <Grid container className="event_layout" direction="row">
       <Grid item md={12} lg={4} direction="column" className="event_info_column" container>
         <Card>
-          <Grid item><h4>{details.event_name}</h4></Grid>
+          <Grid item><h4>{state.details.event_name}</h4></Grid>
           <Grid item direction="row" justify="flex-start" container>
             <Grid item>
               <p>
                 Organized by:
-                {details.cteator_id}
+                {state.details.cteator_id}
               </p>
             </Grid>
           </Grid>
@@ -46,15 +52,17 @@ function EventsDetail({ match }) {
           <Grid item container className="event_info_bar" direction="row" justify="space-around" alignItems="center">
             <Grid item>
               <AvTimerIcon />
-              <p> {details.duration}</p>
+              <p>
+                {state.details.duration}
+              </p>
             </Grid>
             <Grid item>
               <EventIcon />
-              <p>{details.data_time}</p>
+              <p>{state.details.data_time}</p>
             </Grid>
             <Grid item>
               <PeopleIcon />
-              <p>{details.max_participant}</p>
+              <p>{state.details.max_participant}</p>
             </Grid>
           </Grid>
           <br />
