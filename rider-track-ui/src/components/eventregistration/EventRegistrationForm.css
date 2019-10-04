@@ -1,0 +1,18 @@
+/**
+ * Author: Shilpa Bhat
+ * Task: Form to register for event
+ * Task no: 61
+ * Date: 10/03/2019
+ */
+.add-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 12px 24px;
+  margin: 20px;
+  font-size: 13px;
+  line-height: 2;
+  color: #6b6b76;
+  text-transform: uppercase;
+  outline: none;
+}
