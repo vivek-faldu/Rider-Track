@@ -6,7 +6,7 @@
  * Date: 09/17/2019
  * Modified by: Sai Saran Kandimalla
  * Date: 10/02/2019
- * Task no: 
+ * Task no: 59
  */
 const express = require("express");
 var cors = require('cors');
@@ -18,6 +18,7 @@ const PORT = process.env.PORT || 4241;
 
 const eventsRoute = require("./routes/events");
 const userRoute = require("./routes/user");
+const authenticationRoute = require("./routes/authentication");
 
 // middleware
 app.use( 
@@ -35,6 +36,7 @@ app.listen(PORT, () => {
 
 app.use("/api/events", eventsRoute);
 app.use("/api/user", userRoute);
+app.use("/api/authentication", authenticationRoute);
 
 mongoose.connect('mongodb+srv://root-user:admin@softwarefactory-erwi0.mongodb.net/test?retryWrites=true&w=majority', {
         dbName: 'tracker',
