@@ -12,12 +12,13 @@ const emptyString = "";
 const validateRegistrationInput = (userData) => {
     let errors = {};
     // convert empty value to empty string to use validator functions
-    userData.name = isEmpty(userData.name)?emptyString:userData.name;
     userData.email = isEmpty(userData.email)?emptyString:userData.email;
     userData.password = isEmpty(userData.email)?emptyString:userData.password;
     userData.confirmPassword = isEmpty(userData.confirmPassword)? emptyString: userData.confirmPassword;
+    userData.username = isEmpty(userData.username)?emptyString: userData.username;
+    
 
-    if(validator.isEmpty(userData.name)) {
+    if(validator.isEmpty(userData.username)) {
         errors.name = "name is required";
     }
     if(validator.isEmpty(userData.email) || !validator.isEmail(userData.email)) {
