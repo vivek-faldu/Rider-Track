@@ -21,7 +21,6 @@ describe('GET List of Events for a participant', () => {
         chai.request(server)
             .get('/api/user/5d93b7d31c9d440000909462/events')
             .end((err, res) => {
-                //                console.log(res.body);
                 res.should.have.status(200);
                 res.body.should.be.a('array');
                 res.body[0].should.have.property('event_name');
