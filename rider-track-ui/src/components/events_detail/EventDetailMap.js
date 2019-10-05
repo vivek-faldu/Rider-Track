@@ -74,6 +74,8 @@ function EventDetailMap(){
         <NavigationControl onViewportChange={updateViewport} />
       </div>
 
+      <PolylineOverlay points={coordinates} />
+
     </MapGL>
   );
 }
