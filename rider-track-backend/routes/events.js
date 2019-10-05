@@ -8,9 +8,21 @@
 var express = require("express");
 var router = express.Router();
 const Event = require('../models/events');
-
 var getEventDetails = require("../services/getEventDetail");
+var {startStream,stopStream} = require("../services/stream");
+
 var bodyParser = require('body-parser').json();
+
+router.get("/start", (req,res) => {
+    startStream()
+    res.send("stream started")
+});
+
+router.get("/stop", (req,res) => {
+    stopStream()
+    res.send("stream stopped")
+ });
+
 router.get("/", async (req, res) => {
     Event
         .find()
@@ -46,5 +58,8 @@ router.route('/add').post(bodyParser, (req, res) => {
             res.status(400).send('Failed to create new event');
         });
 });
+
+
+
 
 module.exports = router;
