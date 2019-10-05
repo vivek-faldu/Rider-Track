@@ -1,11 +1,11 @@
 /**
  * Author: Shaunak Shah
- * Task: Refactored the way states are initialized.
- * Task no: 66
- * Date: 10/03/2019
+ * Task: Added map component to the details page.
+ * Task no: 65
+ * Date: 10/05/2019
  */
 
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Grid from '@material-ui/core/Grid';
 import './EventsDetail.css';
 import AvTimerIcon from '@material-ui/icons/AvTimer';
@@ -18,33 +18,36 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Card from '@material-ui/core/Card';
 import { Button } from '@material-ui/core';
-import map from '../../assets/map.png';
+import EventDetailMap from './EventDetailMap';
 
 function EventsDetail({ match }) {
-  const [state, setState] = React.useState({
-    details: {},
-  });
+  const [hasError, setErrors] = useState(false);
+  const [details, setDetail] = useState({});
 
   let url = 'http://localhost:4241/api/events/';
   url = url.concat(match.params.id);
-    fetch(url)
-      .then((results) => results.json())
-      .then((data) => {
-        setState({
-          details: data,
-        });
-      });
+
+     async function fetchData() {
+       const res = await fetch(url);
+       res.json()
+         .then((result) => setDetail(result))
+         .catch((err) => setErrors(err));
+     }
+
+  useEffect(() => {
+    fetchData();
+   }, []);
 
   return (
     <Grid container className="event_layout" direction="row">
       <Grid item md={12} lg={4} direction="column" className="event_info_column" container>
         <Card>
-          <Grid item><h4>{state.details.event_name}</h4></Grid>
+          <Grid item><h4>{details.event_name}</h4></Grid>
           <Grid item direction="row" justify="flex-start" container>
             <Grid item>
               <p>
                 Organized by:
-                {state.details.cteator_id}
+                {details.creator_id}
               </p>
             </Grid>
           </Grid>
@@ -53,16 +56,16 @@ function EventsDetail({ match }) {
             <Grid item>
               <AvTimerIcon />
               <p>
-                {state.details.duration}
+                {details.duration}
               </p>
             </Grid>
             <Grid item>
               <EventIcon />
-              <p>{state.details.data_time}</p>
+              <p>{details.data_time}</p>
             </Grid>
             <Grid item>
               <PeopleIcon />
-              <p>{state.details.max_participant}</p>
+              <p>{details.max_participant}</p>
             </Grid>
           </Grid>
           <br />
@@ -88,6 +91,8 @@ function EventsDetail({ match }) {
                 </ListItemIcon>
                 <ListItemText primary="Shilpa" />
               </ListItem>
+
+              {JSON.stringify(details.participants)}
             </List>
           </div>
           <Button color="green">Register Today</Button>
@@ -95,7 +100,7 @@ function EventsDetail({ match }) {
         </Card>
       </Grid>
       <Grid item md={12} lg={8}>
-        <img className="map_image" img src={map} alt="map" />
+        <EventDetailMap />
       </Grid>
     </Grid>
   );

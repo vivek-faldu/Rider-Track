@@ -1,8 +1,8 @@
 /**
  * Author: Shaunak Shah
- * Task: Create basic layout of details front end for the event details page.
- * Task no: 53
- * Date: 09/26/2019
+ * Task: Added styling for that map component
+ * Task no: 65
+ * Date: 10/05/2019
  */
 
 .map_image {
@@ -35,4 +35,11 @@
 .event_detail_map {
     width: 100%;
     height: auto;
+}
+
+.detail_map_frame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px;
 }
