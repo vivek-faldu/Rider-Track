@@ -1,8 +1,8 @@
 /**
  * Author: Shaunak Shah
- * Task: Added map component to the details page.
+ * Task: Passed actual coordinates from backed down to map component.
  * Task no: 65
- * Date: 10/05/2019
+ * Date: 10/06/2019
  */
 
 import React, {useEffect, useState} from 'react';
@@ -100,7 +100,7 @@ function EventsDetail({ match }) {
         </Card>
       </Grid>
       <Grid item md={12} lg={8}>
-        <EventDetailMap />
+        <EventDetailMap coordinate={details.checkpoints} />
       </Grid>
     </Grid>
   );
