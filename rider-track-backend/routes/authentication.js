@@ -75,7 +75,7 @@ router.post("/login", (request, response) => {
     userModel.findOne({email: request.body.email}).then(user => {
         // Check if user exists
         if (!user) {
-            return res.status(404).json({ emailNotFound: "Email not found" });
+            return response.status(404).json({ emailNotFound: "Email not found" });
         }
         bcrypt.compare(request.body.password, user.password).then(isValidPassword => {
             if(isValidPassword) {

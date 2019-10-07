@@ -16,6 +16,7 @@ const validateRegistrationInput = (userData) => {
     userData.password = isEmpty(userData.email)?emptyString:userData.password;
     userData.confirmPassword = isEmpty(userData.confirmPassword)? emptyString: userData.confirmPassword;
     userData.username = isEmpty(userData.username)?emptyString: userData.username;
+    userData.is_admin = (userData.is_admin != undefined)?userData.is_admin:false;
     
 
     if(validator.isEmpty(userData.username)) {
@@ -36,7 +37,6 @@ const validateRegistrationInput = (userData) => {
     if(!validator.isLength(userData.password, {min: 8, max: 30})){
         errors.password = "length of password should be in between 8-30";
     }
-
     return {
         errors,
         isValid: isEmpty(errors)
