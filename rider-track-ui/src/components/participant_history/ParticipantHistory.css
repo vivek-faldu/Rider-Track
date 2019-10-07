@@ -1,0 +1,26 @@
+/*
+    CSS classes to handle "history of registered events list" styling
+    Author: Janani Thiagarajan
+    Date: 10/06/2019
+    US: 3, Task : 63
+*/
+
+.rt-history-card {
+    margin: 25px;
+    min-height: 450px;
+}
+
+.rt-history-card ul {
+    list-style: none;
+    padding: 10px;
+}
+
+.rt-history-header {
+    float: left;
+    padding: 10px 10px 0px 10px;
+}
+
+.rt-history-list-item-text {
+    padding: 15px;
+    font-size: 14px;
+}

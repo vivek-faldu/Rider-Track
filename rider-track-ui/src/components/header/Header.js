@@ -27,9 +27,10 @@ function Header() {
         <Grid md={12} lg={2} item>
           <Button className="home_button">Rider Track</Button>
         </Grid>
-        <Grid item md={12} lg={8}r>
+        <Grid item md={12} lg={8} r>
           <Button className="menu_button" color="inherit">Home</Button>
           <Button className="menu_button" color="inherit">Organizers</Button>
+          <Button className="menu_button" color="inherit">My Events</Button>
           <Button className="menu_button" color="inherit">About</Button>
           <Button className="menu_button" color="inherit">Login</Button>
         </Grid>

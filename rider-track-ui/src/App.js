@@ -5,10 +5,11 @@ import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
 import EventsList from './components/events/EventsList';
 import EventsDetail from './components/events_detail/EventsDetail';
-import { HOME_ROUTE, EVENT_REGISTRATION_PATH, EVENT_DETAIL_PATH, EVENT_CREATION_PATH, LIVE_MAP } from './RouteConstants';
+import { HOME_ROUTE, EVENT_REGISTRATION_PATH, EVENT_DETAIL_PATH, EVENT_CREATION_PATH, LIVE_MAP, PARTICIPANT_HISTORY } from './RouteConstants';
 import EventRegistrationForm from './components/eventregistration/EventRegistrationForm';
 import EventCreationForm from './components/eventcreation/EventCreationForm';
 import LiveEventMap from './components/maps/LiveEventMap';
+import ParticipantHistory from './components/participant_history/ParticipantHistory';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route path={EVENT_DETAIL_PATH} component={EventsDetail} />
             <Route path={EVENT_CREATION_PATH} component={EventCreationForm} />
             <Route path={LIVE_MAP} component={LiveEventMap} />
+            <Route path={PARTICIPANT_HISTORY} component={ParticipantHistory} />
           </Switch>
         </div>
       </BrowserRouter>
