@@ -3,6 +3,10 @@
  * Task: Model setup for accessing db
  * Task no: 45,46,47,
  * Date: 09/20/2019
+ * 
+ * Task: Added event_description to the events model
+ * Task no: 83
+ * Date: 10/07/2019
  */
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
@@ -14,6 +18,10 @@ let events = new Schema({
         trim: true
     },
     event_name: {
+        type: String,
+        required: true
+    },
+    event_description: {
         type: String,
         required: true
     },

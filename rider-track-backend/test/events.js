@@ -25,6 +25,7 @@ describe('GET List of Events', () => {
                 res.should.have.status(200);
                 res.body.should.be.a('array');
                 res.body[0].should.have.property('event_name');
+                //res.body[0].should.have.property('event_description');
                 res.body[0].should.have.property('creator_id');
                 res.body[0].should.have.property('date_time');
                 res.body[0].should.have.property('duration');
@@ -43,6 +44,7 @@ describe('GET Event based on _id', () => {
             .end((err, res) => {
                 res.should.have.status(200);
                 res.body.should.have.property('event_name');
+                //res.body[0].should.have.property('event_description');
                 res.body.should.have.property('creator_id');
                 res.body.should.have.property('date_time');
                 res.body.should.have.property('duration');
@@ -66,15 +68,16 @@ describe('GET Event based on _id', () => {
 });
 
 /*
-  * Test the /POST route
-  */
+ * Test the /POST route
+ */
 describe('Create a new event', () => {
     it('it should POST an event', (done) => {
         let event = {
 
             "creator_id": "100",
-            "event_name": "test runs",
-            "date_time": "1 Jan, 2022",
+            "event_name": "Phoenix Marathon",
+            "event_description": "Test event for development",
+            "date_time": "1 Jan, 2021",
             "duration": "1 day",
             "max_participant": "200"
 

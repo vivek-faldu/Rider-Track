@@ -9,18 +9,18 @@ const Schema = mongoose.Schema;
 
 let user_events = new Schema({
     user_id: {
-        type: Number,
+        type: String,
         required: true,
         trim: true
     },
     event_id: {
-        type: Number,
+        type: String,
         required: true
     },
     checkpoints: [{
-        lat: Number,
-        long: Number,
-        timestamp: Date
+        lat: String,
+        long: String,
+        timestamp: String
     }]
 });
 
