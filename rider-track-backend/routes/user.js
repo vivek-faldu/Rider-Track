@@ -18,8 +18,8 @@ const UserEvent = require('../models/user_events');
 
 //const getRegisteredEvents = require('../services/getRegisteredEvents');
 
-router.get("/:id/events", async (req, res) => {
-    let uid = req.params.id;
+router.get("/events", async (req, res) => {
+    let uid = req.query.userid;
     return fetchUserEvents(uid).then(function (user) {
         var myEventsList = [];
         myEventsList = user.participated_events;
@@ -29,9 +29,9 @@ router.get("/:id/events", async (req, res) => {
     })
 });
 
-router.get("/:id/eventdetail", async (req, res) => {
-    let uid = req.params.id;
-    let eventId = req.query.eventId;
+router.get("/eventdetail", async (req, res) => {
+    let uid = req.query.userid;
+    let eventId = req.query.eventid;
     var result;
     return fetchEventDetail(eventId).then(function (myEvent) {
         result = {

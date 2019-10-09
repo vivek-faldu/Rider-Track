@@ -1,0 +1,38 @@
+.map_image {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.event_layout {
+    padding: 16px;
+}
+
+.participants_list {
+    padding-left: 3px;
+}
+
+.event_info_bar {
+    padding: 10px 0 10px 0;
+    background-color: lightgrey;
+    border-radius: 20px;
+}
+
+.event_info_column {
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.event_detail_map {
+    width: 100%;
+    height: auto;
+}
+
+.detail_map_frame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px;
+}
