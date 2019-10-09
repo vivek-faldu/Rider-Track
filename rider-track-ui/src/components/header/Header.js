@@ -8,15 +8,27 @@
 import React from 'react';
 import './Header.css';
 
-import { Button } from '@material-ui/core';
+import { Button, Dialog } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Person from '@material-ui/icons/Person';
 import AddBox from '@material-ui/icons/AddBox';
 import Room from '@material-ui/icons/Room';
 import Hidden from '@material-ui/core/Hidden';
 import withWidth from '@material-ui/core/withWidth';
+import Login from '../authentication/Login';
 
 function Header() {
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <div>
       <Grid container alignItems="center" className="country_bar">
@@ -32,7 +44,15 @@ function Header() {
           <Button className="menu_button" color="inherit">Organizers</Button>
           <Button className="menu_button" color="inherit">My Events</Button>
           <Button className="menu_button" color="inherit">About</Button>
-          <Button className="menu_button" color="inherit">Login</Button>
+          <Button className="menu_button" color="inherit" onClick = {handleClickOpen}>Login</Button>
+          <Dialog
+            open={open} 
+            onClose={handleClose} 
+            aria-labelledby="rt-form-dialog-title"
+          >
+            <Login />
+          </Dialog>
+          <Button className="menu_button" color="inherit">Sign Up</Button>
         </Grid>
         <Hidden smDown>
           <Grid container alignment="center" justify="center" md={12} lg={2} spacing={3}>

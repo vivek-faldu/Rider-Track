@@ -5,7 +5,14 @@ import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
 import EventsList from './components/events/EventsList';
 import EventsDetail from './components/events_detail/EventsDetail';
-import { HOME_ROUTE, EVENT_REGISTRATION_PATH, EVENT_DETAIL_PATH, EVENT_CREATION_PATH, LIVE_MAP, PARTICIPANT_HISTORY } from './RouteConstants';
+import {
+ HOME_ROUTE,
+ EVENT_REGISTRATION_PATH,
+ EVENT_DETAIL_PATH,
+ EVENT_CREATION_PATH,
+ LIVE_MAP,
+ PARTICIPANT_HISTORY,
+} from './RouteConstants';
 import EventRegistrationForm from './components/eventregistration/EventRegistrationForm';
 import EventCreationForm from './components/eventcreation/EventCreationForm';
 import LiveEventMap from './components/maps/LiveEventMap';
