@@ -9,7 +9,7 @@ import React from 'react';
 import {
     Box, Typography, Link,
 } from '@material-ui/core';
-import { EVENT_DETAIL_PATH } from '../../RouteConstants';
+import { REGISTERED_EVENT_DETAIL_PATH } from '../../RouteConstants';
 
 const ParticipantHistoryItem = (props) => (
     <Box className="row">
@@ -20,7 +20,7 @@ const ParticipantHistoryItem = (props) => (
         </div>
         <div className="col-md-3 rt-history-list-item-text">
             <Typography>
-                <Link href={EVENT_DETAIL_PATH}>
+                <Link href={REGISTERED_EVENT_DETAIL_PATH}>
                     {props.eventName}
                 </Link>
             </Typography>
