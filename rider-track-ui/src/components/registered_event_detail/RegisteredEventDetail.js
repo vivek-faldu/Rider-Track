@@ -5,6 +5,9 @@ import AvTimerIcon from '@material-ui/icons/AvTimer';
 import EventIcon from '@material-ui/icons/Event';
 import PeopleIcon from '@material-ui/icons/People';
 import Card from '@material-ui/core/Card';
+import DirectionsRunIcon from '@material-ui/icons/DirectionsRun';
+import WatchIcon from '@material-ui/icons/Watch';
+import EventNoteIcon from '@material-ui/icons/EventNote';
 import map from '../../assets/map.png';
 
 /* import PersonIcon from '@material-ui/icons/Person';
@@ -34,8 +37,10 @@ function RegisteredEventDetail() {
     <Grid container className="event_layout" direction="row">
       <Grid item md={12} lg={4} direction="column" className="event_info_column" container>
         <Card>
+          <br />
           <Grid item><h4>{details.event_name}</h4></Grid>
           <Grid item direction="row" justify="flex-start" container>
+            <br />
             <Grid item><p>{details.event_description}</p></Grid>
           </Grid>
           <br />
@@ -50,34 +55,24 @@ function RegisteredEventDetail() {
             </Grid>
             <Grid item>
               <PeopleIcon />
-              <p>Max Participants  120</p>
+              <p>120</p>
             </Grid>
           </Grid>
           <br />
-
-          {/* <div item className="participants_list">
-            <h6 align="left">Participants</h6>
-            <List>
-              <ListItem>
-                <ListItemIcon>
-                  <PersonIcon />
-                </ListItemIcon>
-                <ListItemText primary="Pavan" />
-              </ListItem>
-              <ListItem>
-                <ListItemIcon>
-                  <PersonIcon />
-                </ListItemIcon>
-                <ListItemText primary="Saran" />
-              </ListItem>
-              <ListItem>
-                <ListItemIcon>
-                  <PersonIcon />
-                </ListItemIcon>
-                <ListItemText primary="Shilpa" />
-              </ListItem>
-            </List>
-          </div> */}
+          <Grid item container className="event_info_bar" direction="row" justify="space-around" alignItems="center">
+            <Grid item>
+              <DirectionsRunIcon />
+              <p>5mph</p>
+            </Grid>
+            <Grid item>
+              <WatchIcon />
+              <p>9.5days</p>
+            </Grid>
+            <Grid item>
+              <EventNoteIcon />
+              <p>Completed</p>
+            </Grid>
+          </Grid>
           <br />
         </Card>
       </Grid>
