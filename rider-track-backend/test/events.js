@@ -91,3 +91,22 @@ describe('Create a new event', () => {
             });
     })
 });
+
+/*
+ * Test the /PUT route
+ */
+describe('Register user for an event', () => {
+    it('it should register a user', (done) => {
+        let event = {
+            "userId": "5d9c0e1320132148b87762fd",
+            "name": "test participant"
+        }
+        chai.request(server)
+            .put('/api/events/5d81d95a0b52a97535d59b58')
+            .send(event)
+            .end((err, res) => {
+                res.should.have.status(200);
+                done();
+            });
+    })
+});
