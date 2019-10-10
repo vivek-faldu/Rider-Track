@@ -41,7 +41,7 @@ let events = new Schema({
         long: Number
     }],
     participants: [{
-        id: Number,
+        id: String,
         name: String
     }]
 });
