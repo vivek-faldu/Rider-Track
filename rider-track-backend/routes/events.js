@@ -61,6 +61,24 @@ router.route('/').post(bodyParser, (req, res) => {
         });
 });
 
+router.route("/:id").put(bodyParser, (req, res) => {
+    Event.findById(req.params.id, function (err, event) {
+        if (err) {
+            send(err);
+        }
+        event.participants.push({ id: req.body.userId, name: req.body.name });
+        event
+            .save()
+            .then(event => {
+                res.status(200).json({
+                    event: "Registered successfully"
+                });
+            })
+            .catch(err => {
+                res.status(400).send("Failed to register");
+            });
+    });
+});
 
 
 
