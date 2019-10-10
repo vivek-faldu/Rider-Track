@@ -8,13 +8,15 @@
 import React from 'react';
 import './Header.css';
 
-import { Button } from '@material-ui/core';
+import { Button, Dialog } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Person from '@material-ui/icons/Person';
 import AddBox from '@material-ui/icons/AddBox';
 import Room from '@material-ui/icons/Room';
 import Hidden from '@material-ui/core/Hidden';
 import withWidth from '@material-ui/core/withWidth';
+import Login from '../authentication/Login';
+import Register from '../authentication/Register';
 
 function Header() {
   return (
@@ -32,7 +34,8 @@ function Header() {
           <Button className="menu_button" color="inherit">Organizers</Button>
           <Button className="menu_button" color="inherit">My Events</Button>
           <Button className="menu_button" color="inherit">About</Button>
-          <Button className="menu_button" color="inherit">Login</Button>
+          <Login />
+          <Register />
         </Grid>
         <Hidden smDown>
           <Grid container alignment="center" justify="center" md={12} lg={2} spacing={3}>

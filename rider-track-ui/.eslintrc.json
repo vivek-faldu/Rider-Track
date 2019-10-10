@@ -24,6 +24,7 @@
     "rules": {
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
         "linebreak-style": 0,
-        "indent" : "off"
+        "indent" : "off",
+        "trailing-comma": false
     }
 }

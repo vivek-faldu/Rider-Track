@@ -8,6 +8,8 @@
 var express = require("express");
 var router = express.Router();
 const Event = require('../models/events');
+const User = require("../models/users");
+const User_Event = require("../models/user_events");
 var getEventDetails = require("../services/getEventDetail");
 var {
     startStream,
@@ -62,6 +64,36 @@ router.route('/').post(bodyParser, (req, res) => {
         });
 });
 
+router.route("/:id").put(bodyParser, (req, res) => {
+    Event.findById(req.params.id, function (err, event) {
+        if (err) {
+            send(err);
+        }
+        event.participants.push({ id: req.body.userId, name: req.body.name });
+        event
+            .save()
+            .then(event => {
+                User.findById(req.body.userId, function (err, user) {
+                    if (err) {
+                        send(err);
+                    }
+                    user.participated_events.push(req.params.id);
+                    user.save().then(user => {
+                        let user_event = new User_Event();
+                        user_event.user_id = req.body.userId;
+                        user_event.event_id = req.params.id;
+                        user_event.save().then(user_event => {
+                            res.status(200).json({
+                                event: "Registered successfully"
+                            });
+                        }).catch(err => {
+                            res.status(400).send("Failed to register");
+                        });
+                    })
+                })
+            })
+    });
+});
 
 
 
