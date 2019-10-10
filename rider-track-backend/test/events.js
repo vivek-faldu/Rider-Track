@@ -83,7 +83,7 @@ describe('Create a new event', () => {
 
         }
         chai.request(server)
-            .post('/api/events/add')
+            .post('/api/events/')
             .send(event)
             .end((err, res) => {
                 res.should.have.status(200);

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /*
     Component that renders the list of registered events
     Author: Janani Thiagarajan
@@ -5,7 +6,7 @@
     US: 3, Task : 63
 */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Card,
     Divider,
@@ -30,6 +31,20 @@ const ParticipantHistory = () => {
         date_time: 'Aug 12, 2019',
     },
     ];
+
+    const [hasError, setErrors] = useState(false);
+    const [events, setEvents] = useState({});
+
+    useEffect(() => {
+        async function fetchData() {
+            const res = await fetch('http://localhost:4241/api/user/events?userid=5d93b7d31c9d440000909462');
+            res.json()
+                .then(res => setEvents(res))
+                .catch(err => setErrors(err));
+        }
+
+        fetchData();
+    });
 
     return (
         <Card className="rt-history-card">
