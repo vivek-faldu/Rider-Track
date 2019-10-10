@@ -16,19 +16,9 @@ import Room from '@material-ui/icons/Room';
 import Hidden from '@material-ui/core/Hidden';
 import withWidth from '@material-ui/core/withWidth';
 import Login from '../authentication/Login';
+import Register from '../authentication/Register';
 
 function Header() {
-
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   return (
     <div>
       <Grid container alignItems="center" className="country_bar">
@@ -44,15 +34,8 @@ function Header() {
           <Button className="menu_button" color="inherit">Organizers</Button>
           <Button className="menu_button" color="inherit">My Events</Button>
           <Button className="menu_button" color="inherit">About</Button>
-          <Button className="menu_button" color="inherit" onClick = {handleClickOpen}>Login</Button>
-          <Dialog
-            open={open} 
-            onClose={handleClose} 
-            aria-labelledby="rt-form-dialog-title"
-          >
-            <Login />
-          </Dialog>
-          <Button className="menu_button" color="inherit">Sign Up</Button>
+          <Login />
+          <Register />
         </Grid>
         <Hidden smDown>
           <Grid container alignment="center" justify="center" md={12} lg={2} spacing={3}>

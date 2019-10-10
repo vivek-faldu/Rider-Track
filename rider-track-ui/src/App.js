@@ -6,17 +6,8 @@ import Footer from './components/footer/Footer';
 import EventsList from './components/events/EventsList';
 import EventsDetail from './components/events_detail/EventsDetail';
 import {
-<<<<<<< HEAD
- HOME_ROUTE,
- EVENT_REGISTRATION_PATH,
- EVENT_DETAIL_PATH,
- EVENT_CREATION_PATH,
- LIVE_MAP,
- PARTICIPANT_HISTORY,
-=======
   HOME_ROUTE, EVENT_REGISTRATION_PATH, EVENT_DETAIL_PATH, EVENT_CREATION_PATH, LIVE_MAP,
   PARTICIPANT_HISTORY, REGISTERED_EVENT_DETAIL_PATH
->>>>>>> 48230e0eb0c03cbef7ecd638d0a6515ad194d883
 } from './RouteConstants';
 import EventRegistrationForm from './components/eventregistration/EventRegistrationForm';
 import EventCreationForm from './components/eventcreation/EventCreationForm';
