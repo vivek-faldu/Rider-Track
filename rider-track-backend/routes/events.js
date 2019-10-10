@@ -53,7 +53,8 @@ router.route('/').post(bodyParser, (req, res) => {
     event.save()
         .then(event => {
             res.status(200).json({
-                'event': 'Added successfully'
+                status: 200,
+                message: 'Added successfully'
             });
         })
         .catch(err => {

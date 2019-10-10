@@ -6,8 +6,7 @@
  */
 
 
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { Component } from 'react';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
@@ -19,22 +18,129 @@ import {
   TextField,
   Grid,
   Button,
+  Snackbar,
+  IconButton,
 } from '@material-ui/core';
 import CreateEventMap from './CreateEventMap';
 
 
-export default function EventCreationForm() {
-  const classes = useStyles();
-  const [selectedDate, setSelectedDate] = React.useState(new Date());
-  const [eventName, setEventName] = React.useState('');
-  const [eventPlace, setEventPlace] = React.useState('');
-  const [eventMaxParticipant, setEventMaxParticipant] = React.useState();
-  const [eventDuration, setEventDuration] = React.useState();
+export default class EventCreationForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false,
+      selectedDate: new Date(),
+      eventName: '',
+      eventPlace: '',
+      eventMaxParticipant: '',
+      eventDuration: '',
+      eventDescription: '',
+      viewport: {
+        latitude: 33.4224,
+        longitude: -111.9495,
+        zoom: 15,
+        bearing: 0,
+        pitch: 0,
+      },
+      marker: [{
+        latitude: 33.4224,
+        longitude: -111.9495,
+      },
+      {
+        latitude: 33.4223,
+        longitude: -111.9496,
+      }],
+    };
+  }
 
+
+  setSelectedDate = (selectedDate) => {
+      this.setState({ selectedDate });
+  }
+
+  setEventName = (eventName) => {
+    this.setState({ eventName });
+  }
+
+  setEventPlace = (eventPlace) => {
+    this.setState({ eventPlace });
+  }
+
+  setEventMaxParticipant = (eventMaxParticipant) => {
+    this.setState({ eventMaxParticipant });
+  }
+
+  setEventDuration = (eventDuration) => {
+    this.setState({ eventDuration });
+  }
+
+  setEventDescription = (eventDescription) => {
+    this.setState({ eventDescription });
+  }
+
+
+  setViewPort = (viewport) => {
+    this.setState({ viewport });
+  }
+
+  setEventMarker = (marker) => {
+    this.setState({ marker });
+  };
+
+  send = async (content) => {
+    console.log('content', content);
+    const res = await fetch('http://localhost:4241/api/events/', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(content),
+    });
+
+    const response = await res.json();
+    if (response.status === 200) {
+        this.handleOpen();
+    }
+  }
+
+  onSubmit = (event) => {
+    event.preventDefault();
+    const {
+ eventName, eventDescription, selectedDate, eventDuration, eventPlace, eventMaxParticipant, marker,
+} = this.state;
+
+    const body = {
+      creator_id: '12345',
+      event_name: eventName,
+      event_description: eventDescription,
+      date_time: selectedDate,
+      duration: eventDuration,
+      max_participant: eventMaxParticipant,
+      checkpoints: marker,
+      place: eventPlace,
+
+    };
+
+    this.send(body);
+  };
+
+  handleClose = () => {
+  this.setState({ open: false });
+  }
+
+  handleOpen = () => {
+this.setState({ open: true });
+  }
+
+  render() {
+    const {
+eventName, eventDescription, selectedDate, eventDuration, eventPlace,
+eventMaxParticipant, marker, viewport, open,
+} = this.state;
   return (
-
     <Grid style={{
-      border: 'solid', borderWidth: '3px', margin: '20px', height: '1000px',
+      border: 'solid', borderWidth: '3px', height: '1100px', margin: 20,
     }}
     >
 
@@ -44,136 +150,159 @@ export default function EventCreationForm() {
         </Typography>
       </Grid>
 
-      <Grid item xs={12}>
-        <Grid container alignItems="flex-start" justify="center">
-          <form noValidate autoComplete="off">
-            <Grid item xs={12}>
-              <TextField
-                id="eventname"
-                label="Event Name"
-                className={classes.textField}
-                value={eventName}
-                InputLabelProps={{
+      <Grid container alignItems="flex-start" justify="center">
+        <form onSubmit={(e) => { this.onSubmit(e); }} noValidate autoComplete="off">
+          <Grid item xs={12}>
+            <TextField
+              id="eventname"
+              label="Event Name"
+
+              style={{ width: '40%' }}
+              value={eventName}
+              InputLabelProps={{
                   shrink: true,
                 }}
-                onChange={(event) => { setEventName(event.value); }}
-                margin="normal"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                id="place"
-                label="Place"
-                className={classes.textField}
-                value={eventPlace}
-                onChange={(event) => { setEventPlace(event.value); }}
-                InputLabelProps={{
+              onChange={(event) => {
+                 this.setEventName(event.target.value);
+}}
+              margin="normal"
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              id="eventdescription"
+              label="Event Description"
+              style={{ width: '40%' }}
+              value={eventDescription}
+              multiline
+              InputLabelProps={{
                   shrink: true,
                 }}
+              onChange={(event) => { this.setEventDescription(event.target.value); }}
+              margin="normal"
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              id="place"
+              label="Place"
+              style={{ width: '40%' }}
+              value={eventPlace}
+              onChange={(event) => { this.setEventPlace(event.target.value); }}
+              InputLabelProps={{
+                  shrink: true,
+                }}
+              margin="normal"
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <KeyboardDatePicker
                 margin="normal"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <KeyboardDatePicker
-                  margin="normal"
-                  id="date-picker-dialog"
-                  label="Date"
-                  format="MM/dd/yyyy"
-                  value={selectedDate}
-                  onChange={(date) => { setSelectedDate(date); }}
-                  KeyboardButtonProps={{
+                id="date-picker-dialog"
+                label="Date"
+                format="MM/dd/yyyy"
+                value={selectedDate}
+                onChange={(date) => { this.setSelectedDate(date); }}
+                KeyboardButtonProps={{
                     'aria-label': 'change date',
                   }}
-                />
-                <KeyboardTimePicker
-                  margin="normal"
-                  id="time-picker"
-                  label="Event Time"
-                  value={selectedDate}
-                  onChange={(date) => { setSelectedDate(date); }}
-                  KeyboardButtonProps={{
+              />
+              <KeyboardTimePicker
+                margin="normal"
+                id="time-picker"
+                label="Event Time"
+                value={selectedDate}
+                onChange={(date) => { this.setSelectedDate(date); }}
+                KeyboardButtonProps={{
                     'aria-label': 'change time',
                   }}
-                />
-              </MuiPickersUtilsProvider>
-            </Grid>
+              />
+            </MuiPickersUtilsProvider>
+          </Grid>
 
-            <Grid item xs={12}>
-              <TextField
-                id="max-participant"
-                label="Max Participants"
-                className={classes.textField}
-                value={eventMaxParticipant}
-                InputLabelProps={{
+          <Grid item xs={12}>
+            <TextField
+              id="max-participant"
+              label="Max Participants"
+              style={{ width: '40%' }}
+              value={eventMaxParticipant}
+              InputLabelProps={{
                   shrink: true,
                 }}
-                onChange={(event) => {
-                  setEventMaxParticipant(event.value);
+              onChange={(event) => {
+                  this.setEventMaxParticipant(event.target.value);
                 }}
-                margin="normal"
-              />
-            </Grid>
+              margin="normal"
+            />
+          </Grid>
 
-            <Grid item xs={12}>
-              <TextField
-                id="duration"
-                label="Duration"
-                className={classes.textField}
-                value={eventDuration}
-                InputLabelProps={{
+          <Grid item xs={12}>
+            <TextField
+              id="duration"
+              label="Duration"
+              style={{ width: '40%' }}
+              value={eventDuration}
+              InputLabelProps={{
                   shrink: true,
                 }}
-                onChange={(event) => {
-                  setEventDuration(event.value);
+              onChange={(event) => {
+                  this.setEventDuration(event.target.value);
                 }}
-                margin="normal"
-              />
-            </Grid>
+              margin="normal"
+            />
+          </Grid>
 
-
-            <Grid item xs={12} style={{ width: '1200px' }}>
+          <Grid item xs={12} style={{ width: '1150px' }}>
               Add Check Points
-              <CreateEventMap />
-            </Grid>
+            <CreateEventMap setEventMarker={this.setEventMarker} marker={marker} viewport={viewport} setViewPort={this.setViewPort} />
+          </Grid>
 
-            <Grid item xs={12} style={{ marginTop: 50 }}>
-              <Button
-                type="button"
-                variant="contained"
-              >
-                    Reset
-              </Button>
+          <Grid item xs={12} style={{ marginTop: 50 }}>
 
-              <Button
-                variant="contained"
-                color="primary"
-                type="submit"
-              >
+            <Button
+              type="button"
+              variant="contained"
+
+            >
+                Reset
+
+            </Button>
+
+
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+            >
                     Submit
-              </Button>
-            </Grid>
-          </form>
-        </Grid>
+            </Button>
+          </Grid>
+        </form>
       </Grid>
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        open={open}
+        autoHideDuration={6000}
+        onClose={this.handleClose}
+        ContentProps={{
+          'aria-describedby': 'message-id',
+        }}
+        message={<span id="message-id">Event Created Sucessfully</span>}
+        action={[
+          <IconButton
+            key="close"
+            aria-label="close"
+            color="inherit"
+            style={{ padding: 0.5 }}
+          />,
+        ]}
+      />
     </Grid>
+
   );
 }
-
-
-const useStyles = makeStyles((theme) => ({
-  container: {
-    margin: '100px',
-    backgroundColor: '',
-    height: '600px',
-
-  },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: 450,
-  },
-  extendedIcon: {
-    marginRight: theme.spacing(1),
-  },
-}));
+}

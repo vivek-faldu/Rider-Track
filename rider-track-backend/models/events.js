@@ -37,9 +37,13 @@ let events = new Schema({
         type: Number
     },
     checkpoints: [{
-        lat: Number,
-        long: Number
+        latitude: Number,
+        longitude: Number
     }],
+    place: {
+        type: String,
+        default: null
+    },
     participants: [{
         id: Number,
         name: String
