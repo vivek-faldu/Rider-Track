@@ -24,7 +24,7 @@ chai.use(chaiHttp);
 describe('GET List of Events for a participant', () => {
     it('it should GET all the events  for a participant', (done) => {
         chai.request(server)
-            .get('/api/user/5d93b7d31c9d440000909462/events')
+            .get('/api/user/events?userid=5d93b7d31c9d440000909462')
             .end((err, res) => {
                 res.should.have.status(200);
                 res.body.should.be.a('array');
@@ -39,7 +39,7 @@ describe('GET List of Events for a participant', () => {
 describe('GET List of Checkpoints for an event a participant took part in', () => {
     it('it should GET all the checkpoints and event details for an event', (done) => {
         chai.request(server)
-            .get('/api/user/5d93b7d31c9d440000909462/eventdetail?eventId=5d81d95a0b52a97535d59b56')
+            .get('/api/user/eventdetail?eventid=5d81d95a0b52a97535d59b56&userid=5d93b7d31c9d440000909462')
             .end((err, res) => {
                 res.should.have.status(200);
                 res.body.should.have.property('event_name');
