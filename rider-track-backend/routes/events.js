@@ -84,6 +84,7 @@ router.route("/:id").put(bodyParser, (req, res) => {
                         user_event.event_id = req.params.id;
                         user_event.save().then(user_event => {
                             res.status(200).json({
+                                status: 200,
                                 event: "Registered successfully"
                             });
                         }).catch(err => {
