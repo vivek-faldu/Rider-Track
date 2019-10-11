@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
-import { Card, Divider, FormControl, NativeSelect, FormHelperText } from '@material-ui/core';
+import {
+ Card, Divider, FormControl, NativeSelect, FormHelperText 
+} from '@material-ui/core';
 import './events.css';
 import { LIVE_EVENTS, UPCOMING_EVENTS, COMPLETED_EVENTS } from './EventsConstants';
 import EventListItem from './EventListItem';
@@ -101,6 +103,7 @@ const EventsList = () => {
                   <EventListItem
                     eventType={state.header}
                     eventName={el.event_name}
+                    eventid={el._id}
                     eventDescription={el.event_description}
                     eventDate={el.date_time}
                   />
