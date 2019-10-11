@@ -1,9 +1,8 @@
 /**
  * Author: Shaunak Shah
- * Task: Changed from static view to dynamically using the coordinates
- *        provided by parent component.
- * Task no: 66
- * Date: 10/05/2019
+ * Task: Fixed lat and long to match with the backend data that we are getting.
+ * Task no: 82
+ * Date: 10/10/2019
  */
 
 import React, { useEffect, useRef } from 'react';
@@ -85,9 +84,9 @@ function EventDetailMap(props) {
     if (props.coordinate != null) {
       let str = '';
       props.coordinate.forEach((point) => {
-        pts[0] = point.lat;
-        pts[1] = point.long;
-        str += `${point.long},${point.lat}`;
+        pts[0] = point.latitude;
+        pts[1] = point.longitude;
+        str += `${point.longitude},${point.latitude}`;
         if (props.coordinate.length - 1 !== c) {
           str += ';';
         }
