@@ -24,7 +24,8 @@ class Login extends Component {
             email: '',
             password: '',
             errors: {},
-            loginOpen: false
+            loginOpen: false,
+            firstTime: true
         };
     }
 
@@ -42,16 +43,21 @@ class Login extends Component {
     };
     
     handleLoginOpen = () => {
-        this.setState({ loginOpen: true });
+        this.setState({ 
+          firstTime:true, 
+          loginOpen: true 
+        });
     };
 
     handleLoginClose = () => {
-        this.setState({ loginOpen: false });
+        this.setState({ loginOpen: false, firstTime:true });
     };
 
     onLoginSubmit = (event) => {
         event.preventDefault();
-
+        this.setState({
+          firstTime:false
+        })
         const user = {
             email: this.state.email,
             password: this.state.password
@@ -83,10 +89,10 @@ class Login extends Component {
                     Please enter your email ID and password
                 </DialogContentText>
                 
-                {errors.email?( 
+                {!this.state.firstTime && errors.email?( 
                 <p className="rt-auth-error-text">{errors.email}</p>
                 ):null}
-                {errors.emailNotFound?( 
+                {!this.state.firstTime && errors.emailNotFound?( 
                 <p className="rt-auth-error-text">{errors.emailNotFound}</p>
                 ):null}
                 <div className="row">
@@ -105,10 +111,10 @@ class Login extends Component {
                   </div>
                 </div>
                 
-                {errors.password?( 
+                {!this.state.firstTime && errors.password?( 
                 <p className="rt-auth-error-text">{errors.password}</p>
                 ):null}
-                {errors.paswordInCorrect?( 
+                {!this.state.firstTime && errors.paswordInCorrect?( 
                 <p className="rt-auth-error-text">{errors.paswordInCorrect}</p>
                 ):null}
                 <div className="row">

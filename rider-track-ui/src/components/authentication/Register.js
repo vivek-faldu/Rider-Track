@@ -17,7 +17,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import { connect } from "react-redux";
 import PropTypes from 'prop-types';
 import { registerUser } from '../../actions/authenticationAction';
-import { withRouter } from 'react-router-dom';
+
 
 
 class Register extends Component {
@@ -35,6 +35,15 @@ class Register extends Component {
 
     // eslint-disable-next-line camelcase
     UNSAFE_componentWillReceiveProps = (newProps) => {
+      if (newProps.authentication.registrationComplete) {
+        this.setState({
+          username: '',
+          email: '',
+          password: '',
+          confirmPassword: '',
+          registrationOpen: false,
+        });
+      }
       if (newProps.errors) {
         this.setState({
           errors: newProps.errors,
@@ -66,7 +75,7 @@ class Register extends Component {
             is_admin: this.state.is_admin,
         };
 
-        this.props.registerUser(addUser, this.props.history);
+        this.props.registerUser(addUser);
     }
 
     onTextChange = (event) => {
@@ -77,7 +86,7 @@ class Register extends Component {
 
     render() {
         const { errors } = this.state;
-
+        console.log(errors);
         return (
           <span>
             <Button className="menu_button" color="inherit" onClick={this.handleRegistrationOpen}>Sign Up</Button>
@@ -123,7 +132,7 @@ class Register extends Component {
                       />
                     </div>
                   </div>
-
+                  
                   <div className="row">
                     <div className="col-md-12">
                       <TextField
@@ -183,7 +192,7 @@ class Register extends Component {
 Register.propTypes = {
   registerUser: PropTypes.func.isRequired,
   authentication: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
 };
 
 const mapState = (state) => ({
@@ -194,4 +203,4 @@ const mapState = (state) => ({
 export default connect(
   mapState,
   { registerUser },
-)(withRouter(Register));
+)(Register);

@@ -8,12 +8,15 @@
 import axios from 'axios';
 // eslint-disable-next-line camelcase
 import jwt_decode from 'jwt-decode';
-import { FETCH_ERRORS, UPDATE_CURRENT_USER, LOAD_USER } from './actionTypes';
+import { FETCH_ERRORS, UPDATE_CURRENT_USER, LOAD_USER, REGISTER_USER } from './actionTypes';
 
-export const registerUser = (userData, history) => (dispatch) => {
+export const registerUser = (userData) => (dispatch) => {
 
     axios.post('/api/authentication/register', userData).then((response) => {
-        history.push('/');
+        dispatch({
+            type: REGISTER_USER,
+            payload: true,
+        });
     }).catch((error) => {
         dispatch({
             type: FETCH_ERRORS,
