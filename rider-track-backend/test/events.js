@@ -40,7 +40,7 @@ describe('GET List of Events', () => {
 describe('GET Event based on _id', () => {
     it('it should GET specific event', (done) => {
         chai.request(server)
-            .get('/api/events/5d81d95a0b52a97535d59b55')
+            .get('/api/events/5da0111bf05a835eba01381d')
             .end((err, res) => {
                 res.should.have.status(200);
                 res.body.should.have.property('event_name');
@@ -102,7 +102,7 @@ describe('Register user for an event', () => {
             "name": "test participant"
         }
         chai.request(server)
-            .put('/api/events/5d81d95a0b52a97535d59b58')
+            .put('/api/events/5da0111bf05a835eba01381d')
             .send(event)
             .end((err, res) => {
                 res.should.have.status(200);

@@ -17,7 +17,8 @@ import Hidden from '@material-ui/core/Hidden';
 import withWidth from '@material-ui/core/withWidth';
 import Login from '../authentication/Login';
 import Register from '../authentication/Register';
-import { PARTICIPANT_HISTORY } from '../../RouteConstants';
+import { PARTICIPANT_HISTORY, HOME_ROUTE, EVENT_CREATION_PATH } from '../../RouteConstants';
+
 function Header() {
   return (
     <div>
@@ -30,8 +31,12 @@ function Header() {
           <Button className="home_button">Rider Track</Button>
         </Grid>
         <Grid item md={12} lg={8} r>
-          <Button className="menu_button" color="inherit">Home</Button>
-          <Button className="menu_button" color="inherit">Organizers</Button>
+          <Link href={HOME_ROUTE}>
+            <Button className="menu_button" color="inherit">Home</Button>
+          </Link>
+          <Link href={EVENT_CREATION_PATH}>
+            <Button className="menu_button" color="inherit">Organizers</Button>
+          </Link>
           <Button className="menu_button" color="inherit">About</Button>
           <Link href={PARTICIPANT_HISTORY}>
             <Button className="menu_button" color="inherit">My Events</Button>

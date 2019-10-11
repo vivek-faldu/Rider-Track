@@ -24,7 +24,7 @@ function RegisteredEventDetail() {
 
   useEffect(() => {
     async function fetchData() {
-      const res = await fetch('http://localhost:4241/api/user/eventdetail?eventid=5d81d95a0b52a97535d59b56&userid=5d93b7d31c9d440000909462')
+      const res = await fetch('http://localhost:4241/api/user/eventdetail?eventid=5da0111bf05a835eba01381d&userid=5d93b7d31c9d440000909462')
       res.json()
         .then(res => setDetails(res))
         .catch(err => setErrors(err));
@@ -66,7 +66,7 @@ function RegisteredEventDetail() {
             </Grid>
             <Grid item>
               <WatchIcon />
-              <p>9.5days</p>
+              <p>20minutes</p>
             </Grid>
             <Grid item>
               <EventNoteIcon />
