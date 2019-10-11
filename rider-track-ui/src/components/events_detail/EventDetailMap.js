@@ -37,14 +37,14 @@ function EventDetailMap(props) {
       viewport: {
         latitude: center[0],
         longitude: center[1],
-        zoom: 13,
+        zoom: 11.5,
         bearing: 0,
         pitch: 0,
       },
     });
   }
   async function fetchData(a, b, c) {
-    let url = 'https://api.mapbox.com/directions/v5/mapbox/cycling/';
+    let url = 'https://api.mapbox.com/directions/v5/mapbox/driving/';
     url = url.concat(`${a}?geometries=geojson&access_token=${TOKEN}`);
     const res = await fetch(url);
     res.json()
@@ -71,8 +71,8 @@ function EventDetailMap(props) {
             'line-cap': 'round',
           },
           paint: {
-            'line-color': 'black',
-            'line-width': 8,
+            'line-color': '#1DB954',
+            'line-width': 3,
           },
         });
       });
@@ -84,11 +84,11 @@ function EventDetailMap(props) {
     if (props.coordinate != null) {
       let str = '';
       props.coordinate.forEach((point) => {
-        pts[0] = point.latitude;
-        pts[1] = point.longitude;
         str += `${point.longitude},${point.latitude}`;
         if (props.coordinate.length - 1 !== c) {
           str += ';';
+          pts[0] = point.latitude;
+          pts[1] = point.longitude;
         }
         c += 1;
       });

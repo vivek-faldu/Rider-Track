@@ -47,7 +47,7 @@ function EventsDetail({ match }) {
             <Grid item>
               <p>
                 Organized by:
-                {details.creator_id}
+                Foo Bar
               </p>
             </Grid>
           </Grid>
@@ -61,7 +61,7 @@ function EventsDetail({ match }) {
             </Grid>
             <Grid item>
               <EventIcon />
-              <p>{details.data_time}</p>
+              <p>{details.date_time}</p>
             </Grid>
             <Grid item>
               <PeopleIcon />
@@ -92,7 +92,6 @@ function EventsDetail({ match }) {
                 <ListItemText primary="Shilpa" />
               </ListItem>
 
-              {JSON.stringify(details.participants)}
             </List>
           </div>
           <Button color="green">Register Today</Button>

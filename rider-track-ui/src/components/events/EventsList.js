@@ -35,10 +35,7 @@ const EventsList = () => {
               for (let i = 0; i < 3; i++) {
                 completedEvents[i] = result[i];
               }
-              for (let i = 3; i < 6; i++) {
-                  completedEvents[i - 3] = result[i];
-              }
-              for (let i = 6; i < result.length; i++) {
+              for (let i = 3; i < result.length; i++) {
                   upcomingEvents[i - 3] = result[i];
               }
               setEvents({
@@ -102,7 +99,11 @@ const EventsList = () => {
                     eventType={state.header}
                     eventName={el.event_name}
                     eventDescription={el.event_description}
-                    eventDate={el.date_time}
+                    eventDate={() => {
+                      const vara = el.date_time;
+                      console.log(vara);
+                      return vara;
+                    }}
                   />
                 </li>
                 <Divider variant="middle" />

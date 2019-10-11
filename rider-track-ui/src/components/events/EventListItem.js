@@ -10,7 +10,7 @@ import { UPCOMING_EVENTS } from './EventsConstants';
  * User Story: 30.
  */
 const EventListItem = (props) => {
-    
+
     return (
         <Box className="row">
             <div className="col-md-2 rt-event-list-item-text">
@@ -20,7 +20,7 @@ const EventListItem = (props) => {
             </div>
             <div className="col-md-3 rt-event-list-item-text">
                 <Typography>
-                    <Link href={EVENT_DETAIL_PATH}>
+                    <Link href='/event/5da01169f05a835eba013829'>
                         {props.eventName}
                     </Link>
                 </Typography>
@@ -33,9 +33,9 @@ const EventListItem = (props) => {
             {props.eventType === UPCOMING_EVENTS?
                 (<div className="col-md-2">
                     <Link href={EVENT_REGISTRATION_PATH}>
-                    <Button 
-                        variant="contained" 
-                        color="primary" 
+                    <Button
+                        variant="contained"
+                        color="primary"
                         className="rt-event-register-button"
                     >
                         Register
