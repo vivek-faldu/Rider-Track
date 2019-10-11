@@ -104,6 +104,35 @@ export default class EventCreationForm extends Component {
     }
   }
 
+  reset = () => {
+    const selectedDate = new Date();
+    const eventName = '';
+    const eventPlace = '';
+    const eventMaxParticipant = '';
+     const eventDuration = '';
+     const eventDescription = '';
+     const viewport = {
+        latitude: 33.4224,
+        longitude: -111.9495,
+        zoom: 15,
+        bearing: 0,
+        pitch: 0,
+      };
+      const marker = [{
+        latitude: 33.4224,
+        longitude: -111.9495,
+      },
+      {
+        latitude: 33.4223,
+        longitude: -111.9496,
+      }];
+
+      this.setState({
+      selectedDate, eventName, eventPlace, eventMaxParticipant, eventDescription, eventDuration, viewport, marker,
+      });
+    }
+
+
   onSubmit = (event) => {
     event.preventDefault();
     const {
@@ -263,6 +292,7 @@ eventMaxParticipant, marker, viewport, open,
             <Button
               type="button"
               variant="contained"
+              onClick={() => { this.reset(); }}
 
             >
                 Reset
