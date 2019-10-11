@@ -30,6 +30,7 @@ class Register extends Component {
             password: '',
             confirmPassword: '',
             is_admin: false,
+            registrationDone: false
         };
     }
 
@@ -41,7 +42,7 @@ class Register extends Component {
           email: '',
           password: '',
           confirmPassword: '',
-          registrationOpen: false,
+          registrationDone: newProps.authentication.registrationComplete,
         });
       }
       if (newProps.errors) {
@@ -98,11 +99,13 @@ class Register extends Component {
                 className="rt-registration-form"
               >
                 <DialogTitle>Register</DialogTitle>
-                <DialogContent>
-                  <DialogContentText>
-                    Please sign up using the below form.
-                    Note that password should be 8-30 characters long.
-                  </DialogContentText>
+                {!this.state.registrationDone ? (
+                <div>
+                  <DialogContent>
+                    <DialogContentText>
+                      Please sign up using the below form.
+                      Note that password should be 8-30 characters long.
+                    </DialogContentText>
 
                   {errors && errors.name ? (
                     <p className="rt-auth-error-text">{errors.name}</p>
@@ -197,6 +200,20 @@ class Register extends Component {
                     Cancel
                   </Button>
                 </DialogActions>
+                </div>
+                  ):(
+                    <DialogContent>
+                      <DialogContentText>
+                        Successfully Registered to the application. please click ok to close and login
+                        using your new credentials.
+                      </DialogContentText>
+                      <DialogActions>
+                        <Button variant="contained" color="primary" onClick={this.handleRegistrationClose}>
+                         Ok
+                        </Button>
+                      </DialogActions>
+                    </DialogContent>
+                  )}
               </Dialog>
             </div>
           </span>
