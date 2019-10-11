@@ -86,7 +86,7 @@ class Register extends Component {
 
     render() {
         const { errors } = this.state;
-        console.log(errors);
+        
         return (
           <span>
             <Button className="menu_button" color="inherit" onClick={this.handleRegistrationOpen}>Sign Up</Button>
@@ -100,8 +100,13 @@ class Register extends Component {
                 <DialogTitle>Register</DialogTitle>
                 <DialogContent>
                   <DialogContentText>
-                    Please sign up using the below form. Note that password should be 8-30 characters long.
+                    Please sign up using the below form.
+                    Note that password should be 8-30 characters long.
                   </DialogContentText>
+
+                  {errors && errors.name ? (
+                    <p className="rt-auth-error-text">{errors.name}</p>
+                  ) : null}
                   <div className="row">
                     <div className="col-md-12">
                       <TextField
@@ -117,6 +122,10 @@ class Register extends Component {
                       />
                     </div>
                   </div>
+
+                  {errors && errors.email ? (
+                    <p className="rt-auth-error-text">{errors.email}</p>
+                  ) : null}
                   <div className="row">
                     <div className="col-md-12">
                       <TextField
@@ -132,7 +141,10 @@ class Register extends Component {
                       />
                     </div>
                   </div>
-                  
+
+                  {errors && errors.password ? (
+                    <p className="rt-auth-error-text">{errors.password}</p>
+                  ) : null}
                   <div className="row">
                     <div className="col-md-12">
                       <TextField
@@ -148,7 +160,10 @@ class Register extends Component {
                       />
                     </div>
                   </div>
-                  
+
+                  {errors && errors.confirmPassword ? (
+                    <p className="rt-auth-error-text">{errors.confirmPassword}</p>
+                  ) : null}
                   <div className="row">
                     <div className="col-md-12">
                       <TextField
