@@ -7,7 +7,6 @@
 
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import DateFnsUtils from "@date-io/date-fns";
 import {
   Typography,
   TextField,
@@ -18,8 +17,10 @@ import {
   InputLabel,
   FormHelperText
 } from "@material-ui/core";
+import EventRegistration from "./EventRegistration";
 
 export default function EventRegistrationForm() {
+  var eveReg = new EventRegistration();
   const classes = useStyles();
   const [selectedDate, setSelectedDate] = React.useState(new Date());
   const [eventName, setEventName] = React.useState("");
@@ -170,7 +171,7 @@ export default function EventRegistrationForm() {
                 Reset
               </Button>
 
-              <Button variant="contained" color="primary" type="submit">
+              <Button onClick={eveReg.registerHandler} variant="contained" color="primary" type="submit">
                 Submit
               </Button>
             </Grid>
