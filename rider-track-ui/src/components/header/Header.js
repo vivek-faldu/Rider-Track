@@ -8,7 +8,7 @@
 import React from 'react';
 import './Header.css';
 
-import { Button, Dialog } from '@material-ui/core';
+import { Button, Dialog, Link } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Person from '@material-ui/icons/Person';
 import AddBox from '@material-ui/icons/AddBox';
@@ -17,7 +17,7 @@ import Hidden from '@material-ui/core/Hidden';
 import withWidth from '@material-ui/core/withWidth';
 import Login from '../authentication/Login';
 import Register from '../authentication/Register';
-
+import { PARTICIPANT_HISTORY } from '../../RouteConstants';
 function Header() {
   return (
     <div>
@@ -32,10 +32,13 @@ function Header() {
         <Grid item md={12} lg={8} r>
           <Button className="menu_button" color="inherit">Home</Button>
           <Button className="menu_button" color="inherit">Organizers</Button>
-          <Button className="menu_button" color="inherit">My Events</Button>
           <Button className="menu_button" color="inherit">About</Button>
+          <Link href={PARTICIPANT_HISTORY}>
+            <Button className="menu_button" color="inherit">My Events</Button>
+          </Link>
           <Login />
           <Register />
+
         </Grid>
         <Hidden smDown>
           <Grid container alignment="center" justify="center" md={12} lg={2} spacing={3}>
