@@ -7,8 +7,11 @@
 
 import React from 'react';
 import './Header.css';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-import { Button, Dialog, Link } from '@material-ui/core';
+
+import { Button, Link } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Person from '@material-ui/icons/Person';
 import AddBox from '@material-ui/icons/AddBox';
@@ -18,8 +21,13 @@ import withWidth from '@material-ui/core/withWidth';
 import Login from '../authentication/Login';
 import Register from '../authentication/Register';
 import { PARTICIPANT_HISTORY, HOME_ROUTE, EVENT_CREATION_PATH } from '../../RouteConstants';
+import store from '../../store';
+import Logout from '../authentication/Logout';
 
 function Header() {
+  const state = store.getState();
+  const flag = state.authentication.isAuthenticated;
+  
   return (
     <div>
       <Grid container alignItems="center" className="country_bar">
@@ -41,8 +49,12 @@ function Header() {
           <Link href={PARTICIPANT_HISTORY}>
             <Button className="menu_button" color="inherit">My Events</Button>
           </Link>
-          <Login />
-          <Register />
+          {flag ? <Logout /> : (
+            <span>
+              <Login />
+              <Register />
+            </span>
+          )}
 
         </Grid>
         <Hidden smDown>
@@ -66,5 +78,6 @@ function Header() {
   );
 }
 
+store.subscribe(Header);
 
 export default withWidth()(Header);

@@ -36,7 +36,7 @@ class Login extends Component {
       }
       if(newProps.errors) {
         this.setState({
-          errors: newProps.error
+          errors: newProps.errors
         });
       }
     };
@@ -82,6 +82,13 @@ class Login extends Component {
                 <DialogContentText>
                     Please enter your email ID and password
                 </DialogContentText>
+                
+                {errors.email?( 
+                <p className="rt-auth-error-text">{errors.email}</p>
+                ):null}
+                {errors.emailNotFound?( 
+                <p className="rt-auth-error-text">{errors.emailNotFound}</p>
+                ):null}
                 <div className="row">
                   <div className="col-md-12">
                     <TextField
@@ -97,7 +104,13 @@ class Login extends Component {
                     />
                   </div>
                 </div>
-
+                
+                {errors.password?( 
+                <p className="rt-auth-error-text">{errors.password}</p>
+                ):null}
+                {errors.paswordInCorrect?( 
+                <p className="rt-auth-error-text">{errors.paswordInCorrect}</p>
+                ):null}
                 <div className="row">
                   <div className="col-md-12">
                     <TextField

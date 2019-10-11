@@ -62,3 +62,8 @@
 .rt-registration-form .col-md-12 {
   margin-bottom: 20px;
 }
+
+.rt-auth-error-text {
+  margin-top: 5px;
+  color:red;
+}
