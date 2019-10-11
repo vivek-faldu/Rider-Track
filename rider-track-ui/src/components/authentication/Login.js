@@ -13,8 +13,11 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import PropTypes from 'prop-types';
+import { connect } from "react-redux";
+import { loginUser } from "../../actions/authenticationAction";
 
-export default class Login extends Component {
+class Login extends Component {
     constructor() {
         super();
         this.state = {
@@ -25,6 +28,19 @@ export default class Login extends Component {
         };
     }
 
+    UNSAFE_componentWillReceiveProps = (newProps) => {
+      if(newProps.authentication.isAuthenticated) {
+        this.setState({
+          loginOpen: false
+        });
+      }
+      if(newProps.errors) {
+        this.setState({
+          errors: newProps.error
+        });
+      }
+    };
+    
     handleLoginOpen = () => {
         this.setState({ loginOpen: true });
     };
@@ -40,8 +56,7 @@ export default class Login extends Component {
             email: this.state.email,
             password: this.state.password
         };
-
-        console.log(user);
+        this.props.loginUser(user);
     }
 
     onTextChange = (event) => {
@@ -112,3 +127,19 @@ export default class Login extends Component {
         );
     }
 }
+
+Login.PropTypes = {
+  loginUser: PropTypes.func.isRequired,
+  authentication: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+};
+
+const mapState = (state) => ({
+  authentication: state.authentication,
+  errors: state.errors
+});
+
+export default connect(
+  mapState,
+  { loginUser }
+)(Login);

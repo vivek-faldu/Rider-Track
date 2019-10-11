@@ -7,6 +7,7 @@
  */
 import { LOAD_USER, UPDATE_CURRENT_USER } from '../actions/actionTypes';
 
+const isEmpty = require('is-empty');
 
 const defaultState = {
     isAuthenticated: false,
@@ -24,6 +25,7 @@ const authenticationReducer = (state = defaultState, action) => {
         case UPDATE_CURRENT_USER:
             return {
                 ...state,
+                isAuthenticated: !isEmpty(action.payload),
                 user: action.payload,
             };
         default:

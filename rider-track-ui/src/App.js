@@ -10,7 +10,7 @@ import EventsList from './components/events/EventsList';
 import EventsDetail from './components/events_detail/EventsDetail';
 import {
   HOME_ROUTE, EVENT_REGISTRATION_PATH, EVENT_DETAIL_PATH, EVENT_CREATION_PATH, LIVE_MAP,
-  PARTICIPANT_HISTORY, REGISTERED_EVENT_DETAIL_PATH
+  PARTICIPANT_HISTORY, REGISTERED_EVENT_DETAIL_PATH,
 } from './RouteConstants';
 import EventRegistrationForm from './components/eventregistration/EventRegistrationForm';
 import EventCreationForm from './components/eventcreation/EventCreationForm';
@@ -22,8 +22,8 @@ function App() {
   return (
     <Provider store={store}>
       <div className="App">
-        <Header />
         <BrowserRouter>
+          <Header />
           <div>
             <Switch>
               <Route exact path={HOME_ROUTE} component={EventsList} />
@@ -35,8 +35,8 @@ function App() {
               <Route path={REGISTERED_EVENT_DETAIL_PATH} component={RegisteredEventDetail} />
             </Switch>
           </div>
+          <Footer />
         </BrowserRouter>
-        <Footer />
       </div>
     </Provider>
   );

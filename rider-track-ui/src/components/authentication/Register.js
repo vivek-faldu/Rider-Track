@@ -14,19 +14,33 @@ import {
     } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import DialogActions from '@material-ui/core/DialogActions';
+import { connect } from "react-redux";
+import PropTypes from 'prop-types';
+import { registerUser } from '../../actions/authenticationAction';
+import { withRouter } from 'react-router-dom';
+
 
 class Register extends Component {
     constructor() {
         super();
         this.state = {
             registrationOpen: false,
-            name: '',
+            username: '',
             email: '',
             password: '',
             confirmPassword: '',
-            is_admin: false
+            is_admin: false,
         };
     }
+
+    // eslint-disable-next-line camelcase
+    UNSAFE_componentWillReceiveProps = (newProps) => {
+      if (newProps.errors) {
+        this.setState({
+          errors: newProps.errors,
+        });
+      }
+    };
 
     handleRegistrationOpen = () => {
         this.setState({ registrationOpen: true });
@@ -38,20 +52,21 @@ class Register extends Component {
 
     handleCheckBox = (event) => {
         this.setState({
-            is_admin: event.target.checked
+            is_admin: event.target.checked,
         });
     }
 
-    onRegisterSubmit = () => {
-        const addUser = {
-            name: this.state.name,
+    onRegisterSubmit = (event) => {
+      event.preventDefault();
+      const addUser = {
+            username: this.state.username,
             email: this.state.email,
             password: this.state.password,
             confirmPassword: this.state.confirmPassword,
-            is_admin: this.state.is_admin
+            is_admin: this.state.is_admin,
         };
 
-        console.log(addUser);
+        this.props.registerUser(addUser, this.props.history);
     }
 
     onTextChange = (event) => {
@@ -83,10 +98,10 @@ class Register extends Component {
                       <TextField
                         autoFocus
                         margin="dense"
-                        id="name"
+                        id="username"
                         label="Name"
                         type="text"
-                        value={this.state.name}
+                        value={this.state.username}
                         fullWidth
                         required
                         onChange={this.onTextChange}
@@ -165,4 +180,18 @@ class Register extends Component {
     }
 }
 
-export default Register;
+Register.propTypes = {
+  registerUser: PropTypes.func.isRequired,
+  authentication: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+};
+
+const mapState = (state) => ({
+  authentication: state.authentication,
+  errors: state.errors,
+});
+
+export default connect(
+  mapState,
+  { registerUser },
+)(withRouter(Register));
