@@ -5,7 +5,7 @@
  * Date: 10/06/2019
  */
 
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import './EventsDetail.css';
 import AvTimerIcon from '@material-ui/icons/AvTimer';
@@ -19,6 +19,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Card from '@material-ui/core/Card';
 import { Button } from '@material-ui/core';
 import EventDetailMap from './EventDetailMap';
+import { Link } from 'react-router-dom';
+import { EVENT_REGISTRATION_PATH } from '../../RouteConstants';
 
 function EventsDetail({ match }) {
   const [hasError, setErrors] = useState(false);
@@ -27,16 +29,16 @@ function EventsDetail({ match }) {
   let url = 'http://localhost:4241/api/events/';
   url = url.concat(match.params.id);
 
-     async function fetchData() {
-       const res = await fetch(url);
-       res.json()
-         .then((result) => setDetail(result))
-         .catch((err) => setErrors(err));
-     }
+  async function fetchData() {
+    const res = await fetch(url);
+    res.json()
+      .then((result) => setDetail(result))
+      .catch((err) => setErrors(err));
+  }
 
   useEffect(() => {
     fetchData();
-   }, []);
+  }, []);
 
   return (
     <Grid container className="event_layout" direction="row">
@@ -94,8 +96,11 @@ function EventsDetail({ match }) {
 
             </List>
           </div>
-          <Button color="green">Register Today</Button>
+          <Link to={EVENT_REGISTRATION_PATH}>
+            <Button color="green">Register Today</Button>
+          </Link>
           <br />
+
         </Card>
       </Grid>
       <Grid item md={12} lg={8}>

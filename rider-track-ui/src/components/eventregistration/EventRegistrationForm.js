@@ -186,9 +186,9 @@ export default class EventRegistrationForm extends Component {
                   margin="normal"
                 />
               </Grid>
-              <Grid item xs={12}>
-                <br></br>
-                {/* <Select
+              {/* <Grid item xs={12}> */}
+              {/* <br></br> */}
+              {/* <Select
                   value={values.age}
                   onChange={handleChange}
                   style={{ width: 200, float: "left" }}
@@ -201,14 +201,14 @@ export default class EventRegistrationForm extends Component {
                   <MenuItem value={1}>Trackleader</MenuItem>
                   <MenuItem value={2}>TrackMeSpot</MenuItem>
                 </Select> */}
-                <br></br>
-                <br></br>
+              {/* <br></br>
+                <br></br> */}
 
-                <FormHelperText style={{ float: "left" }}>
+              {/* <FormHelperText style={{ float: "left" }}>
                   Select Tracker Website
-                </FormHelperText>
-              </Grid>
-              <br></br>
+                </FormHelperText> */}
+              {/* </Grid> */}
+              {/* <br></br> */}
               <Grid item xs={12} style={{ marginTop: 50 }}>
                 <Button type="button" variant="contained">
                   Reset

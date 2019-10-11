@@ -1,6 +1,6 @@
 import React from 'react';
 import {
- Box, Typography, Button,
+  Box, Typography, Button,
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { EVENT_DETAIL_PATH, EVENT_REGISTRATION_PATH } from '../../RouteConstants';
@@ -31,20 +31,20 @@ const EventListItem = (props) => (
       </p>
     </div>
     {props.eventType === UPCOMING_EVENTS
-                ? (
-                  <div className="col-md-2">
-                    <Link to={EVENT_DETAIL_PATH.replace(':id', props.eventid)}>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        className="rt-event-register-button"
-                      >
-                        Register
+      ? (
+        <div className="col-md-2">
+          <Link to={EVENT_REGISTRATION_PATH}>
+            <Button
+              variant="contained"
+              color="primary"
+              className="rt-event-register-button"
+            >
+              Register
                       </Button>
-                    </Link>
-                  </div>
-) : null}
+          </Link>
+        </div>
+      ) : null}
   </Box>
-    );
+);
 
 export default EventListItem;
