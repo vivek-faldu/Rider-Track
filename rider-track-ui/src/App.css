@@ -26,3 +26,44 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.rt-login-form .MuiPaper-root{
+  min-width: 450px !important;
+  min-height: 400px !important;
+}
+
+.rt-login-form button {
+  margin-right: 10px;
+  margin-bottom: 20px;
+}
+
+.rt-login-form .col-md-12 {
+  margin-bottom: 20px;
+}
+
+.rt-login-form .MuiTypography-h6 {
+  font-size: 30px !important;
+}
+
+.rt-registration-form .MuiPaper-root{
+  min-width: 450px !important;
+  min-height: 600px !important;
+}
+
+.rt-registration-form .MuiTypography-h6 {
+  font-size: 30px !important;
+}
+
+.rt-registration-form button {
+  margin-right: 10px;
+  margin-bottom: 20px;
+}
+
+.rt-registration-form .col-md-12 {
+  margin-bottom: 20px;
+}
+
+.rt-auth-error-text {
+  margin-top: 5px;
+  color:red;
+}

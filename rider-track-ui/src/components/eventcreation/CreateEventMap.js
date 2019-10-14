@@ -21,29 +21,6 @@ const navStyle = {
 };
 
 export default class CreateEventMap extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      viewport: {
-        latitude: 33.4224,
-        longitude: -111.9495,
-        zoom: 15,
-        bearing: 0,
-        pitch: 0,
-      },
-      marker: [{
-
-        latitude: 33.4224,
-        longitude: -111.9495,
-      },
-      {
-
-        latitude: 33.4223,
-        longitude: -111.9496,
-      }],
-    };
-  }
-
   getmarker = (marker) => {
     const self = this;
     return marker.map((object, i) => (
@@ -62,34 +39,32 @@ export default class CreateEventMap extends Component {
   }
 
   _updateViewport = (viewport) => {
-    this.setState({ viewport });
+    this.props.setViewPort(viewport);
   };
 
   _onMarkerDragEnd = ((event, i) => {
-    const { marker } = this.state;
+    const { marker } = this.props;
     const newmarker = {
       longitude: event.lngLat[0],
       latitude: event.lngLat[1],
     };
     marker[i] = newmarker;
-    this.setState({
-      marker,
-    });
+    this.props.setEventMarker(marker);
   })
 
 
   onadd = () => {
-    const { marker } = this.state;
+    const { marker } = this.props;
     const newMarkerPoint = {
       latitude: marker[0].latitude + 0.0099,
       longitude: marker[0].longitude + 0.0099,
     };
     marker.push(newMarkerPoint);
-    this.setState({ marker });
+    this.props.setEventMarker(marker);
   }
 
   render() {
-    const { viewport, marker } = this.state;
+    const { viewport, marker, setViewPort } = this.props;
     return (
       <MapGL
         // eslint-disable-next-line react/jsx-props-no-spreading
@@ -98,7 +73,7 @@ export default class CreateEventMap extends Component {
         height="400px"
         mapStyle="mapbox://styles/mapbox/dark-v9"
         // eslint-disable-next-line no-underscore-dangle
-        onViewportChange={this._updateViewport}
+        onViewportChange={setViewPort}
         mapboxApiAccessToken={TOKEN}
         style={{ padding: 20 }}
       >
@@ -106,7 +81,7 @@ export default class CreateEventMap extends Component {
         {this.getmarker(marker)}
 
         <div className="nav" style={navStyle}>
-          <NavigationControl onViewportChange={this._updateViewport} />
+          <NavigationControl onViewportChange={setViewPort} />
         </div>
 
 

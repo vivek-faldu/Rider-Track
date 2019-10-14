@@ -8,9 +8,26 @@
 var express = require("express");
 var router = express.Router();
 const Event = require('../models/events');
-
+const User = require("../models/users");
+const User_Event = require("../models/user_events");
 var getEventDetails = require("../services/getEventDetail");
+var {
+    startStream,
+    stopStream
+} = require("../services/stream");
+
 var bodyParser = require('body-parser').json();
+
+router.get("/start", (req, res) => {
+    startStream()
+    res.send("stream started")
+});
+
+router.get("/stop", (req, res) => {
+    stopStream()
+    res.send("stream stopped")
+});
+
 router.get("/", async (req, res) => {
     Event
         .find()
@@ -27,24 +44,58 @@ router.get("/:id", async (req, res) => {
         if (err) {
             //console.log(err);
             res.status(404).json();
-        }
-        else
+        } else
             res.json(event);
     });
 
 });
 
-router.route('/add').post(bodyParser, (req, res) => {
+router.route('/').post(bodyParser, (req, res) => {
     let event = new Event(req.body);
     event.save()
         .then(event => {
             res.status(200).json({
-                'event': 'Added successfully'
+                status: 200,
+                message: 'Added successfully'
             });
         })
         .catch(err => {
             res.status(400).send('Failed to create new event');
         });
 });
+
+router.route("/:id").put(bodyParser, (req, res) => {
+    Event.findById(req.params.id, function (err, event) {
+        if (err) {
+            send(err);
+        }
+        event.participants.push({ id: req.body.userId, name: req.body.name });
+        event
+            .save()
+            .then(event => {
+                User.findById(req.body.userId, function (err, user) {
+                    if (err) {
+                        send(err);
+                    }
+                    user.participated_events.push(req.params.id);
+                    user.save().then(user => {
+                        let user_event = new User_Event();
+                        user_event.user_id = req.body.userId;
+                        user_event.event_id = req.params.id;
+                        user_event.save().then(user_event => {
+                            res.status(200).json({
+                                status: 200,
+                                event: "Registered successfully"
+                            });
+                        }).catch(err => {
+                            res.status(400).send("Failed to register");
+                        });
+                    })
+                })
+            })
+    });
+});
+
+
 
 module.exports = router;

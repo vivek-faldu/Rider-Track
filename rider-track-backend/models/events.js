@@ -3,6 +3,10 @@
  * Task: Model setup for accessing db
  * Task no: 45,46,47,
  * Date: 09/20/2019
+ * 
+ * Task: Added event_description to the events model
+ * Task no: 83
+ * Date: 10/07/2019
  */
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
@@ -17,7 +21,11 @@ let events = new Schema({
         type: String,
         required: true
     },
-    data_time: {
+    event_description: {
+        type: String,
+        required: true
+    },
+    date_time: {
         type: Date,
         default: null
     },
@@ -29,11 +37,15 @@ let events = new Schema({
         type: Number
     },
     checkpoints: [{
-        lat: Number,
-        long: Number
+        latitude: Number,
+        longitude: Number
     }],
+    place: {
+        type: String,
+        default: null
+    },
     participants: [{
-        id: Number,
+        id: String,
         name: String
     }]
 });
