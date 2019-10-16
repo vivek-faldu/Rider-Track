@@ -1,5 +1,6 @@
 /**
  * Author: Janani Thiagarjan
+ * Author: Shilpa Bhat
  * Task: Schema for User Events collection
  * Task no: 64
  * Date: 09/30/2019
@@ -21,7 +22,27 @@ let user_events = new Schema({
         lat: String,
         long: String,
         timestamp: String
-    }]
+    }],
+    nick_name: {
+        type: String,
+        required: false
+    },
+    device_id: {
+        type: String,
+        required: false
+    },
+    country: {
+        type: String,
+        required: false
+    },
+    timezone: {
+        type: String,
+        required: false
+    },
+    provider: {
+        type: String,
+        required: true
+    }
 });
 
 

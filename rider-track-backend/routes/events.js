@@ -82,6 +82,12 @@ router.route("/:id").put(bodyParser, (req, res) => {
                         let user_event = new User_Event();
                         user_event.user_id = req.body.userId;
                         user_event.event_id = req.params.id;
+                        user_event.nick_name = req.body.nick_name;
+                        user_event.email_id = req.body.email_id;
+                        user_event.device_id = req.body.device_id;
+                        user_event.country = req.body.country;
+                        user_event.timezone = req.body.timezone;
+                        user_event.provider = req.body.provider;
                         user_event.save().then(user_event => {
                             res.status(200).json({
                                 status: 200,

@@ -33,7 +33,7 @@ const EventListItem = (props) => (
     {props.eventType === UPCOMING_EVENTS
       ? (
         <div className="col-md-2">
-          <Link to={EVENT_REGISTRATION_PATH}>
+          <Link to={EVENT_REGISTRATION_PATH.replace(':id', props.eventid)}>
             <Button
               variant="contained"
               color="primary"
@@ -44,7 +44,7 @@ const EventListItem = (props) => (
           </Link>
         </div>
       ) : null}
-  </Box>
+  </Box >
 );
 
 export default EventListItem;
