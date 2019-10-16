@@ -96,7 +96,7 @@ function EventsDetail({ match }) {
 
             </List>
           </div>
-          <Link to={EVENT_REGISTRATION_PATH}>
+          <Link to={EVENT_REGISTRATION_PATH.replace(':id', match.params.id)}>
             <Button color="green">Register Today</Button>
           </Link>
           <br />
