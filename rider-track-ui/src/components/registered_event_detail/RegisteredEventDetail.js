@@ -18,13 +18,14 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import { Button } from '@material-ui/core';
  */
 
-function RegisteredEventDetail() {
+function RegisteredEventDetail({ match }) {
   const [hasError, setErrors] = useState(false)
   const [details, setDetails] = useState({})
 
   useEffect(() => {
+
     async function fetchData() {
-      const res = await fetch('http://localhost:4241/api/user/eventdetail?eventid=5da0111bf05a835eba01381d&userid=5d93b7d31c9d440000909462')
+      const res = await fetch('http://localhost:4241/api/user/eventdetail?userid=5d96e4e1e78f0b615d85cf34&eventid=' + match.params.id);
       res.json()
         .then(res => setDetails(res))
         .catch(err => setErrors(err));

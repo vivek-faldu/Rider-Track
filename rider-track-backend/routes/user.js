@@ -23,8 +23,16 @@ router.get("/events", async (req, res) => {
     return fetchUserEvents(uid).then(function (user) {
         var myEventsList = [];
         myEventsList = user.participated_events;
+        myCreatedEventsList = user.created_events;
+        var result;
         return fetchEventDetails(myEventsList).then(function (events) {
-            return res.json(events);
+            result = {
+                'participated_events': events
+            };
+            return fetchEventDetails(myCreatedEventsList).then(function (events) {
+                result.created_events = events;
+                return res.json(result);
+            })
         })
     })
 });
