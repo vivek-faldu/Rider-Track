@@ -20,7 +20,7 @@ const ParticipantHistoryItem = (props) => (
         </div>
         <div className="col-md-3 rt-history-list-item-text">
             <Typography>
-                <Link href={REGISTERED_EVENT_DETAIL_PATH}>
+                <Link href={REGISTERED_EVENT_DETAIL_PATH.replace(':id', props.eventId)}>
                     {props.eventName}
                 </Link>
             </Typography>
