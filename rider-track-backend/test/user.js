@@ -24,7 +24,7 @@ chai.use(chaiHttp);
 describe('GET List of Events for a participant', () => {
     it('it should GET all the events  for a participant', (done) => {
         chai.request(server)
-            .get('/api/user/events?userid=5d93b7d31c9d440000909462')
+            .get('/api/user/events?userid=5d96e4e1e78f0b615d85cf34')
             .end((err, res) => {
                 res.should.have.status(200);
                 res.body.should.have.property('participated_events');

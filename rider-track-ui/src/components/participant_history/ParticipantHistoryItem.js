@@ -25,9 +25,14 @@ const ParticipantHistoryItem = (props) => (
                 </Link>
             </Typography>
         </div>
-        <div className="col-md-7 rt-history-list-item-text">
+        <div className="col-md-3 rt-history-list-item-text">
             <p>
                 {props.eventDescription}
+            </p>
+        </div>
+        <div className="col-md-2 rt-history-list-item-text">
+            <p>
+                {props.eventStatus}
             </p>
         </div>
     </Box>

@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-unused-vars */
 /*
     Component that renders the list of registered events
@@ -17,6 +18,7 @@ import ParticipantHistoryItem from './ParticipantHistoryItem';
 const ParticipantHistory = () => {
   const [hasError, setErrors] = useState(false);
   const [events, setEvents] = useState([]);
+  const [createdevents, setCreatedEvents] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -24,6 +26,7 @@ const ParticipantHistory = () => {
       res.json()
         .then((res) => {
           setEvents(res.participated_events);
+          setCreatedEvents(res.created_events);
         })
         .catch((err) => setErrors(err));
     }
@@ -49,6 +52,32 @@ const ParticipantHistory = () => {
                   eventDescription={el.event_description}
                   eventDate={el.date_time}
                   eventId={el._id}
+                  eventStatus={el.status}
+                />
+              </li>
+              <Divider variant="middle" />
+            </div>
+          ))}
+        </ul>
+      </div>
+
+      <div className="row">
+        <div className="col-md-4">
+          <h1 className="rt-history-header">Created Events</h1>
+        </div>
+      </div>
+      <Divider className="row" />
+      <div>
+        <ul>
+          {createdevents.map((el) => (
+            <div>
+              <li>
+                <ParticipantHistoryItem
+                  eventName={el.event_name}
+                  eventDescription={el.event_description}
+                  eventDate={el.date_time}
+                  eventId={el._id}
+                  eventStatus={el.status}
                 />
               </li>
               <Divider variant="middle" />
