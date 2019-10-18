@@ -50,14 +50,14 @@ class EventRegistrationForm extends Component {
   }
 
   UNSAFE_componentWillReceiveProps = (newProps) => {
-    if(newProps.authentication.isAuthenticated) {
+    if (newProps.authentication.isAuthenticated) {
       this.setName(newProps.authentication.user.username);
       this.setEmail(newProps.authentication.user.email);
     }
   }
 
   registerHandler = async (content) => {
-    const res = await fetch(`http://localhost:4241/api/events/${  this.props.match.params.id}`, {
+    const res = await fetch(`http://localhost:4241/api/events/${this.props.match.params.id}`, {
       method: 'PUT',
       headers: {
         Accept: 'application/json',
@@ -80,14 +80,14 @@ class EventRegistrationForm extends Component {
     } = this.state;
 
     const body = {
-      userId: '5d96e4e1e78f0b615d85cf34',
-      name,
-      nick_name,
-      email_id,
-      device_id,
-      country,
-      timezone,
-      provider: 'Mapprogress',
+      userId: "5d96e5dfbdf1b03cfd044194",
+      name: name,
+      nick_name: nick_name,
+      email_id: email_id,
+      device_id: device_id,
+      country: country,
+      timezone: timezone,
+      provider: "Mapprogress"
     };
     this.registerHandler(body);
   };
@@ -97,7 +97,7 @@ class EventRegistrationForm extends Component {
   }
 
   getName = () => {
-    return this.props.authentication.isAuthenticated? this.props.authentication.user.username : '';
+    return this.props.authentication.isAuthenticated ? this.props.authentication.user.username : '';
   };
 
   setNickName = (nick_name) => {
@@ -109,7 +109,7 @@ class EventRegistrationForm extends Component {
   }
 
   getEmail = () => {
-    return this.props.authentication.isAuthenticated? this.props.authentication.user.email : '';
+    return this.props.authentication.isAuthenticated ? this.props.authentication.user.email : '';
   };
 
   setDeviceId = (device_id) => {
