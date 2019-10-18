@@ -55,7 +55,7 @@ export default class EventRegistrationForm extends Component {
     } = this.state;
 
     const body = {
-      userId: "5d96e4e1e78f0b615d85cf34",
+      userId: "5d96e5dfbdf1b03cfd044194",
       name: name,
       nick_name: nick_name,
       email_id: email_id,

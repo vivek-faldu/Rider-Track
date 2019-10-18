@@ -10,7 +10,11 @@ var router = express.Router();
 const Event = require('../models/events');
 const User = require("../models/users");
 const User_Event = require("../models/user_events");
-var getEventDetails = require("../services/getEventDetail");
+
+var {
+    startEvent,
+    stopEvent
+} = require("../services/eventManager");
 var {
     startStream,
     stopStream
@@ -64,10 +68,15 @@ router.route('/').post(bodyParser, (req, res) => {
         });
 });
 
+// Event registration
+// Edits row in event - adds participant to the given eventid
+//Edits row in user - adds eventid to participatedevents
+//adds new row in user-event
+
 router.route("/:id").put(bodyParser, (req, res) => {
     Event.findById(req.params.id, function (err, event) {
         if (err) {
-            send(err);
+            res.status(500).json();
         }
         event.participants.push({ id: req.body.userId, name: req.body.name });
         event
@@ -102,6 +111,13 @@ router.route("/:id").put(bodyParser, (req, res) => {
     });
 });
 
+router.route("/start/:id").put(bodyParser, (req, res) => {
+    startEvent(req, res);
+})
+
+router.route("/stop/:id").put(bodyParser, (req, res) => {
+    stopEvent(req, res);
+})
 
 
 module.exports = router;
