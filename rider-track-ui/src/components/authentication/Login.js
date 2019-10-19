@@ -6,6 +6,7 @@
  *                https://blog.bitsrc.io/build-a-login-auth-app-with-mern-stack-part-2-frontend-6eac4e38ee82
  */
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import TextField from '@material-ui/core/TextField';
@@ -14,25 +15,29 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import PropTypes from 'prop-types';
-import { connect } from "react-redux";
-import { loginUser } from "../../actions/authenticationAction";
+import { connect } from 'react-redux';
+import { loginUser } from '../../actions/authenticationAction';
+
 
 class Login extends Component {
-    constructor() {
-        super();
+  constructor(props) {
+        super(props);
         this.state = {
             email: '',
             password: '',
             errors: {},
-            loginOpen: false,
-            firstTime: true
+            loginOpen: this.props.openDialog ? true : false,
+            firstTime: true,
+            authenticationSuccess: false
         };
+        
     }
 
     UNSAFE_componentWillReceiveProps = (newProps) => {
       if(newProps.authentication.isAuthenticated) {
         this.setState({
-          loginOpen: false
+          loginOpen: false,
+          authenticationSuccess: newProps.authentication.isAuthenticated,
         });
       }
       if(newProps.errors) {
@@ -63,6 +68,13 @@ class Login extends Component {
             password: this.state.password
         };
         this.props.loginUser(user);
+
+        const { errors } = this.state;
+
+        if (errors === {} && this.props.redirectPath) {
+          console.log("pushing");
+          this.props.history.push(this.props.redirectPath);
+        }
     }
 
     onTextChange = (event) => {
@@ -76,7 +88,8 @@ class Login extends Component {
         const { errors } = this.state;
         return (
           <span>
-            <Button className="menu_button" color="inherit" onClick={this.handleLoginOpen}>Login</Button>
+            {this.props.openDialog !== true 
+              ? (<Button className="menu_button" color="inherit" onClick={this.handleLoginOpen}>Login</Button>):null}
             <Dialog
               open={this.state.loginOpen}
               onClose={this.handleLoginClose}
@@ -120,7 +133,6 @@ class Login extends Component {
                 <div className="row">
                   <div className="col-md-12">
                     <TextField
-                      autoFocus
                       margin="dense"
                       id="password"
                       label="Password"
@@ -161,4 +173,4 @@ const mapState = (state) => ({
 export default connect(
   mapState,
   { loginUser }
-)(Login);
+)(withRouter(Login));
