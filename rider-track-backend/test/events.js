@@ -110,3 +110,41 @@ describe('Register user for an event', () => {
             });
     })
 });
+
+/*
+ * Test the start event route
+ */
+describe('Start an event', () => {
+    it('it should change the status of the event to live and change live_event field for all registered users', (done) => {
+        let event = {
+            "userId": "5d9c0e1320132148b87762fd",
+            "name": "test participant"
+        }
+        chai.request(server)
+            .put('/api/events//start/5da0111bf05a835eba01381d')
+            .send(event)
+            .end((err, res) => {
+                res.should.have.status(200);
+                done();
+            });
+    })
+});
+
+/*
+ * Test the stop event route
+ */
+describe('Stop an event', () => {
+    it('it should change status of the event and change live_event for all users', (done) => {
+        let event = {
+            "userId": "5d9c0e1320132148b87762fd",
+            "name": "test participant"
+        }
+        chai.request(server)
+            .put('/api/events/stop/5da0111bf05a835eba01381d')
+            .send(event)
+            .end((err, res) => {
+                res.should.have.status(200);
+                done();
+            });
+    })
+});
