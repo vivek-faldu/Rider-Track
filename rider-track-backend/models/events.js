@@ -40,10 +40,7 @@ let events = new Schema({
         type: String,
         default: "Upcoming"
     },
-    checkpoints: [{
-        latitude: Number,
-        longitude: Number
-    }],
+    checkpoints: [],
     place: {
         type: String,
         default: null

@@ -1,0 +1,28 @@
+/*
+    CSS classes to handle "list of created events" styling
+    Author: Janani Thiagarajan
+    Date: 10/21/2019
+    US: 101, Task : 104
+*/
+
+.rt-events-card {
+    margin: 25px;
+    min-height: 450px;
+}
+
+.rt-events-card ul {
+    list-style: none;
+    padding: 10px;
+}
+
+.rt-events-header {
+    float: left;
+    padding: 10px 10px 0px 10px;
+    font-size: 22px;
+    font-style: oblique;
+}
+
+.rt-events-list-item-text {
+    padding: 15px;
+    font-size: 14px;
+}

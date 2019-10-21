@@ -20,7 +20,9 @@ import Hidden from '@material-ui/core/Hidden';
 import withWidth from '@material-ui/core/withWidth';
 import Login from '../authentication/Login';
 import Register from '../authentication/Register';
-import { PARTICIPANT_HISTORY, HOME_ROUTE, EVENT_CREATION_PATH } from '../../RouteConstants';
+import {
+  PARTICIPANT_HISTORY, HOME_ROUTE, EVENT_CREATION_PATH, CREATED_EVENTS,
+} from '../../RouteConstants';
 import store from '../../store';
 import Logout from '../authentication/Logout';
 
@@ -56,16 +58,19 @@ class Header extends Component {
             <Link href={EVENT_CREATION_PATH}>
               <Button className="menu_button" color="inherit">Organizers</Button>
             </Link>
-            <Button className="menu_button" color="inherit">About</Button>
+            {/* <Button className="menu_button" color="inherit">About</Button> */}
             <Link href={PARTICIPANT_HISTORY}>
               <Button className="menu_button" color="inherit">My Events</Button>
             </Link>
+            <Link href={CREATED_EVENTS}>
+              <Button className="menu_button" color="inherit">Created Events</Button>
+            </Link>
             {this.state.isLoggedIn ? <Logout />
-            : (
-              <span>
-                <Login />
-                <Register />
-              </span>
+              : (
+                <span>
+                  <Login />
+                  <Register />
+                </span>
               )}
 
           </Grid>
@@ -89,7 +94,7 @@ class Header extends Component {
       </div>
     );
   }
-  
+
 }
 
 Header.PropTypes = {
