@@ -14,7 +14,7 @@ import {
 } from './RouteConstants';
 import EventRegistrationForm from './components/eventregistration/EventRegistrationForm';
 import EventCreationForm from './components/eventcreation/EventCreationForm';
-import LiveEventMap from './components/maps/LiveEventMap';
+import LivePage from './components/live/LivePage';
 import ParticipantHistory from './components/participant_history/ParticipantHistory';
 import RegisteredEventDetail from './components/registered_event_detail/RegisteredEventDetail';
 
@@ -30,7 +30,7 @@ function App() {
               <Route path={EVENT_REGISTRATION_PATH} component={EventRegistrationForm} />
               <Route path={EVENT_DETAIL_PATH} component={EventsDetail} />
               <Route path={EVENT_CREATION_PATH} component={EventCreationForm} />
-              <Route path={LIVE_MAP} component={LiveEventMap} />
+              <Route path={LIVE_MAP} component={LivePage} />
               <Route path={PARTICIPANT_HISTORY} component={ParticipantHistory} />
               <Route path={REGISTERED_EVENT_DETAIL_PATH} component={RegisteredEventDetail} />
             </Switch>
