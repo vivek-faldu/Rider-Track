@@ -14,70 +14,12 @@ var send = require("./pusher");
 var handle;
 var handles = new Map();
 
-//send random
-// function startStream(eventId) {
-//     handle = setInterval(() => {
-//         coordinates = [{ lat: 33.42 + _.random(0, 1, true), long: -111.94 + _.random(0, 1, true), name: 'Shilpa', url: "abc" },
-//         { lat: 33.42 + _.random(0, 1, true), long: -111.94 + _.random(0, 1, true), name: 'Shilpa', url: "abc" },
-//         { lat: 33.42 + _.random(0, 1, true), long: -111.94 + _.random(0, 1, true), name: 'Shilpa', url: "abc" },
-//         { lat: 33.42 + _.random(0, 1, true), long: -111.94 + _.random(0, 1, true), name: 'Shilpa', url: "abc" }]
-//         send('my-rider-tracker', 'my-event', coordinates)
-//     }, 1000);
-//     handles.set("event_" + eventId + "_channel", handle);
-//     console.log("stream started");
-//     console.log("map size " + handles.size);
-// }
-
-function startStream(eventId) {
-    users = new Array();
-    Event.findById(eventId, function (err, event) {
-        users = event.participants;
-        handle = setInterval(() => {
-            coordinates = [];
-            //[{ id: "5d96e4e1e78f0b615d85cf34", name: "Shilpa" }]
-            getCoordinatesFunction(users, eventId).then((res) => {
-                coordinates = res;
-                console.log("latest outside are " + JSON.stringify(coordinates));
-                console.log("latest outside size " + coordinates.length);
-                send('my-rider-tracker', 'my-event', coordinates);
-                coordinates = [];
-            })
-        }, 5000);
-        handles.set("event_" + eventId + "_channel", handle);
-        console.log("stream started");
-        console.log("map size " + handles.size);
-    });
-}
-
-function stopStream(eventId) {
-    var handle = "event_" + eventId + "_channel";
-    clearInterval(handles.get(handle));
-    if (handles.has(handle)) {
-        handles.delete(handle)
-    }
-    console.log("stream stopped");
-    console.log("map size " + handles.size);
-
-}
-
-var getCoordinatesFunction = function getCoordinates(users, eventId) {
-    return new Promise(function (resolve, reject) {
-        latestCoordinates = new Array();
-        count = 0;
-        users.forEach((user) => {
-            console.log("inside foreach");
-            promisefun(user, eventId).then((res) => {
-                console.log("ggggg " + JSON.stringify(res));
-                latestCoordinates.push(res);
-                count++;
-                console.log("count is " + count);
-                if (count == users.length) {
-                    console.log("resolving " + latestCoordinates);
-                    resolve(latestCoordinates);
-                }
-            });
-        })
-    })
+ function startStream(){
+    handle =  setInterval(() => {
+        
+        coordinates = [{lat:33.42+ _.random(0, 0.0001, true),long:-111.94+ _.random(0, 0.0001, true),name: 'Mark', url: 'https://content.fortune.com/wp-content/uploads/2018/07/gettyimages-961697338.jpg'},{lat:33.42+ _.random(0, 0.0001, true),long:-111.94+ _.random(0, 0.0001, true), name: 'Douglas Johnson', url: 'https://qph.fs.quoracdn.net/main-qimg-8c5ea2930025b21f9a394cf0a3b95759'},{lat:33.42+ _.random(0, 0.0001, true),long:-111.94+ _.random(0, 0.0001, true),name: 'Shilpa', url: 'https://qodebrisbane.com/wp-content/uploads/2019/07/This-is-not-a-person-2-1.jpeg'},{lat:33.42+ _.random(0, 0.0001, true),long:-111.94+ _.random(0, 0.0001, true),name: 'Matt', url: 'https://upload.wikimedia.org/wikipedia/en/thumb/d/da/Matt_LeBlanc_as_Joey_Tribbiani.jpg/220px-Matt_LeBlanc_as_Joey_Tribbiani.jpg'}]
+        send('my-rider-tracker','my-event',coordinates)    
+    }, 1000);
 }
 
 var promisefun = function again(user, eventId) {
