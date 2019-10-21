@@ -67,3 +67,9 @@
   margin-top: 5px;
   color:red;
 }
+
+.rt-signup-link button{
+  text-transform: none !important;
+  margin: 0px !important;
+  padding: 0px !important;
+}

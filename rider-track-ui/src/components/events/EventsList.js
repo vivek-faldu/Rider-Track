@@ -65,7 +65,7 @@ const EventsList = () => {
 
     useEffect(() => {
         fetchData();
-    }, [events]);
+    }, []);
 
     return (
       <Card className="rt-events-card">
@@ -104,7 +104,6 @@ const EventsList = () => {
                     eventDescription={el.event_description}
                     eventDate={() => {
                       const vara = el.date_time;
-                      console.log(vara);
                       return vara;
                     }}
                   />

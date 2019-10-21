@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { EVENT_DETAIL_PATH, EVENT_REGISTRATION_PATH } from '../../RouteConstants';
 import { UPCOMING_EVENTS } from './EventsConstants';
 import Login from '../authentication/Login';
+import { cancelLoginAttempt } from '../../actions/authenticationAction';
 
 
 /**
@@ -26,10 +27,16 @@ class EventListItem extends Component {
   }
 
   UNSAFE_componentWillReceiveProps = (newProps) => {
+    console.log(newProps);
     if (newProps.authentication) {
       this.setState(({
         isLoggedIn: newProps.authentication.isAuthenticated,
       }));
+    }
+    if (newProps.authentication.loginAttemptCancelled) {
+      this.setState({
+        triedToRegister: false,
+      });
     }
   }
 
@@ -77,7 +84,6 @@ class EventListItem extends Component {
               ? (
                 <Login
                   openDialog
-                  redirectPath={EVENT_REGISTRATION_PATH.replace(':id', this.props.eventid)}
                 />
                 ) : null }
           </Link>
@@ -89,6 +95,7 @@ class EventListItem extends Component {
 }
 
 EventListItem.PropTypes = {
+  cancelLoginAttempt: PropTypes.object.isRequired,
   authentication: PropTypes.object.isRequired,
 };
 
@@ -96,4 +103,4 @@ const mapState = (state) => ({
   authentication: state.authentication,
 });
 
-export default connect(mapState)(EventListItem);
+export default connect(mapState, { cancelLoginAttempt })(EventListItem);

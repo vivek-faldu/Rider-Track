@@ -21,7 +21,6 @@ import withWidth from '@material-ui/core/withWidth';
 import Login from '../authentication/Login';
 import Register from '../authentication/Register';
 import { PARTICIPANT_HISTORY, HOME_ROUTE, EVENT_CREATION_PATH } from '../../RouteConstants';
-import store from '../../store';
 import Logout from '../authentication/Logout';
 
 class Header extends Component {
@@ -33,10 +32,13 @@ class Header extends Component {
   }
 
   UNSAFE_componentWillReceiveProps = (newProps) => {
-    this.setState({
-      isLoggedIn: newProps.authentication.isAuthenticated,
-    });
+    if (newProps.authentication.isAuthenticated) {
+      this.setState({
+        isLoggedIn: newProps.authentication.isAuthenticated,
+      });
+    }
   }
+
 
   render() {
     return (
@@ -47,7 +49,7 @@ class Header extends Component {
         </Grid>
         <Grid container alignItems="center" justify="center" className="nav_bar">
           <Grid md={12} lg={2} item>
-            <Button className="home_button">Rider Track</Button>
+            <Button className="home_button" onClick={this.handleLogoClick}>Rider Track</Button>
           </Grid>
           <Grid item md={12} lg={8} r>
             <Link href={HOME_ROUTE}>
@@ -89,7 +91,6 @@ class Header extends Component {
       </div>
     );
   }
-  
 }
 
 Header.PropTypes = {
