@@ -24,15 +24,15 @@ import { PARTICIPANT_HISTORY, HOME_ROUTE, EVENT_CREATION_PATH } from '../../Rout
 import Logout from '../authentication/Logout';
 
 class Header extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      isLoggedIn: false
+      isLoggedIn: this.props.authentication.isAuthenticated,
     };
   }
 
   UNSAFE_componentWillReceiveProps = (newProps) => {
-    if (newProps.authentication.isAuthenticated) {
+    if (newProps.authentication && newProps.authentication.isAuthenticated) {
       this.setState({
         isLoggedIn: newProps.authentication.isAuthenticated,
       });
@@ -41,6 +41,7 @@ class Header extends Component {
 
 
   render() {
+    
     return (
       <div>
         <Grid container alignItems="center" className="country_bar">

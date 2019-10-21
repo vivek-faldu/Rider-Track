@@ -11,7 +11,7 @@ class Logout extends Component {
     handleLogout = (event) => {
         event.preventDefault();
 
-        this.props.logoutUser(this.props.history);
+        this.props.logoutUser();
     }
 
     render() {
