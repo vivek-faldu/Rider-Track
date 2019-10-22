@@ -23,16 +23,14 @@ function RegisteredEventDetail({ match }) {
   const [details, setDetails] = useState({})
 
   useEffect(() => {
-
     async function fetchData() {
       const res = await fetch('http://localhost:4241/api/user/eventdetail?userid=5d96e4e1e78f0b615d85cf34&eventid=' + match.params.id);
       res.json()
         .then(res => setDetails(res))
         .catch(err => setErrors(err));
     }
-
     fetchData();
-  });
+  }, []);
 
   return (
     <Grid container className="event_layout" direction="row">
