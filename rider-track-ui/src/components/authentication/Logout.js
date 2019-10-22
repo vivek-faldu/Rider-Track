@@ -9,8 +9,6 @@ import { logoutUser } from '../../actions/authenticationAction';
 class Logout extends Component {
     
     handleLogout = (event) => {
-        event.preventDefault();
-
         this.props.logoutUser();
     }
 

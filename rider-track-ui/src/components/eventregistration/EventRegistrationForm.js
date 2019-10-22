@@ -7,7 +7,7 @@
 
 import React, { Component } from 'react';
 
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from '@material-ui/core/styles';
 import {
   Typography,
   TextField,
@@ -18,20 +18,46 @@ import {
   InputLabel,
   Snackbar,
   IconButton,
-  FormHelperText
-} from "@material-ui/core";
-import EventRegistration from "./EventRegistration";
-export default class EventRegistrationForm extends Component {
-  eventid;
-  componentDidMount() {
-    const { handle } = this.props.match.params
-    this.eventid = handle;
-    console.log(this.eventid);
-  }
-  registerHandler = async (content) => {
-    console.log(this.props.match.params);
+  FormHelperText,
+} from '@material-ui/core';
+import EventRegistration from './EventRegistration';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-    const res = await fetch('http://localhost:4241/api/events/' + this.props.match.params.id, {
+
+class EventRegistrationForm extends Component {
+  eventid;
+
+  constructor(props) {
+    super(props);
+    console.log(this.props.authentication);
+    this.state = {
+      open: false,
+      name: this.getName(),
+      nick_name: '',
+      email_id: this.getEmail(),
+      device_id: '',
+      country: '',
+      timezone: '',
+      provider: '',
+    };
+    console.log(this.state)
+  }
+
+  componentDidMount() {
+    const { handle } = this.props.match.params;
+    this.eventid = handle;
+  }
+
+  UNSAFE_componentWillReceiveProps = (newProps) => {
+    if(newProps.authentication.isAuthenticated) {
+      this.setName(newProps.authentication.user.username);
+      this.setEmail(newProps.authentication.user.email);
+    }
+  }
+
+  registerHandler = async (content) => {
+    const res = await fetch(`http://localhost:4241/api/events/${  this.props.match.params.id}`, {
       method: 'PUT',
       headers: {
         Accept: 'application/json',
@@ -44,89 +70,91 @@ export default class EventRegistrationForm extends Component {
     this.handleOpen();
     if (response.status === 200) {
       this.handleOpen();
-
     }
   }
 
   onSubmit = (event) => {
     event.preventDefault();
     const {
-      name, nick_name, email_id, device_id, country, timezone, provider
+      name, nick_name, email_id, device_id, country, timezone, provider,
     } = this.state;
 
     const body = {
-      userId: "5d96e4e1e78f0b615d85cf34",
-      name: name,
-      nick_name: nick_name,
-      email_id: email_id,
-      device_id: device_id,
-      country: country,
-      timezone: timezone,
-      provider: "Mapprogress"
+      userId: '5d96e4e1e78f0b615d85cf34',
+      name,
+      nick_name,
+      email_id,
+      device_id,
+      country,
+      timezone,
+      provider: 'Mapprogress',
     };
-
     this.registerHandler(body);
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      open: false,
-      name: '',
-      nick_name: '',
-      email_id: '',
-      device_id: '',
-      country: '',
-      timezone: '',
-      provider: ''
-    };
-  }
   setName = (name) => {
     this.setState({ name });
   }
+
+  getName = () => {
+    return this.props.authentication.isAuthenticated? this.props.authentication.user.username : '';
+  };
+
   setNickName = (nick_name) => {
     this.setState({ nick_name });
   }
+
   setEmail = (email_id) => {
     this.setState({ email_id });
   }
+
+  getEmail = () => {
+    return this.props.authentication.isAuthenticated? this.props.authentication.user.email : '';
+  };
+
   setDeviceId = (device_id) => {
     this.setState({ device_id });
   }
+
   setCountry = (country) => {
     this.setState({ country });
   }
+
   setTimezone = (timezone) => {
     this.setState({ timezone });
   }
+
   setProvider = (provider) => {
     this.setState({ provider });
   }
+
   handleOpen = () => {
     this.setState({ open: true });
   }
+
   handleClose = () => {
     this.setState({ open: false });
   }
+
   render() {
     const {
       name,
-      open
+      open,
     } = this.state;
     return (
       <Grid
         style={{
-          border: "solid",
-          borderWidth: "3px",
-          margin: "20px",
-          height: "1000px"
+          border: 'solid',
+          borderWidth: '3px',
+          margin: '20px',
+          height: '1000px',
         }}
       >
         <Grid item xs={12}>
           <Typography
             variant="h5"
             align="center"
-            style={{ padding: "20px" }}
+            style={{ padding: '20px' }}
             gutterBottom
           >
             Event Registration
@@ -140,12 +168,13 @@ export default class EventRegistrationForm extends Component {
                 <TextField
                   id="fullname"
                   label="Participant full name"
-                  value={name}
+                  value={this.state.name}
                   InputLabelProps={{
-                    shrink: true
+                    shrink: true,
                   }}
                   onChange={(event) => { this.setName(event.target.value); }}
                   margin="normal"
+                  disabled
                 />
               </Grid>
               <Grid item xs={12}>
@@ -155,7 +184,7 @@ export default class EventRegistrationForm extends Component {
                   // className={classes.textField}
                   // value={eventName}
                   InputLabelProps={{
-                    shrink: true
+                    shrink: true,
                   }}
                   onChange={(event) => { this.setNickName(event.target.value); }}
                   margin="normal"
@@ -166,12 +195,13 @@ export default class EventRegistrationForm extends Component {
                   id="emailId"
                   label="Email id"
                   // className={classes.textField}
-                  // value={eventPlace}
+                  value={this.state.email_id}
                   onChange={(event) => { this.setEmail(event.target.value); }}
                   InputLabelProps={{
-                    shrink: true
+                    shrink: true,
                   }}
                   margin="normal"
+                  disabled
                 />
               </Grid>
               <Grid item xs={12}>
@@ -182,7 +212,7 @@ export default class EventRegistrationForm extends Component {
                   // value={eventPlace}
                   onChange={(event) => { this.setDeviceId(event.target.value); }}
                   InputLabelProps={{
-                    shrink: true
+                    shrink: true,
                   }}
                   margin="normal"
                 />
@@ -195,7 +225,7 @@ export default class EventRegistrationForm extends Component {
                   // value={eventPlace}
                   onChange={(event) => { this.setCountry(event.target.value); }}
                   InputLabelProps={{
-                    shrink: true
+                    shrink: true,
                   }}
                   margin="normal"
                 />
@@ -208,7 +238,7 @@ export default class EventRegistrationForm extends Component {
                   // className={classes.textField}
                   // value={eventMaxParticipant}
                   InputLabelProps={{
-                    shrink: true
+                    shrink: true,
                   }}
                   onChange={(event) => { this.setTimezone(event.target.value); }}
 
@@ -270,7 +300,17 @@ export default class EventRegistrationForm extends Component {
             />,
           ]}
         />
-      </Grid >
+      </Grid>
     );
   }
 }
+
+EventRegistrationForm.PropTypes = {
+  authentication: PropTypes.func.isRequired,
+};
+
+const mapState = (state) => ({
+  authentication: state.authentication,
+});
+
+export default connect(mapState)(EventRegistrationForm);

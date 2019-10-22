@@ -53,9 +53,10 @@ export const loginUser = (userData) => (dispatch) => {
     });
 };
 
-export const logoutUser = (history) => (dispatch) => {
+export const logoutUser = () => (dispatch) => {
     localStorage.removeItem('jwtToken');
     dispatch(updateCurrentUser({}));
+    setTimeout(() => {}, 1000);
     window.location.href = HOME_ROUTE;
 };
 

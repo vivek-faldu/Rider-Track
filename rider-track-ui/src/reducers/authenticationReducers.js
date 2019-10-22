@@ -33,7 +33,7 @@ const authenticationReducer = (state = defaultState, action) => {
         case REGISTER_USER:
             return {
                 ...state,
-                registrationComplete: action.payload
+                registrationComplete: action.payload,
             };
         case CANCEL_LOGIN_ATTEMPT:
             return {

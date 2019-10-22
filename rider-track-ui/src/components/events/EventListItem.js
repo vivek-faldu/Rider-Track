@@ -27,7 +27,6 @@ class EventListItem extends Component {
   }
 
   UNSAFE_componentWillReceiveProps = (newProps) => {
-    console.log(newProps);
     if (newProps.authentication) {
       this.setState(({
         isLoggedIn: newProps.authentication.isAuthenticated,
