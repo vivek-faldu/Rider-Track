@@ -16,9 +16,16 @@ router.route("/:id").put(bodyParser, (req, res) => {
   fetchUserEvents(req.params.id).then(function (events) {
     fetchUser(events.user_id).then(function (user) {
       fetchLiveUserEvent(user._id, user.live_event).then(function (live) {
-        console.log(live.checkpoints);
-        live.checkpoints.push(req.body.checkpoints);
-        return res.json(live);
+        var checks = req.body.checkpoints;
+        live.checkpoints.push({lat: checks.lat, long: checks.long, timestamp: checks.timestamp});
+        live.save().then(user_event => {
+          res.status(200).json({
+            status: 200,
+            event: "Checkpoints added successfully"
+          });
+        }).catch(err => {
+            res.status(400).send(err);
+        });
       })
     });
   })
