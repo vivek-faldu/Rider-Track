@@ -1,6 +1,6 @@
 /**
  * Author: Janani Thiagarjan
- * Modified by: Shilpa Bhat 
+ * Modified by: Shilpa Bhat
  * Task: Backend project setup
  * Task no: 35
  * Date: 09/17/2019
@@ -19,9 +19,10 @@ const PORT = process.env.PORT || 4241;
 const eventsRoute = require("./routes/events");
 const userRoute = require("./routes/user");
 const authenticationRoute = require("./routes/authentication");
+const userEventsRoute = require("./routes/user_events");
 
 // middleware
-app.use( 
+app.use(
     bodyParser.urlencoded({
         extended: false
     })
@@ -37,6 +38,7 @@ app.listen(PORT, () => {
 app.use("/api/events", eventsRoute);
 app.use("/api/user", userRoute);
 app.use("/api/authentication", authenticationRoute);
+app.use("/api/user_events", userEventsRoute);
 
 mongoose.connect('mongodb+srv://root-user:admin@softwarefactory-erwi0.mongodb.net/test?retryWrites=true&w=majority', {
         dbName: 'tracker',
