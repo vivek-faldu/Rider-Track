@@ -59,11 +59,8 @@ export default class LiveEventMap extends Component {
   }
 
   updateMarker = (coordinates) => {
-    let { viewport } = this.state;
-    viewport = { ...viewport, latitude: coordinates[0].lat, longitude: coordinates[0].long };
     this.setState({
       coordinates,
-      // viewport,
     });
   }
 
@@ -179,7 +176,7 @@ getpopup = () => {
         ref={(map) => this.myRef = map}
         {...viewport}
         width="100%"
-        height="400px"
+        height={400}
         mapStyle="mapbox://styles/mapbox/dark-v9"
         // eslint-disable-next-line no-underscore-dangle
         onViewportChange={this._onViewportChange}
