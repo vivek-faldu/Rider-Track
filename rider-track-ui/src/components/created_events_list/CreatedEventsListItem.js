@@ -73,12 +73,12 @@ export default class CreatedEventsListItem extends Component {
                         {this.props.eventStatus}
                     </p>
                 </div>
-                <div>
-                    <Button type="button" variant="contained" onClick={() => { this.start(this.props.eventId); }}>Start</Button>
-                </div>
-                <div>
-                    <Button type="button" variant="contained" onClick={() => { this.stop(this.props.eventId); }}>Stop</Button>
-                </div>
+                {this.props.eventStatus === 'Live' ?
+                    <div>
+                        <Button type="button" variant="contained" onClick={() => { this.start(this.props.eventId); }}>Start</Button>
+
+                        <Button type="button" variant="contained" onClick={() => { this.stop(this.props.eventId); }}>Stop</Button>
+                    </div> : null}
             </Box>
         );
     }
