@@ -1,14 +1,14 @@
 /**
 * Author: Shaunak Shah
-* Date: 10/19/2019
-* Task: 97
+* Date: 10/23/2019
+* Task: 99
 * Description: server/adapter to read data from an end device.
-* Currently just a dummy script to make sure that the client is working.
-* will connect API on receive so that the data goes to DB.
+* Added the put operation to add the data to the API for every device.
 */
 
 // Include Nodejs' net module.
 const Net = require('net');
+const https = require('http')
 // The port on which the server is listening.
 const port = 8080;
 
@@ -32,7 +32,8 @@ server.on('connection', function(socket) {
 
     // The server can also receive data from the client by reading from its socket.
     socket.on('data', function(chunk) {
-        console.log('Data received from client:'+chunk.toString());
+        var message = chunk.toString().split(',');
+        makePut(message);
     });
 
     // When the client requests to end the TCP connection with the server, the server
@@ -46,3 +47,39 @@ server.on('connection', function(socket) {
         console.log(`Error: ${err}`);
     });
 });
+
+function makePut(mes){
+	const data = JSON.stringify({
+		"checkpoints":
+		{
+		    "lat": mes[1],
+		    "long": mes[2],
+		    "timestamp": new Date()
+		}
+	})
+
+	const options = {
+	  hostname: '127.0.0.1',
+	  port: 4241,
+	  path: '/api/user_events/'+mes[0],
+	  method: 'PUT',
+	  headers: {
+	    'Content-Type': 'application/json',
+	    'Content-Length': data.length
+	  }
+	}
+
+	const req = https.request(options, (res) => {
+
+	  res.on('data', (d) => {
+	    process.stdout.write(d)
+	  })
+	})
+
+	req.on('error', (error) => {
+	  console.error(error)
+	})
+
+	req.write(data)
+	req.end()
+}
