@@ -11,6 +11,10 @@ const Event = require('../models/events');
 const User = require("../models/users");
 const User_Event = require("../models/user_events");
 
+var {
+    startStream,
+    stopStream
+} = require("../services/stream");
 function startEvent(req, res) {
     Event.findById(req.params.id, function (err, event) {
         if (err) {
@@ -25,6 +29,7 @@ function startEvent(req, res) {
                     User.findById(participant.id, function (err, user) {
                         user.live_event = req.params.id;
                         user.save().then(() => {
+                            startStream(req.params.id);
                             res.status(200).json({
                                 status: 200,
                                 event: "Started successfully"
@@ -45,23 +50,27 @@ function stopEvent(req, res) {
         if (err) {
             send(err);
         }
-        participants = new Array();
-        participants = event.participants;
-        if (participants.length > 0) {
-            participants.forEach(participant => {
-                User.findById(participant.id, function (err, user) {
-                    user.live_event = "";
-                    user.save().then(() => {
-                        res.status(200).json({
-                            status: 200,
-                            event: "Stopped successfully"
-                        });
-                    }).catch(() => {
-                        res.status(400).send("Failed to stop the event");
+        event.status = "Complete";
+        event.save().then(() => {
+            participants = new Array();
+            participants = event.participants;
+            if (participants.length > 0) {
+                participants.forEach(participant => {
+                    User.findById(participant.id, function (err, user) {
+                        user.live_event = "";
+                        user.save().then(() => {
+                            stopStream(req.params.id);
+                            res.status(200).json({
+                                status: 200,
+                                event: "Stopped successfully"
+                            });
+                        }).catch(() => {
+                            res.status(400).send("Failed to stop the event");
+                        })
                     })
-                })
-            });
-        }
+                });
+            }
+        })
     })
 }
 

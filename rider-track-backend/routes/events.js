@@ -22,13 +22,13 @@ var {
 
 var bodyParser = require('body-parser').json();
 
-router.get("/start", (req, res) => {
-    startStream()
+router.get("/start/:id", (req, res) => {
+    startStream(req.params.id)
     res.send("stream started")
 });
 
-router.get("/stop", (req, res) => {
-    stopStream()
+router.get("/stop/:id", (req, res) => {
+    stopStream(req.params.id)
     res.send("stream stopped")
 });
 
