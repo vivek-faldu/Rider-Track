@@ -49,6 +49,7 @@ router.get("/eventdetail", async (req, res) => {
         result.date_time = myEvent.date_time;
         result.duration = myEvent.duration;
         result.status = myEvent.status;
+        result.max_participant = myEvent.max_participant;
         return fetchUserCheckpoints(uid, eventId).then(function (userEvent) {
             result.checkpoints = userEvent.checkpoints;
 
@@ -89,6 +90,8 @@ function fetchEventDetail(eventId) {
         myEvent.event_description = event.event_description;
         myEvent.date_time = event.date_time;
         myEvent.duration = event.duration;
+        myEvent.status = event.status;
+        myEvent.max_participant = event.max_participant;
         return myEvent;
     })
 }

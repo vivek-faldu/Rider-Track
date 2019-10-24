@@ -32,7 +32,7 @@ export default class CreatedEventsListItem extends Component {
     }
 
     stop = async (eventId) => {
-        const url = 'http://localhost:4241/api/events/start/' + eventId;
+        const url = 'http://localhost:4241/api/events/stop/' + eventId;
 
         const res = await fetch('http://localhost:4241/api/events/stop', {
             method: 'GET', //Update to PUT
@@ -49,6 +49,17 @@ export default class CreatedEventsListItem extends Component {
     }
 
     render() {
+        let isLive = null;
+
+        if (this.props.eventStatus === 'Live') {
+            isLive = (
+                <div>
+                    <Button type="button" variant="contained" onClick={() => { this.start(this.props.eventId); }}>Start</Button>
+
+                    <Button type="button" variant="contained" onClick={() => { this.stop(this.props.eventId); }}>Stop</Button>
+                </div>
+            )
+        }
         return (
             <Box className="row">
                 <div className="col-md-2 rt-events-list-item-text">
@@ -73,12 +84,7 @@ export default class CreatedEventsListItem extends Component {
                         {this.props.eventStatus}
                     </p>
                 </div>
-                {this.props.eventStatus === 'Live' ?
-                    <div>
-                        <Button type="button" variant="contained" onClick={() => { this.start(this.props.eventId); }}>Start</Button>
-
-                        <Button type="button" variant="contained" onClick={() => { this.stop(this.props.eventId); }}>Stop</Button>
-                    </div> : null}
+                {isLive}
             </Box>
         );
     }
