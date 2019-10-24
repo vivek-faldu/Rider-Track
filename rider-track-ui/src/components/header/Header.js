@@ -32,7 +32,7 @@ class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoggedIn: false,
+      isLoggedIn: this.props.authentication.isAuthenticated,
       anchorEl: null
     };
   }
@@ -45,12 +45,6 @@ class Header extends Component {
   };
 
   handleClose = () => {
-    this.setState({
-      anchorEl: null,
-    })
-  };
-
-  UNSAFE_componentWillReceiveProps = (newProps) => {
     this.setState({
       anchorEl: null,
     })
