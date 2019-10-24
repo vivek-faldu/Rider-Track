@@ -28,7 +28,7 @@ let user_events = new Schema({
         required: false
     },
     device_id: {
-        type: String,
+        type: Number,
         required: false
     },
     country: {
@@ -41,7 +41,7 @@ let user_events = new Schema({
     },
     provider: {
         type: String,
-        required: true
+        required: false
     }
 });
 
