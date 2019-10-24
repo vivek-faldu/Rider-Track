@@ -9,6 +9,8 @@ import DirectionsRunIcon from '@material-ui/icons/DirectionsRun';
 import WatchIcon from '@material-ui/icons/Watch';
 import EventNoteIcon from '@material-ui/icons/EventNote';
 import map from '../../assets/map.png';
+import RegisteredEventDetailMap from './RegisteredEventDetailMap';
+
 
 /* import PersonIcon from '@material-ui/icons/Person';
 import List from '@material-ui/core/List';
@@ -54,7 +56,7 @@ function RegisteredEventDetail({ match }) {
             </Grid>
             <Grid item>
               <PeopleIcon />
-              <p>120</p>
+              <p>{details.max_participant}</p>
             </Grid>
           </Grid>
           <br />
@@ -69,14 +71,16 @@ function RegisteredEventDetail({ match }) {
             </Grid>
             <Grid item>
               <EventNoteIcon />
-              <p>Completed</p>
+              <p>{details.status}</p>
             </Grid>
           </Grid>
           <br />
         </Card>
       </Grid>
       <Grid item md={12} lg={8}>
-        <img className="map_image" img src={map} alt="map" />
+        {details.status === 'Completed'
+          ? <RegisteredEventDetailMap checkpoints={details.checkpoints} />
+          : <img className="map_image" img src={map} alt="map" />}
       </Grid>
     </Grid>
   );
