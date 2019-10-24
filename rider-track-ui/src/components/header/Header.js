@@ -51,6 +51,12 @@ class Header extends Component {
   };
 
   UNSAFE_componentWillReceiveProps = (newProps) => {
+    this.setState({
+      anchorEl: null,
+    })
+  };
+
+  UNSAFE_componentWillReceiveProps = (newProps) => {
     if (newProps.authentication && newProps.authentication.isAuthenticated) {
       this.setState({
         isLoggedIn: newProps.authentication.isAuthenticated,
