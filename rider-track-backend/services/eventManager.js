@@ -29,7 +29,6 @@ function startEvent(req, res) {
                     User.findById(participant.id, function (err, user) {
                         user.live_event = req.params.id;
                         user.save().then(() => {
-                            startStream(req.params.id);
                             res.status(200).json({
                                 status: 200,
                                 event: "Started successfully"
@@ -43,6 +42,8 @@ function startEvent(req, res) {
             }
         })
     })
+    startStream(req.params.id);
+
 }
 
 function stopEvent(req, res) {
