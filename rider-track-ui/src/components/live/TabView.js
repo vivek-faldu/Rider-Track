@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TabView() {
+export default function TabView(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -78,7 +78,7 @@ export default function TabView() {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          <LiveEventMap />
+          <LiveEventMap eventid={props.eventid} />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           <ProgressTable />
