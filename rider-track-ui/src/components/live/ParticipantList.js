@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -7,6 +7,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,55 +20,33 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PaticipantList() {
+export default function PaticipantList(props) {
   const classes = useStyles();
-
+  // const [userList] = useState([{ name: 'Vivek', url: 'https://qodebrisbane.com/wp-content/uploads/2019/07/This-is-not-a-person-2-1.jpeg' }, { name: 'Matt', url: 'https://qodebrisbane.com/wp-content/uploads/2019/07/This-is-not-a-person-2-1.jpeg' }]);
+  const { userList } = props;
   return (
-    <List className={classes.root}>
+    <div>
+      <div><Typography color="textSecondary">Participants list</Typography></div>
 
-      <ListItem alignItems="flex-start">
-        <ListItemAvatar>
-          <Avatar alt="Travis Howard" src="https://qodebrisbane.com/wp-content/uploads/2019/07/This-is-not-a-person-2-1.jpeg" />
-        </ListItemAvatar>
-        <ListItemText
-          primary="Summer BBQ"
-          secondary={(
+      <Paper style={{ maxHeight: 400, overflow: 'auto' }}>
+        <List dense className={classes.root}>
+
+
+          {userList.map((element) => (
             <div>
-              <Typography
-                component="span"
-                variant="body2"
-                className={classes.inline}
-                color="textPrimary"
-              >
-                to Scott, Alex, Jennifer
-              </Typography>
-               — Wish I could come, but I'm out of town this…
+              <ListItem alignItems="center">
+                <ListItemAvatar>
+                  <Avatar alt="Travis Howard" src={element.url} />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={element.name}
+                />
+              </ListItem>
+              <Divider variant="inset" component="li" />
             </div>
-          )}
-        />
-      </ListItem>
-      <Divider variant="inset" component="li" />
-      <ListItem alignItems="flex-start">
-        <ListItemAvatar>
-          <Avatar alt="Cindy Baker" src="https://qodebrisbane.com/wp-content/uploads/2019/07/This-is-not-a-person-2-1.jpeg" />
-        </ListItemAvatar>
-        <ListItemText
-          primary="Oui Oui"
-          secondary={(
-            <div>
-              <Typography
-                component="span"
-                variant="body2"
-                className={classes.inline}
-                color="textPrimary"
-              >
-                Sandra Adams
-              </Typography>
-               — Do you have Paris recommendations? Have you ever…
-            </div>
-          )}
-        />
-      </ListItem>
-    </List>
+      ))}
+        </List>
+      </Paper>
+    </div>
   );
 }

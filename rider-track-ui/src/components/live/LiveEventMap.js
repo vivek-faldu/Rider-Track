@@ -48,11 +48,11 @@ export default class LiveEventMap extends Component {
   }
 
   unsubscribe = () => {
-    pusher.unsubscribe('my-rider-tracker');
+    pusher.unsubscribe(`event_${this.props.eventid}_channel`);
   }
 
   initPusher = () => {
-    const channel = pusher.subscribe('my-rider-tracker');
+    const channel = pusher.subscribe(`event_${this.props.eventid}_channel`);
     channel.bind('my-event', (data) => {
       this.updateMarker(data.coordinates);
     });
