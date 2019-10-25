@@ -35,7 +35,7 @@ function startStream(eventId) {
         handle = setInterval(() => {
             coordinates = [];
             //[{ id: "5d96e4e1e78f0b615d85cf34", name: "Shilpa" }]
-            getCoordinatesFunction([{ id: "5d96e4e1e78f0b615d85cf34", name: "Shilpa" }], eventId).then((res) => {
+            getCoordinatesFunction(users, eventId).then((res) => {
                 coordinates = res;
                 console.log("latest outside are " + JSON.stringify(coordinates));
                 console.log("latest outside size " + coordinates.length);
@@ -89,7 +89,7 @@ var promisefun = function again(user, eventId) {
             ob.lat = cur.lat;
             ob.long = cur.long;
             ob.name = user.name;
-            ob.url = "abc";
+            ob.url = "https://content.fortune.com/wp-content/uploads/2018/07/gettyimages-961697338.jpg";
             resolve(ob);
         })
     });
