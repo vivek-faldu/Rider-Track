@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import {
- Card, Divider, FormControl, NativeSelect, FormHelperText 
+ Card, Divider, FormControl, NativeSelect, FormHelperText
 } from '@material-ui/core';
 import './events.css';
 import { LIVE_EVENTS, UPCOMING_EVENTS, COMPLETED_EVENTS } from './EventsConstants';
@@ -34,11 +34,14 @@ const EventsList = () => {
               const liveEvents = [];
               const upcomingEvents = [];
               const completedEvents = [];
-              for (let i = 0; i < 3; i++) {
-                completedEvents[i] = result[i];
-              }
-              for (let i = 3; i < result.length; i++) {
-                  upcomingEvents[i - 3] = result[i];
+              for (let i = 0; i < result.length; i++) {
+                if (result[i].status == 'Live'){
+                  liveEvents.push(result[i]);
+                } else if (result[i].status == 'Upcoming') {
+                  upcomingEvents.push(result[i]);
+                } else {
+                  completedEvents.push(result[i]);
+                }
               }
               setEvents({
                   live: liveEvents,
