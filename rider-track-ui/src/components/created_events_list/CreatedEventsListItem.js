@@ -25,10 +25,7 @@ export default class CreatedEventsListItem extends Component {
             // body: JSON.stringify(content),
         });
 
-        const response = await res.json();
-        if (response.status === 200) {
-            this.handleOpen();
-        }
+        await res.json();
     }
 
     stop = async (eventId) => {
@@ -42,24 +39,29 @@ export default class CreatedEventsListItem extends Component {
             },
             // body: JSON.stringify(content),
         });
-        const response = await res.json();
-        if (response.status === 200) {
-            this.handleOpen();
-        }
+        await res.json();
     }
 
     render() {
         let isLive = null;
+        let isUpcoming = null;
 
         if (this.props.eventStatus === 'Upcoming') {
-            isLive = (
+            isUpcoming = (
                 <div>
                     <Button type="button" variant="contained" onClick={() => { this.start(this.props.eventId); }}>Start</Button>
+                </div>
+            );
+        }
 
+        if (this.props.eventStatus === 'Live') {
+            isLive = (
+                <div>
                     <Button type="button" variant="contained" onClick={() => { this.stop(this.props.eventId); }}>Stop</Button>
                 </div>
             );
         }
+
         return (
             <Box className="row">
                 <div className="col-md-2 rt-events-list-item-text">
@@ -85,6 +87,7 @@ export default class CreatedEventsListItem extends Component {
                     </p>
                 </div>
                 {isLive}
+                {isUpcoming}
             </Box>
         );
     }
