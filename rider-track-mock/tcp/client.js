@@ -21,7 +21,7 @@ csv.parseFile('./spot_users.csv', {headers: true})
 .on('data', data => {
   const mes = data.id+','+data.Latitude+','+data.Longitude;
   client.write(mes);
-  sleep.sleep(data.TD);
+  sleep.sleep(1);
 })
 .on("end", () => {
   client.destroy();
