@@ -80,7 +80,7 @@ class EventRegistrationForm extends Component {
     } = this.state;
 
     const body = {
-      userId: "5d96e5dfbdf1b03cfd044194",
+      userId: this.getUserId(),
       name: name,
       nick_name: nick_name,
       email_id: email_id,
@@ -98,6 +98,10 @@ class EventRegistrationForm extends Component {
 
   getName = () => {
     return this.props.authentication.isAuthenticated ? this.props.authentication.user.username : '';
+  };
+
+  getUserId = () => {
+    return this.props.authentication.isAuthenticated ? this.props.authentication.user.id : '';
   };
 
   setNickName = (nick_name) => {
