@@ -24,7 +24,6 @@ import CreatedEvents from './components/created_events_list/CreatedEvents';
 function App() {
   return (
     <Provider store={store}>
-<<<<<<< HEAD
       <PersistGate loading={<CircularProgress />} persistor={persistor}>
         <div className="App">
           <BrowserRouter>
@@ -45,25 +44,6 @@ function App() {
           </BrowserRouter>
         </div>
       </PersistGate>
-=======
-      <div className="App">
-        <BrowserRouter>
-          <Header />
-          <div>
-            <Switch>
-              <Route exact path={HOME_ROUTE} component={EventsList} />
-              <Route path={EVENT_REGISTRATION_PATH} component={EventRegistrationForm} />
-              <Route path={EVENT_DETAIL_PATH} component={EventsDetail} />
-              <Route path={EVENT_CREATION_PATH} component={EventCreationForm} />
-              <Route path={LIVE_MAP} component={LivePage} />
-              <Route path={PARTICIPANT_HISTORY} component={ParticipantHistory} />
-              <Route path={REGISTERED_EVENT_DETAIL_PATH} component={RegisteredEventDetail} />
-            </Switch>
-          </div>
-          <Footer />
-        </BrowserRouter>
-      </div>
->>>>>>> 7090630fc1deecd06f3815f8d23982dc042c39ef
     </Provider>
   );
 }
