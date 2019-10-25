@@ -56,8 +56,7 @@ export const loginUser = (userData) => (dispatch) => {
 export const logoutUser = () => (dispatch) => {
     localStorage.removeItem('jwtToken');
     dispatch(updateCurrentUser({}));
-    setTimeout(() => {}, 1000);
-    window.location.href = HOME_ROUTE;
+    setTimeout(() => { window.location.href = HOME_ROUTE; }, 250);
 };
 
 export const cancelLoginAttempt = (data) => (dispatch) => {

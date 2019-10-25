@@ -187,7 +187,7 @@ class Register extends Component {
                     <div className="col-md-12">
                       <FormControlLabel
                         control={<Checkbox checked={this.state.is_admin} onChange={this.handleCheckBox} value={this.state.is_admin} />}
-                        label="Are You Administrator?"
+                        label="Are you interested in administrating events?"
                       />
                     </div>
                   </div>

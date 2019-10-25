@@ -51,7 +51,7 @@ class Header extends Component {
   };
 
   UNSAFE_componentWillReceiveProps = (newProps) => {
-    if (newProps.authentication && newProps.authentication.isAuthenticated) {
+    if (newProps.authentication) {
       this.setState({
         isLoggedIn: newProps.authentication.isAuthenticated,
       });
@@ -60,7 +60,7 @@ class Header extends Component {
 
 
   render() {
-
+    
     return (
       <div>
         <Grid container alignItems="center" className="country_bar">
@@ -76,32 +76,39 @@ class Header extends Component {
               <Button className="menu_button" color="inherit">Home</Button>
             </Link>
 
-            {/* <Button className="menu_button" color="inherit">About</Button> */}
-            <Link href={PARTICIPANT_HISTORY}>
-              <Button className="menu_button" color="inherit">My Events</Button>
-            </Link>
-
-            <Button className="menu_button" aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick} >
-              Admin
-            </Button>
-            <Menu
-              id="simple-menu"
-              anchorEl={this.state.anchorEl}
-              keepMounted
-              open={Boolean(this.state.anchorEl)}
-              onClose={this.handleClose}
-            >
-              <MenuItem>
-                <Link href={EVENT_CREATION_PATH}>
-                  <Button color="inherit">Create New Event</Button>
-                </Link>
-              </MenuItem>
-              <MenuItem>
-                <Link href={CREATED_EVENTS}>
-                  <Button color="inherit">My Created Events</Button>
-                </Link>
-              </MenuItem>
-            </Menu>
+            {this.state.isLoggedIn ? 
+            (
+              <Link href={PARTICIPANT_HISTORY}>
+                <Button className="menu_button" color="inherit">My Events</Button>
+              </Link>
+            ):null}
+            
+            {this.state.isLoggedIn && this.props.authentication.user.is_admin ? (
+              <span>
+                <Button className="menu_button" aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick} >
+                  Admin
+                </Button>
+                <Menu
+                  id="simple-menu"
+                  anchorEl={this.state.anchorEl}
+                  keepMounted
+                  open={Boolean(this.state.anchorEl)}
+                  onClose={this.handleClose}
+                >
+                  <MenuItem>
+                    <Link href={EVENT_CREATION_PATH}>
+                      <Button color="inherit">Create New Event</Button>
+                    </Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <Link href={CREATED_EVENTS}>
+                      <Button color="inherit">My Created Events</Button>
+                    </Link>
+                  </MenuItem>
+                </Menu>
+              </span>
+            ) : null}
+            
 
             {this.state.isLoggedIn ? <Logout />
               : (
@@ -114,9 +121,13 @@ class Header extends Component {
           </Grid>
           <Hidden smDown>
             <Grid container alignment="center" justify="center" md={12} lg={2} spacing={3}>
+              { this.state.isLoggedIn? 
+                (
+                  <Grid item className="rt_username">
+                    Hello { this.props.authentication.user.username }
+                  </Grid>
+                ) : null }
               <Grid item>{<Person />}</Grid>
-              <Grid item>{<AddBox />}</Grid>
-              <Grid item>{<Room />}</Grid>
             </Grid>
           </Hidden>
         </Grid>
@@ -124,7 +135,7 @@ class Header extends Component {
           <Grid item xs={12}>
             <Hidden smDown>
               <p>
-                ORGANIZE, PARTICIPATE, TRACK AND SHARE EVENTS! VISUALIZE THE EVENTS AS THEY TAKE PLACE
+                Organise, Participate, Tract And Share Events! Visualize The Events as They Take Place.
               </p>
             </Hidden>
           </Grid>

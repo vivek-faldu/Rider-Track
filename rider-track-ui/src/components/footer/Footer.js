@@ -21,9 +21,9 @@ function Footer() {
       <Hidden mdDown>
         <Grid container item md={4} direction="column" justify="center" alignItems="center">
           <Grid item md={3}><Button className="footer_button" color="inherit">Home</Button></Grid>
-          <Grid item md={3}><Button className="footer_button" color="inherit">ORGANIZERS</Button></Grid>
-          <Grid item md={3}><Button className="footer_button" color="inherit">ABOUT</Button></Grid>
-          <Grid item md={3}><Button className="footer_button" color="inherit">LOGIN</Button></Grid>
+          <Grid item md={3}><Button className="footer_button" color="inherit">Organisers</Button></Grid>
+          <Grid item md={3}><Button className="footer_button" color="inherit">About</Button></Grid>
+          <Grid item md={3}><Button className="footer_button" color="inherit">Login</Button></Grid>
         </Grid>
       </Hidden>
       <Grid item md={4} container direction="row" justify="space-between" alignItems="center">
