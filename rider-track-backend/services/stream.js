@@ -39,7 +39,7 @@ function startStream(eventId) {
                 coordinates = res;
                 console.log("latest outside are " + JSON.stringify(coordinates));
                 console.log("latest outside size " + coordinates.length);
-                send('my-rider-tracker', 'my-event', coordinates);
+                send("event_" + eventId + "_channel", 'my-event', coordinates);
                 coordinates = [];
             })
         }, 5000);
@@ -86,10 +86,10 @@ var promisefun = function again(user, eventId) {
         }).then((curr) => {
             ob = Object();
             cur = curr[0].checkpoints[curr[0].checkpoints.length - 1];
-            ob.lat = cur.lat;
-            ob.long = cur.long;
+            ob.latitude = parseFloat(cur.latitude);
+            ob.longitude = parseFloat(cur.longitude);
             ob.name = user.name;
-            ob.url = "https://content.fortune.com/wp-content/uploads/2018/07/gettyimages-961697338.jpg";
+            ob.url = user.url;
             resolve(ob);
         })
     });

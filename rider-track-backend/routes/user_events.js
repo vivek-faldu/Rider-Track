@@ -17,7 +17,7 @@ router.route("/:id").put(bodyParser, (req, res) => {
     fetchUser(events.user_id).then(function (user) {
       fetchLiveUserEvent(user._id, user.live_event).then(function (live) {
         var checks = req.body.checkpoints;
-        live.checkpoints.push({lat: checks.lat, long: checks.long, timestamp: checks.timestamp});
+        live.checkpoints.push({latitude: checks.lat, longitude: checks.long, timestamp: checks.timestamp});
         live.save().then(user_event => {
           res.status(200).json({
             status: 200,
