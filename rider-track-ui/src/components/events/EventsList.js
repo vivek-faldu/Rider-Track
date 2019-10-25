@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import {
- Card, Divider, FormControl, NativeSelect, FormHelperText
+ Card, Divider, FormControl, NativeSelect, FormHelperText,
 } from '@material-ui/core';
 import './events.css';
 import { LIVE_EVENTS, UPCOMING_EVENTS, COMPLETED_EVENTS } from './EventsConstants';
@@ -35,9 +35,9 @@ const EventsList = () => {
               const upcomingEvents = [];
               const completedEvents = [];
               for (let i = 0; i < result.length; i++) {
-                if (result[i].status == 'Live'){
+                if (result[i].status === 'Live') {
                   liveEvents.push(result[i]);
-                } else if (result[i].status == 'Upcoming') {
+                } else if (result[i].status === 'Upcoming') {
                   upcomingEvents.push(result[i]);
                 } else {
                   completedEvents.push(result[i]);
@@ -48,11 +48,15 @@ const EventsList = () => {
                   upcoming: upcomingEvents,
                   completed: completedEvents,
                 });
+                setState({
+                header: 'Live Events',
+                events: liveEvents,
+              });
           });
     }
 
     const handleEventTypeChange = (name) => (event) => {
-        fetchData();
+        // fetchData();
         console.log(events.live);
         let eventsTemp = events.live;
         if (event.target.value === UPCOMING_EVENTS) {

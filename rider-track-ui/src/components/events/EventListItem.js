@@ -5,8 +5,8 @@ import {
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { EVENT_DETAIL_PATH, EVENT_REGISTRATION_PATH } from '../../RouteConstants';
-import { UPCOMING_EVENTS } from './EventsConstants';
+import { EVENT_DETAIL_PATH, EVENT_REGISTRATION_PATH, LIVE_MAP } from '../../RouteConstants';
+import { UPCOMING_EVENTS, LIVE_EVENTS } from './EventsConstants';
 import Login from '../authentication/Login';
 import { cancelLoginAttempt } from '../../actions/authenticationAction';
 
@@ -58,15 +58,24 @@ class EventListItem extends Component {
         </div>
         <div className="col-md-3 rt-event-list-item-text">
           <Typography>
-        <Link to={EVENT_DETAIL_PATH.replace(':id', this.props.eventid)}>
-          {this.props.eventName}
-        </Link>
-      </Typography>
+
+            {this.props.eventType === LIVE_EVENTS
+        ? (
+          <Link to={LIVE_MAP.replace(':id', this.props.eventid)}>
+            {this.props.eventName}
+          </Link>
+          )
+        : (
+          <Link to={EVENT_DETAIL_PATH.replace(':id', this.props.eventid)}>
+            {this.props.eventName}
+          </Link>
+)}
+          </Typography>
         </div>
         <div className={this.props.eventType === UPCOMING_EVENTS ? 'col-md-5 rt-event-list-item-text' : 'col-md-7 rt-event-list-item-text'}>
           <p>
-        {this.props.eventDescription}
-      </p>
+            {this.props.eventDescription}
+          </p>
         </div>
         {this.props.eventType === UPCOMING_EVENTS
       ? (
@@ -79,7 +88,7 @@ class EventListItem extends Component {
             >
               Register
             </Button>
-            {!this.state.isLoggedIn && this.state.triedToRegister 
+            {!this.state.isLoggedIn && this.state.triedToRegister
               ? (
                 <Login
                   openDialog
