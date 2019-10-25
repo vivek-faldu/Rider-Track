@@ -36,10 +36,11 @@ let events = new Schema({
     max_participant: {
         type: Number
     },
-    checkpoints: [{
-        latitude: Number,
-        longitude: Number
-    }],
+    status: {
+        type: String,
+        default: "Upcoming"
+    },
+    checkpoints: [],
     place: {
         type: String,
         default: null

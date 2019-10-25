@@ -23,8 +23,16 @@ router.get("/events", async (req, res) => {
     return fetchUserEvents(uid).then(function (user) {
         var myEventsList = [];
         myEventsList = user.participated_events;
+        myCreatedEventsList = user.created_events;
+        var result;
         return fetchEventDetails(myEventsList).then(function (events) {
-            return res.json(events);
+            result = {
+                'participated_events': events
+            };
+            return fetchEventDetails(myCreatedEventsList).then(function (events) {
+                result.created_events = events;
+                return res.json(result);
+            })
         })
     })
 });
@@ -40,6 +48,8 @@ router.get("/eventdetail", async (req, res) => {
         result.event_description = myEvent.event_description;
         result.date_time = myEvent.date_time;
         result.duration = myEvent.duration;
+        result.status = myEvent.status;
+        result.max_participant = myEvent.max_participant;
         return fetchUserCheckpoints(uid, eventId).then(function (userEvent) {
             result.checkpoints = userEvent.checkpoints;
 
@@ -80,6 +90,8 @@ function fetchEventDetail(eventId) {
         myEvent.event_description = event.event_description;
         myEvent.date_time = event.date_time;
         myEvent.duration = event.duration;
+        myEvent.status = event.status;
+        myEvent.max_participant = event.max_participant;
         return myEvent;
     })
 }

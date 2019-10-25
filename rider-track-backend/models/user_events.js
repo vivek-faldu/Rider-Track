@@ -19,9 +19,9 @@ let user_events = new Schema({
         required: true
     },
     checkpoints: [{
-        lat: String,
-        long: String,
-        timestamp: String
+        latitude: Number,
+        longitude: Number,
+        timestamp: Date
     }],
     nick_name: {
         type: String,

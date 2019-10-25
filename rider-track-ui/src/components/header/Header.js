@@ -20,16 +20,35 @@ import Hidden from '@material-ui/core/Hidden';
 import withWidth from '@material-ui/core/withWidth';
 import Login from '../authentication/Login';
 import Register from '../authentication/Register';
-import { PARTICIPANT_HISTORY, HOME_ROUTE, EVENT_CREATION_PATH } from '../../RouteConstants';
+import {
+  PARTICIPANT_HISTORY, HOME_ROUTE, EVENT_CREATION_PATH, CREATED_EVENTS,
+} from '../../RouteConstants';
+import store from '../../store';
 import Logout from '../authentication/Logout';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
 class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoggedIn: this.props.authentication.isAuthenticated,
+      anchorEl: null
     };
   }
+
+
+  handleClick = (event) => {
+    this.setState({
+      anchorEl: event.currentTarget,
+    })
+  };
+
+  handleClose = () => {
+    this.setState({
+      anchorEl: null,
+    })
+  };
 
   UNSAFE_componentWillReceiveProps = (newProps) => {
     if (newProps.authentication && newProps.authentication.isAuthenticated) {
@@ -41,7 +60,7 @@ class Header extends Component {
 
 
   render() {
-    
+
     return (
       <div>
         <Grid container alignItems="center" className="country_bar">
@@ -56,19 +75,40 @@ class Header extends Component {
             <Link href={HOME_ROUTE}>
               <Button className="menu_button" color="inherit">Home</Button>
             </Link>
-            <Link href={EVENT_CREATION_PATH}>
-              <Button className="menu_button" color="inherit">Organizers</Button>
-            </Link>
-            <Button className="menu_button" color="inherit">About</Button>
+
+            {/* <Button className="menu_button" color="inherit">About</Button> */}
             <Link href={PARTICIPANT_HISTORY}>
               <Button className="menu_button" color="inherit">My Events</Button>
             </Link>
+
+            <Button className="menu_button" aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick} >
+              Admin
+            </Button>
+            <Menu
+              id="simple-menu"
+              anchorEl={this.state.anchorEl}
+              keepMounted
+              open={Boolean(this.state.anchorEl)}
+              onClose={this.handleClose}
+            >
+              <MenuItem>
+                <Link href={EVENT_CREATION_PATH}>
+                  <Button color="inherit">Create New Event</Button>
+                </Link>
+              </MenuItem>
+              <MenuItem>
+                <Link href={CREATED_EVENTS}>
+                  <Button color="inherit">My Created Events</Button>
+                </Link>
+              </MenuItem>
+            </Menu>
+
             {this.state.isLoggedIn ? <Logout />
-            : (
-              <span>
-                <Login />
-                <Register />
-              </span>
+              : (
+                <span>
+                  <Login />
+                  <Register />
+                </span>
               )}
 
           </Grid>
