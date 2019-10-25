@@ -51,7 +51,7 @@ function stopEvent(req, res) {
         if (err) {
             send(err);
         }
-        event.status = "Complete";
+        event.status = "Completed";
         event.save().then(() => {
             participants = new Array();
             participants = event.participants;

@@ -39,6 +39,9 @@ let users = new Schema({
         type: String,
         required: false,
         default: ""
+    },
+    url: {
+        type: String
     }
 });
 
