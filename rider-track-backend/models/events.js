@@ -40,6 +40,7 @@ let events = new Schema({
         type: String,
         default: "Upcoming"
     },
+
     checkpoints: [],
     place: {
         type: String,
