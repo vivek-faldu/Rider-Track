@@ -1,8 +1,8 @@
 /**
  * Author: Shaunak Shah
- * Task: Passed actual coordinates from backed down to map component.
- * Task no: 65
- * Date: 10/06/2019
+ * Task: Fix participants list of registered users and added event description and date.
+ * Task no: 116
+ * Date: 10/24/2019
  */
 
 import React, { useEffect, useState } from 'react';
@@ -17,14 +17,18 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Card from '@material-ui/core/Card';
-import { Button } from '@material-ui/core';
+import { Button, Divider } from '@material-ui/core';
 import EventDetailMap from './EventDetailMap';
 import { Link } from 'react-router-dom';
 import { EVENT_REGISTRATION_PATH } from '../../RouteConstants';
+import EventListItem from '../events/EventListItem';
+import { any } from 'prop-types';
 
 function EventsDetail({ match }) {
   const [hasError, setErrors] = useState(false);
   const [details, setDetail] = useState({});
+  const [parts, setParts] = useState([]);
+  const [time, setTime] = useState(new Date());
 
   let url = 'http://localhost:4241/api/events/';
   url = url.concat(match.params.id);
@@ -32,7 +36,11 @@ function EventsDetail({ match }) {
   async function fetchData() {
     const res = await fetch(url);
     res.json()
-      .then((result) => setDetail(result))
+      .then((result) => {
+        setDetail(result);
+        setParts(result.participants);
+        setTime(new Date(result.date_time));
+      })
       .catch((err) => setErrors(err));
   }
 
@@ -63,7 +71,7 @@ function EventsDetail({ match }) {
             </Grid>
             <Grid item>
               <EventIcon />
-              <p>{details.date_time}</p>
+              <p>{`${time.getMonth()}-${time.getDay()}-${time.getFullYear()}`}</p>
             </Grid>
             <Grid item>
               <PeopleIcon />
@@ -72,30 +80,29 @@ function EventsDetail({ match }) {
           </Grid>
           <br />
 
+          <div item>
+            <h6 align="left">Description</h6>
+            <p>{details.event_description}</p>
+          </div>
+          <br />
+
           <div item className="participants_list">
             <h6 align="left">Participants</h6>
             <List>
-              <ListItem>
-                <ListItemIcon>
-                  <PersonIcon />
-                </ListItemIcon>
-                <ListItemText primary="Pavan" />
-              </ListItem>
-              <ListItem>
-                <ListItemIcon>
-                  <PersonIcon />
-                </ListItemIcon>
-                <ListItemText primary="Saran" />
-              </ListItem>
-              <ListItem>
-                <ListItemIcon>
-                  <PersonIcon />
-                </ListItemIcon>
-                <ListItemText primary="Shilpa" />
-              </ListItem>
-
+              {parts.map((el) => (
+                <div>
+                  <ListItem>
+                    <ListItemIcon>
+                      <PersonIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={el.name} />
+                  </ListItem>
+                  <Divider variant="middle" />
+                </div>
+              ))}
             </List>
           </div>
+
           <Link to={EVENT_REGISTRATION_PATH.replace(':id', match.params.id)}>
             <Button color="green">Register Today</Button>
           </Link>
