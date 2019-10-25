@@ -51,41 +51,41 @@ export default class CreatedEventsListItem extends Component {
     render() {
         let isLive = null;
 
-        if (this.props.eventStatus === 'Live') {
+        if (this.props.eventStatus === 'Upcoming') {
             isLive = (
-              <div>
-                <Button type="button" variant="contained" onClick={() => { this.start(this.props.eventId); }}>Start</Button>
+                <div>
+                    <Button type="button" variant="contained" onClick={() => { this.start(this.props.eventId); }}>Start</Button>
 
-                <Button type="button" variant="contained" onClick={() => { this.stop(this.props.eventId); }}>Stop</Button>
-              </div>
+                    <Button type="button" variant="contained" onClick={() => { this.stop(this.props.eventId); }}>Stop</Button>
+                </div>
             );
         }
         return (
-          <Box className="row">
-            <div className="col-md-2 rt-events-list-item-text">
-                <p>
-                    {this.props.eventDate}
-                  </p>
-              </div>
-            <div className="col-md-3 rt-events-list-item-text">
-                <Typography>
-                    <Link href={EVENT_DETAIL_PATH.replace(':id', this.props.eventId)}>
-                        {this.props.eventName}
-                      </Link>
-                  </Typography>
-              </div>
-            <div className="col-md-3 rt-events-list-item-text">
-                <p>
-                    {this.props.eventDescription}
-                  </p>
-              </div>
-            <div className="col-md-2 rt-events-list-item-text">
-                <p>
-                    {this.props.eventStatus}
-                  </p>
-              </div>
-            {isLive}
-          </Box>
+            <Box className="row">
+                <div className="col-md-2 rt-events-list-item-text">
+                    <p>
+                        {this.props.eventDate}
+                    </p>
+                </div>
+                <div className="col-md-3 rt-events-list-item-text">
+                    <Typography>
+                        <Link href={EVENT_DETAIL_PATH.replace(':id', this.props.eventId)}>
+                            {this.props.eventName}
+                        </Link>
+                    </Typography>
+                </div>
+                <div className="col-md-3 rt-events-list-item-text">
+                    <p>
+                        {this.props.eventDescription}
+                    </p>
+                </div>
+                <div className="col-md-2 rt-events-list-item-text">
+                    <p>
+                        {this.props.eventStatus}
+                    </p>
+                </div>
+                {isLive}
+            </Box>
         );
     }
 }

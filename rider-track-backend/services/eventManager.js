@@ -10,6 +10,7 @@ var router = express.Router();
 const Event = require('../models/events');
 const User = require("../models/users");
 const User_Event = require("../models/user_events");
+const { spawn } = require('child_process');
 
 var {
     startStream,
@@ -29,6 +30,8 @@ function startEvent(req, res) {
                     User.findById(participant.id, function (err, user) {
                         user.live_event = req.params.id;
                         user.save().then(() => {
+                            const client = spawn('node', ['../../rider-track-mock/tcp/client.js']);
+                            const server = spawn('node', ['../../rider-track-mock/tcp/server.js']);
                             res.status(200).json({
                                 status: 200,
                                 event: "Started successfully"
