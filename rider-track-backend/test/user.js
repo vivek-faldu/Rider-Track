@@ -24,13 +24,13 @@ chai.use(chaiHttp);
 describe('GET List of Events for a participant', () => {
     it('it should GET all the events  for a participant', (done) => {
         chai.request(server)
-            .get('/api/user/events?userid=5d93b7d31c9d440000909462')
+            .get('/api/user/events?userid=5d96e4e1e78f0b615d85cf34')
             .end((err, res) => {
                 res.should.have.status(200);
-                res.body.should.be.a('array');
-                res.body[0].should.have.property('event_name');
-                res.body[0].should.have.property('date_time');
-                res.body[0].should.have.property('duration');
+                res.body.should.have.property('participated_events');
+                res.body['participated_events'][0].should.have.property('event_name');
+                res.body['participated_events'][0].should.have.property('date_time');
+                res.body['participated_events'][0].should.have.property('duration');
                 done();
             });
     });
@@ -39,7 +39,7 @@ describe('GET List of Events for a participant', () => {
 describe('GET List of Checkpoints for an event a participant took part in', () => {
     it('it should GET all the checkpoints and event details for an event', (done) => {
         chai.request(server)
-            .get('/api/user/eventdetail?eventid=5da0111bf05a835eba01381d&userid=5d93b7d31c9d440000909462')
+            .get('/api/user/eventdetail?eventid=5da0111bf05a835eba01381d&userid=5d96e4e1e78f0b615d85cf34')
             .end((err, res) => {
                 res.should.have.status(200);
                 res.body.should.have.property('event_name');

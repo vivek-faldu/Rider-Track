@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import {
- Card, Divider, FormControl, NativeSelect, FormHelperText 
+ Card, Divider, FormControl, NativeSelect, FormHelperText,
 } from '@material-ui/core';
 import './events.css';
 import { LIVE_EVENTS, UPCOMING_EVENTS, COMPLETED_EVENTS } from './EventsConstants';
@@ -34,22 +34,29 @@ const EventsList = () => {
               const liveEvents = [];
               const upcomingEvents = [];
               const completedEvents = [];
-              for (let i = 0; i < 3; i++) {
-                completedEvents[i] = result[i];
-              }
-              for (let i = 3; i < result.length; i++) {
-                  upcomingEvents[i - 3] = result[i];
+              for (let i = 0; i < result.length; i++) {
+                if (result[i].status === 'Live') {
+                  liveEvents.push(result[i]);
+                } else if (result[i].status === 'Upcoming') {
+                  upcomingEvents.push(result[i]);
+                } else {
+                  completedEvents.push(result[i]);
+                }
               }
               setEvents({
                   live: liveEvents,
                   upcoming: upcomingEvents,
                   completed: completedEvents,
                 });
+                setState({
+                header: 'Live Events',
+                events: liveEvents,
+              });
           });
     }
 
     const handleEventTypeChange = (name) => (event) => {
-        fetchData();
+        // fetchData();
         console.log(events.live);
         let eventsTemp = events.live;
         if (event.target.value === UPCOMING_EVENTS) {
@@ -65,7 +72,7 @@ const EventsList = () => {
 
     useEffect(() => {
         fetchData();
-    }, [events]);
+    }, []);
 
     return (
       <Card className="rt-events-card">
@@ -104,7 +111,6 @@ const EventsList = () => {
                     eventDescription={el.event_description}
                     eventDate={() => {
                       const vara = el.date_time;
-                      console.log(vara);
                       return vara;
                     }}
                   />

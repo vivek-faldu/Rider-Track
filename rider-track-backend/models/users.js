@@ -35,6 +35,14 @@ let users = new Schema({
     created_events: [{
         type: String,
     }],
+    live_event: {
+        type: String,
+        required: false,
+        default: ""
+    },
+    url: {
+        type: String
+    }
 });
 
 

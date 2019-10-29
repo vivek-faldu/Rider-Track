@@ -9,6 +9,8 @@ import DirectionsRunIcon from '@material-ui/icons/DirectionsRun';
 import WatchIcon from '@material-ui/icons/Watch';
 import EventNoteIcon from '@material-ui/icons/EventNote';
 import map from '../../assets/map.png';
+import RegisteredEventDetailMap from './RegisteredEventDetailMap';
+
 
 /* import PersonIcon from '@material-ui/icons/Person';
 import List from '@material-ui/core/List';
@@ -18,20 +20,19 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import { Button } from '@material-ui/core';
  */
 
-function RegisteredEventDetail() {
+function RegisteredEventDetail({ match }) {
   const [hasError, setErrors] = useState(false)
   const [details, setDetails] = useState({})
 
   useEffect(() => {
     async function fetchData() {
-      const res = await fetch('http://localhost:4241/api/user/eventdetail?eventid=5da0111bf05a835eba01381d&userid=5d93b7d31c9d440000909462')
+      const res = await fetch('http://localhost:4241/api/user/eventdetail?userid=5d96e4e1e78f0b615d85cf34&eventid=' + match.params.id);
       res.json()
         .then(res => setDetails(res))
         .catch(err => setErrors(err));
     }
-
     fetchData();
-  });
+  }, []);
 
   return (
     <Grid container className="event_layout" direction="row">
@@ -55,7 +56,7 @@ function RegisteredEventDetail() {
             </Grid>
             <Grid item>
               <PeopleIcon />
-              <p>120</p>
+              <p>{details.max_participant}</p>
             </Grid>
           </Grid>
           <br />
@@ -70,14 +71,16 @@ function RegisteredEventDetail() {
             </Grid>
             <Grid item>
               <EventNoteIcon />
-              <p>Completed</p>
+              <p>{details.status}</p>
             </Grid>
           </Grid>
           <br />
         </Card>
       </Grid>
       <Grid item md={12} lg={8}>
-        <img className="map_image" img src={map} alt="map" />
+        {details.status === 'Completed'
+          ? <RegisteredEventDetailMap checkpoints={details.checkpoints} />
+          : <img className="map_image" img src={map} alt="map" />}
       </Grid>
     </Grid>
   );

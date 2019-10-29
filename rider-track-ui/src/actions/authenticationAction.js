@@ -8,7 +8,8 @@
 import axios from 'axios';
 // eslint-disable-next-line camelcase
 import jwt_decode from 'jwt-decode';
-import { FETCH_ERRORS, UPDATE_CURRENT_USER, LOAD_USER, REGISTER_USER } from './actionTypes';
+import { FETCH_ERRORS, UPDATE_CURRENT_USER, LOAD_USER, REGISTER_USER, CANCEL_LOGIN_ATTEMPT } from './actionTypes';
+import { HOME_ROUTE } from '../RouteConstants';
 
 export const registerUser = (userData) => (dispatch) => {
 
@@ -55,4 +56,12 @@ export const loginUser = (userData) => (dispatch) => {
 export const logoutUser = () => (dispatch) => {
     localStorage.removeItem('jwtToken');
     dispatch(updateCurrentUser({}));
+    setTimeout(() => { window.location.href = HOME_ROUTE; }, 250);
+};
+
+export const cancelLoginAttempt = (data) => (dispatch) => {
+    dispatch({
+        type: CANCEL_LOGIN_ATTEMPT,
+        payload: data,
+    });
 };

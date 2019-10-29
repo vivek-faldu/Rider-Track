@@ -1,28 +1,28 @@
 /*
-    CSS classes to handle "history of registered events list" styling
+    CSS classes to handle "list of created events" styling
     Author: Janani Thiagarajan
-    Date: 10/06/2019
-    US: 3, Task : 63
+    Date: 10/21/2019
+    US: 101, Task : 104
 */
 
-.rt-history-card {
+.rt-events-card {
     margin: 25px;
     min-height: 450px;
 }
 
-.rt-history-card ul {
+.rt-events-card ul {
     list-style: none;
     padding: 10px;
 }
 
-.rt-history-header {
+.rt-events-header {
     float: left;
     padding: 10px 10px 0px 10px;
     font-size: 22px;
     font-style: oblique;
 }
 
-.rt-history-list-item-text {
+.rt-events-list-item-text {
     padding: 15px;
     font-size: 14px;
 }

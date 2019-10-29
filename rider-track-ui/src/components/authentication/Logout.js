@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -6,9 +7,8 @@ import { logoutUser } from '../../actions/authenticationAction';
 
 
 class Logout extends Component {
+    
     handleLogout = (event) => {
-        event.preventDefault();
-
         this.props.logoutUser();
     }
 
@@ -37,4 +37,4 @@ const mapState = (state) => ({
 export default connect(
     mapState,
     { logoutUser }
-  )(Logout);
+  )(withRouter(Logout));

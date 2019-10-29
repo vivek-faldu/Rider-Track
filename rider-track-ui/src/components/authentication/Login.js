@@ -6,6 +6,7 @@
  *                https://blog.bitsrc.io/build-a-login-auth-app-with-mern-stack-part-2-frontend-6eac4e38ee82
  */
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import TextField from '@material-ui/core/TextField';
@@ -14,69 +15,72 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import PropTypes from 'prop-types';
-import { connect } from "react-redux";
-import { loginUser } from "../../actions/authenticationAction";
+import { connect } from 'react-redux';
+import { loginUser, cancelLoginAttempt } from '../../actions/authenticationAction';
+import Register from './Register';
+
 
 class Login extends Component {
-    constructor() {
-        super();
+  constructor(props) {
+        super(props);
         this.state = {
             email: '',
             password: '',
             errors: {},
-            loginOpen: false,
-            firstTime: true
+            loginOpen: !!this.props.openDialog,
+            firstTime: true,
         };
     }
 
     UNSAFE_componentWillReceiveProps = (newProps) => {
-      if(newProps.authentication.isAuthenticated) {
+      if (newProps.authentication.isAuthenticated) {
         this.setState({
-          loginOpen: false
+          loginOpen: false,
         });
       }
-      if(newProps.errors) {
+      if (newProps.errors) {
         this.setState({
-          errors: newProps.errors
+          errors: newProps.errors,
         });
       }
     };
-    
+
     handleLoginOpen = () => {
-        this.setState({ 
-          firstTime:true, 
-          loginOpen: true 
+        this.setState({
+          firstTime: true,
+          loginOpen: true,
         });
     };
 
     handleLoginClose = () => {
-        this.setState({ loginOpen: false, firstTime:true });
+        this.setState({ loginOpen: false, firstTime: true });
+        this.props.cancelLoginAttempt(true);
     };
 
     onLoginSubmit = (event) => {
         event.preventDefault();
         this.setState({
-          firstTime:false
-        })
+          firstTime: false,
+        });
         const user = {
             email: this.state.email,
-            password: this.state.password
+            password: this.state.password,
         };
         this.props.loginUser(user);
     }
 
     onTextChange = (event) => {
         this.setState({
-            [event.target.id]: event.target.value
+            [event.target.id]: event.target.value,
         });
     }
 
     render() {
-
         const { errors } = this.state;
         return (
           <span>
-            <Button className="menu_button" color="inherit" onClick={this.handleLoginOpen}>Login</Button>
+            {this.props.openDialog !== true
+              ? (<Button className="menu_button" color="inherit" onClick={this.handleLoginOpen}>Login</Button>) : null}
             <Dialog
               open={this.state.loginOpen}
               onClose={this.handleLoginClose}
@@ -88,12 +92,12 @@ class Login extends Component {
                 <DialogContentText>
                     Please enter your email ID and password
                 </DialogContentText>
-                
-                {!this.state.firstTime && errors.email?( 
-                <p className="rt-auth-error-text">{errors.email}</p>
+
+                {!this.state.firstTime && errors.email ? (
+                  <p className="rt-auth-error-text">{errors.email}</p>
                 ):null}
-                {!this.state.firstTime && errors.emailNotFound?( 
-                <p className="rt-auth-error-text">{errors.emailNotFound}</p>
+                {!this.state.firstTime && errors.emailNotFound ? (
+                  <p className="rt-auth-error-text">{errors.emailNotFound}</p>
                 ):null}
                 <div className="row">
                   <div className="col-md-12">
@@ -110,17 +114,16 @@ class Login extends Component {
                     />
                   </div>
                 </div>
-                
-                {!this.state.firstTime && errors.password?( 
-                <p className="rt-auth-error-text">{errors.password}</p>
+
+                {!this.state.firstTime && errors.password ? (
+                  <p className="rt-auth-error-text">{errors.password}</p>
                 ):null}
-                {!this.state.firstTime && errors.paswordInCorrect?( 
-                <p className="rt-auth-error-text">{errors.paswordInCorrect}</p>
+                {!this.state.firstTime && errors.paswordInCorrect ? (
+                  <p className="rt-auth-error-text">{errors.paswordInCorrect}</p>
                 ):null}
                 <div className="row">
                   <div className="col-md-12">
                     <TextField
-                      autoFocus
                       margin="dense"
                       id="password"
                       label="Password"
@@ -130,6 +133,14 @@ class Login extends Component {
                       required
                       onChange={this.onTextChange}
                     />
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-md-12">
+                    <span>
+                      Not registered yet?&nbsp;
+                      <a href="#" className="rt-signup-link"><Register /></a>
+                    </span>
                   </div>
                 </div>
               </DialogContent>
@@ -148,17 +159,18 @@ class Login extends Component {
 }
 
 Login.PropTypes = {
+  cancelLoginAttempt: PropTypes.func.isRequired,
   loginUser: PropTypes.func.isRequired,
   authentication: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
 };
 
 const mapState = (state) => ({
   authentication: state.authentication,
-  errors: state.errors
+  errors: state.errors,
 });
 
 export default connect(
   mapState,
-  { loginUser }
-)(Login);
+  { loginUser, cancelLoginAttempt },
+)(withRouter(Login));

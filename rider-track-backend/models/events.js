@@ -3,7 +3,7 @@
  * Task: Model setup for accessing db
  * Task no: 45,46,47,
  * Date: 09/20/2019
- * 
+ *
  * Task: Added event_description to the events model
  * Task no: 83
  * Date: 10/07/2019
@@ -36,17 +36,20 @@ let events = new Schema({
     max_participant: {
         type: Number
     },
-    checkpoints: [{
-        latitude: Number,
-        longitude: Number
-    }],
+    status: {
+        type: String,
+        default: "Upcoming"
+    },
+
+    checkpoints: [],
     place: {
         type: String,
         default: null
     },
     participants: [{
         id: String,
-        name: String
+        name: String,
+        url: String
     }]
 });
 

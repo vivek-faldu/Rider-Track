@@ -5,7 +5,7 @@
  * Date: 10/10/2019
  * Referred from: https://blog.bitsrc.io/build-a-login-auth-app-with-mern-stack-part-2-frontend-6eac4e38ee82
  */
-import { LOAD_USER, UPDATE_CURRENT_USER, REGISTER_USER } from '../actions/actionTypes';
+import { LOAD_USER, UPDATE_CURRENT_USER, REGISTER_USER, CANCEL_LOGIN_ATTEMPT } from '../actions/actionTypes';
 
 const isEmpty = require('is-empty');
 
@@ -14,6 +14,7 @@ const defaultState = {
     registrationComplete: false,
     user: {},
     loading: false,
+    loginAttemptCancelled: false
 };
 
 const authenticationReducer = (state = defaultState, action) => {
@@ -32,8 +33,13 @@ const authenticationReducer = (state = defaultState, action) => {
         case REGISTER_USER:
             return {
                 ...state,
-                registrationComplete: action.payload
-            }
+                registrationComplete: action.payload,
+            };
+        case CANCEL_LOGIN_ATTEMPT:
+            return {
+                ...state,
+                loginAttemptCancelled: action.payload,
+            };
         default:
             return state;
      }

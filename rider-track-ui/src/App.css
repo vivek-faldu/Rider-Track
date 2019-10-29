@@ -2,6 +2,11 @@
   text-align: center;
 }
 
+.App Button {
+  text-transform: none !important;
+  margin: 5px;
+}
+
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 80px;
@@ -66,4 +71,10 @@
 .rt-auth-error-text {
   margin-top: 5px;
   color:red;
+}
+
+.rt-signup-link button{
+  text-transform: none !important;
+  margin: 0px !important;
+  padding: 0px !important;
 }
