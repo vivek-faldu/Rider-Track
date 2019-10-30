@@ -164,3 +164,18 @@ describe('Delete a non existant event', () => {
             });
     });
 });
+/**
+ * Test the event deletion feature using non existant event ID
+ * Author: sai saran kandimalla.
+ */
+describe('Delete a non existant event', () => {
+    it("it should respond back with a 400 error because the event ID doesn't exist", (done) => {
+        chai.request(server)
+            .delete('/api/events/delete/5da0111bf05a835eba01')
+            .end((error, response) => {
+                response.should.have.status(400);
+                response.body.message.should.equal("the event delete request is unsuccessful");
+                done();
+            });
+    });
+});
