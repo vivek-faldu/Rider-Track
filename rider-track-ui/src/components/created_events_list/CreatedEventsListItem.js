@@ -103,6 +103,12 @@ class CreatedEventsListItem extends Component {
         });
     }
 
+    deleteEvent = (eventID) => {
+        // once the backend is done, an ajax call will be made to the backend to delete
+        // event from here
+        console.log(eventID);
+    }
+
     render() {
         let isLive = null;
         let isUpcoming = null;
@@ -148,59 +154,61 @@ class CreatedEventsListItem extends Component {
             isCompleted = (
               <span className="col-md-2 rt-events-list-item-text">
                 <p>{this.state.statusFlag}</p>
-                            </span>
+              </span>
 );
         }
 
         return (
           <Box className="row">
-            <div className="col-md-2 rt-events-list-item-text">
-              <p>
-                  {this.props.eventDate}
-                </p>
-            </div>
-            <div className="col-md-3 rt-events-list-item-text">
-              <Typography>
-                  <Link href={EVENT_DETAIL_PATH.replace(':id', this.props.eventId)}>
-                      {this.props.eventName}
-                    </Link>
-                </Typography>
-            </div>
-            <div className="col-md-3 rt-events-list-item-text">
-              <p>
-                  {this.props.eventDescription}
-                </p>
-            </div>
+              <div className="col-md-2 rt-events-list-item-text">
+                  <p>
+                      {this.props.eventDate}
+                    </p>
+                </div>
+              <div className="col-md-3 rt-events-list-item-text">
+                  <Typography>
+                      <Link href={EVENT_DETAIL_PATH.replace(':id', this.props.eventId)}>
+                          {this.props.eventName}
+                        </Link>
+                    </Typography>
+                </div>
+              <div className="col-md-3 rt-events-list-item-text">
+                  <p>
+                      {this.props.eventDescription}
+                    </p>
+                </div>
+              <div className="col-md-4 rt-events-list-item-text">
+                  <span>
+                      {isLive}
+                      {isUpcoming}
+                      {isCompleted}
+                      {deleteButton}
+                    </span>
+                </div>
 
-            {isLive}
-            {isUpcoming}
-            {isCompleted}
-            {deleteButton}
-
-            <Snackbar
-              anchorOrigin={{
+              <Snackbar
+                  anchorOrigin={{
                         vertical: 'bottom',
                         horizontal: 'center',
                     }}
-              open={this.state.open}
-              autoHideDuration={6000}
-              onClose={this.handleClose}
-              ContentProps={{
+                  open={this.state.open}
+                  autoHideDuration={6000}
+                  onClose={this.handleClose}
+                  ContentProps={{
                         'aria-describedby': 'message-id',
                     }}
-              message={<span id="message-id">{this.state.messageSet}</span>}
-              action={[
-                  <IconButton
-                      key="close"
-                      aria-label="close"
-                      color="inherit"
-                      style={{ padding: 0.5 }}
-                    />,
+                  message={<span id="message-id">{this.state.messageSet}</span>}
+                  action={[
+                <IconButton
+                    key="close"
+                    aria-label="close"
+                    color="inherit"
+                    style={{ padding: 0.5 }}
+                  />,
                     ]}
-            />
-          </Box>
-
-        );
+                />
+            </Box>
+            );
     }
 }
 CreatedEventsListItem.PropTypes = {
