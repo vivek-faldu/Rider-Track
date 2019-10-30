@@ -8,41 +8,78 @@
 
 import React, { Component } from 'react';
 import {
-    Box, Typography, Link, Button,
+    Box, Typography, Link, Button, Snackbar, IconButton,
 } from '@material-ui/core';
 import { EVENT_DETAIL_PATH } from '../../RouteConstants';
 
 export default class CreatedEventsListItem extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            open: false,
+            messageSet: null,
+        }
+    }
+
     start = async (eventId) => {
         const url = `http://localhost:4241/api/events/start/${eventId}`;
 
         const res = await fetch(url, {
-            method: 'PUT', // Update to PUT
+            method: 'PUT',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
-            // body: JSON.stringify(content),
         });
 
-        await res.json();
+        const response = await res.json();
+        if (response.status === 200) {
+            this.handleStart();
+        }
     }
 
     stop = async (eventId) => {
         const url = `http://localhost:4241/api/events/stop/${eventId}`;
 
         const res = await fetch(url, {
-            method: 'PUT', // Update to PUT
+            method: 'PUT',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
-            // body: JSON.stringify(content),
+
         });
-        await res.json();
+
+        const response = await res.json();
+        if (response.status === 200) {
+            this.handleStop();
+        }
+    }
+
+    handleStart = () => {
+        this.setState({
+            open: true,
+            messageSet: "Event started successfully"
+        });
+    }
+
+    handleStop = () => {
+        this.setState(
+            {
+                open: true,
+                messageSet: "Event stopped successfully"
+            });
+    }
+
+    handleClose = () => {
+        this.setState(
+            {
+                open: false,
+            });
     }
 
     render() {
+
         let isLive = null;
         let isUpcoming = null;
 
@@ -88,6 +125,28 @@ export default class CreatedEventsListItem extends Component {
                 </div>
                 {isLive}
                 {isUpcoming}
+
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'center',
+                    }}
+                    open={this.state.open}
+                    autoHideDuration={6000}
+                    onClose={this.handleClose}
+                    ContentProps={{
+                        'aria-describedby': 'message-id',
+                    }}
+                    message={<span id="message-id">{this.state.messageSet}</span>}
+                    action={[
+                        <IconButton
+                            key="close"
+                            aria-label="close"
+                            color="inherit"
+                            style={{ padding: 0.5 }}
+                        />,
+                    ]}
+                />
             </Box>
         );
     }
