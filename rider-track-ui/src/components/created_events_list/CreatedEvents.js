@@ -5,61 +5,82 @@
     Author: Janani Thiagarajan
     Date: 10/06/2019
     US: 3, Task : 63
+
+    Update to fetch user id from session
+    Author: Janani Thiagarajan
+    Date: 10/30/2019
+    US : 123 , Task : 130
 */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Component } from 'react';
 import {
     Card,
     Divider,
 } from '@material-ui/core';
 import './CreatedEvents.css';
 import CreatedEventsListItem from './CreatedEventsListItem';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-const CreatedEvents = () => {
-    const [hasError, setErrors] = useState(false);
-    const [createdevents, setCreatedEvents] = useState([]);
+class CreatedEvents extends Component {
 
-    useEffect(() => {
-        async function fetchData() {
-            const res = await fetch('http://localhost:4241/api/user/events?userid=5d96e4e1e78f0b615d85cf34');
-            res.json()
-                .then((res) => {
-                    setCreatedEvents(res.created_events);
-                })
-                .catch((err) => setErrors(err));
-        }
+    constructor(props) {
+        super(props);
 
-        fetchData();
-    }, []);
+        this.state = {
+            createdevents: [],
+        };
+    }
 
-    return (
-        <Card className="rt-events-card">
-            <div className="row">
-                <div className="col-md-4">
-                    <h1 className="rt-events-header">Created Events</h1>
+
+    async componentDidMount() {
+        let uid = this.props.authentication.user.id;
+        let url = 'http://localhost:4241/api/user/events?userid=' + uid;
+        const res = await fetch(url);
+        res.json()
+            .then((result) => this.setState({ createdevents: result.created_events }))
+            .catch((err) => console.log('Error in fetching created events list', err));
+    }
+
+
+    render() {
+        return (
+            <Card className="rt-events-card" >
+                <div className="row">
+                    <div className="col-md-4">
+                        <h1 className="rt-events-header">Created Events</h1>
+                    </div>
                 </div>
-            </div>
-            <Divider className="row" />
-            <div>
-                <ul>
-                    {createdevents.map((el) => (
-                        <div>
-                            <li>
-                                <CreatedEventsListItem
-                                    eventName={el.event_name}
-                                    eventDescription={el.event_description}
-                                    eventDate={el.date_time}
-                                    eventId={el._id}
-                                    eventStatus={el.status}
-                                />
-                            </li>
-                            <Divider variant="middle" />
-                        </div>
-                    ))}
-                </ul>
-            </div>
-        </Card>
-    );
+                <Divider className="row" />
+                <div>
+                    <ul>
+                        {this.state.createdevents.map((el) => (
+                            <div>
+                                <li>
+                                    <CreatedEventsListItem
+                                        eventName={el.event_name}
+                                        eventDescription={el.event_description}
+                                        eventDate={el.date_time}
+                                        eventId={el._id}
+                                        eventStatus={el.status}
+                                    />
+                                </li>
+                                <Divider variant="middle" />
+                            </div>
+                        ))}
+                    </ul>
+                </div>
+            </Card>)
+    }
+}
+
+
+CreatedEvents.PropTypes = {
+    authentication: PropTypes.func.isRequired,
 };
 
-export default CreatedEvents;
+const mapState = (state) => ({
+    authentication: state.authentication,
+});
+
+export default connect(mapState)(CreatedEvents);
