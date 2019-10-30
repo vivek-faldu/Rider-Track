@@ -42,23 +42,48 @@ export default class CreatedEventsListItem extends Component {
         await res.json();
     }
 
+    deleteEvent = (eventID) => {
+        // once the backend is done, an ajax call will be made to the backend to delete
+        // event from here
+        console.log(eventID);
+    }
+
     render() {
         let isLive = null;
         let isUpcoming = null;
+        let deleteButton = null;
 
         if (this.props.eventStatus === 'Upcoming') {
             isUpcoming = (
-                <div>
+                <span>
                     <Button type="button" variant="contained" onClick={() => { this.start(this.props.eventId); }}>Start</Button>
-                </div>
+                </span>
             );
         }
 
         if (this.props.eventStatus === 'Live') {
             isLive = (
-                <div>
+                <span>
                     <Button type="button" variant="contained" onClick={() => { this.stop(this.props.eventId); }}>Stop</Button>
-                </div>
+                </span>
+            );
+        }
+
+        if(this.props.eventStatus !== 'Live') {
+
+            deleteButton = (
+                <span>
+                    <Button 
+                        type="button" 
+                        variant="contained"
+                        color="secondary"
+                        onClick={() => {
+                            this.deleteEvent(this.props.eventId);
+                        }}
+                    >
+                        Delete
+                    </Button>
+                </span>
             );
         }
 
@@ -86,8 +111,12 @@ export default class CreatedEventsListItem extends Component {
                         {this.props.eventStatus}
                     </p>
                 </div>
-                {isLive}
-                {isUpcoming}
+                <div className="col-md-2">
+                        {isLive}
+                        {isUpcoming}
+                        {deleteButton}
+                </div>
+                
             </Box>
         );
     }
