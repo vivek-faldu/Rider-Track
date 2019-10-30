@@ -86,10 +86,17 @@ export default class CreatedEventsListItem extends Component {
             });
     }
 
+    deleteEvent = (eventID) => {
+        // once the backend is done, an ajax call will be made to the backend to delete
+        // event from here
+        console.log(eventID);
+    }
+
     render() {
         let isLive = null;
         let isUpcoming = null;
         let isCompleted = null;
+        let deleteButton = null;
 
         if (this.state.statusFlag === 'Upcoming') {
             isUpcoming = (
@@ -106,8 +113,8 @@ export default class CreatedEventsListItem extends Component {
                     <p>{this.state.statusFlag}</p>
                     <Button type="button" variant="contained" onClick={() => { this.stop(this.props.eventId); }}>Stop</Button>
                 </span>
-            );
-        }
+            )};
+        
 
         if (this.state.statusFlag === 'Completed') {
             isCompleted = (<span className="col-md-2 rt-events-list-item-text">
@@ -134,10 +141,15 @@ export default class CreatedEventsListItem extends Component {
                         {this.props.eventDescription}
                     </p>
                 </div>
-                {isLive}
-                {isUpcoming}
-                {isCompleted}
-
+                <div className="col-md-4 rt-events-list-item-text">
+                    <span>
+                        {isLive}
+                        {isUpcoming}
+                        {isCompleted}
+                        {deleteButton}
+                    </span>
+                </div>
+                
                 <Snackbar
                     anchorOrigin={{
                         vertical: 'bottom',
@@ -160,6 +172,6 @@ export default class CreatedEventsListItem extends Component {
                     ]}
                 />
             </Box >
-        );
+            );
     }
 }
