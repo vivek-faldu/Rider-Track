@@ -55,6 +55,19 @@ router.get("/", async (req, res) => {
     });
 });
 
+// to delete the list of event
+router.delete("/delete/:id", (request, response) => {
+    console.log("set");
+    Event.remove({_id:request.params.id}).then(res => {
+        return response.status(200).json();
+    }).catch((err) => {
+        response.status(400).json({
+            message: "the event delete request is unsuccessful",
+            error: err
+        });
+    });
+});
+
 router.get("/:id", async (req, res) => {
     Event.findById(req.params.id, (err, event) => {
         if (err) {
