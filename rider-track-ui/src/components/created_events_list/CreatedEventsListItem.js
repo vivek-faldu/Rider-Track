@@ -24,7 +24,7 @@ export default class CreatedEventsListItem extends Component {
             open: false,
             messageSet: null,
             statusFlag: this.props.eventStatus,
-        }
+        };
     }
 
     start = async (eventId) => {
@@ -65,8 +65,8 @@ export default class CreatedEventsListItem extends Component {
     handleStart = () => {
         this.setState({
             open: true,
-            messageSet: "Event started successfully",
-            statusFlag: "Live",
+            messageSet: 'Event started successfully',
+            statusFlag: 'Live',
         });
     }
 
@@ -74,92 +74,123 @@ export default class CreatedEventsListItem extends Component {
         this.setState(
             {
                 open: true,
-                messageSet: "Event stopped successfully",
-                statusFlag: "Completed",
-            });
+                messageSet: 'Event stopped successfully',
+                statusFlag: 'Completed',
+            }
+);
     }
 
     handleClose = () => {
         this.setState(
             {
                 open: false,
-            });
+            }
+);
+    }
+
+    deleteEvent = (eventID) => {
+        // once the backend is done, an ajax call will be made to the backend to delete
+        // event from here
+        console.log(eventID);
     }
 
     render() {
         let isLive = null;
         let isUpcoming = null;
         let isCompleted = null;
+        let deleteButton = null;
 
         if (this.state.statusFlag === 'Upcoming') {
             isUpcoming = (
-                <span className="col-md-2 rt-events-list-item-text">
-                    <p>{this.state.statusFlag}</p>
-                    <Button type="button" variant="contained" onClick={() => { this.start(this.props.eventId); }}>Start</Button>
+              <span className="col-md-2 rt-events-list-item-text">
+                  <p>{this.state.statusFlag}</p>
+                  <Button type="button" variant="contained" onClick={() => { this.start(this.props.eventId); }}>Start</Button>
                 </span>
             );
         }
 
         if (this.state.statusFlag === 'Live') {
             isLive = (
-                <span className="col-md-2 rt-events-list-item-text">
-                    <p>{this.state.statusFlag}</p>
-                    <Button type="button" variant="contained" onClick={() => { this.stop(this.props.eventId); }}>Stop</Button>
+              <span className="col-md-2 rt-events-list-item-text">
+                  <p>{this.state.statusFlag}</p>
+                  <Button type="button" variant="contained" onClick={() => { this.stop(this.props.eventId); }}>Stop</Button>
+                </span>
+            );
+        }
+
+        if (this.props.eventStatus !== 'Live') {
+            deleteButton = (
+              <span>
+                  <Button
+                      type="button"
+                      variant="contained"
+                      color="secondary"
+                      onClick={() => {
+                            this.deleteEvent(this.props.eventId);
+                        }}
+                    >
+                        Delete
+                    </Button>
                 </span>
             );
         }
 
         if (this.state.statusFlag === 'Completed') {
-            isCompleted = (<span className="col-md-2 rt-events-list-item-text">
+            isCompleted = (
+<span className="col-md-2 rt-events-list-item-text">
                 <p>{this.state.statusFlag}</p>
-            </span>)
+            </span>
+);
         }
 
         return (
-            < Box className="row" >
-                <div className="col-md-2 rt-events-list-item-text">
-                    <p>
-                        {this.props.eventDate}
+          <Box className="row">
+              <div className="col-md-2 rt-events-list-item-text">
+                  <p>
+                      {this.props.eventDate}
                     </p>
                 </div>
-                <div className="col-md-3 rt-events-list-item-text">
-                    <Typography>
-                        <Link href={EVENT_DETAIL_PATH.replace(':id', this.props.eventId)}>
-                            {this.props.eventName}
+              <div className="col-md-3 rt-events-list-item-text">
+                  <Typography>
+                      <Link href={EVENT_DETAIL_PATH.replace(':id', this.props.eventId)}>
+                          {this.props.eventName}
                         </Link>
                     </Typography>
                 </div>
-                <div className="col-md-3 rt-events-list-item-text">
-                    <p>
-                        {this.props.eventDescription}
+              <div className="col-md-3 rt-events-list-item-text">
+                  <p>
+                      {this.props.eventDescription}
                     </p>
                 </div>
-                {isLive}
-                {isUpcoming}
-                {isCompleted}
 
-                <Snackbar
-                    anchorOrigin={{
+              {isLive}
+              {isUpcoming}
+              {isCompleted}
+              {deleteButton}
+
+              <Snackbar
+                  anchorOrigin={{
                         vertical: 'bottom',
                         horizontal: 'center',
                     }}
-                    open={this.state.open}
-                    autoHideDuration={6000}
-                    onClose={this.handleClose}
-                    ContentProps={{
+                  open={this.state.open}
+                  autoHideDuration={6000}
+                  onClose={this.handleClose}
+                  ContentProps={{
                         'aria-describedby': 'message-id',
                     }}
-                    message={<span id="message-id">{this.state.messageSet}</span>}
-                    action={[
-                        <IconButton
-                            key="close"
-                            aria-label="close"
-                            color="inherit"
-                            style={{ padding: 0.5 }}
+                  message={<span id="message-id">{this.state.messageSet}</span>}
+                  action={[
+                      <IconButton
+                          key="close"
+                          aria-label="close"
+                          color="inherit"
+                          style={{ padding: 0.5 }}
                         />,
                     ]}
                 />
-            </Box >
+            </Box>
+
         );
     }
 }
