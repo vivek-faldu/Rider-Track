@@ -1,8 +1,8 @@
 /**
  * Author: Shaunak Shah
- * Task: Fix participants list of registered users and added event description and date.
- * Task no: 116
- * Date: 10/24/2019
+ * Task: Added styling for scroll on participants list
+ * Task no: 136
+ * Date: 30/05/2019
  */
 
 import React, { useEffect, useState } from 'react';
@@ -86,9 +86,9 @@ function EventsDetail({ match }) {
           </div>
           <br />
 
-          <div item className="participants_list">
+          <div item>
             <h6 align="left">Participants</h6>
-            <List>
+            <List className="participants_list">
               {parts.map((el) => (
                 <div>
                   <ListItem>
