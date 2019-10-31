@@ -3,11 +3,14 @@
  * Task: Form to register for event
  * Task no: 61
  * Date: 10/03/2019
+ *
+ *  Update to reset form and redirect to homepage
+ *  Author: Janani Thiagarajan
+ *  Date: 10/31/2019
+ *  US : - , Task : 142
  */
 
 import React, { Component } from 'react';
-
-import { makeStyles } from '@material-ui/core/styles';
 import {
   Typography,
   TextField,
@@ -20,17 +23,15 @@ import {
   IconButton,
   FormHelperText,
 } from '@material-ui/core';
-import EventRegistration from './EventRegistration';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
+import { HOME_ROUTE } from '../../RouteConstants';
 
 class EventRegistrationForm extends Component {
   eventid;
 
   constructor(props) {
     super(props);
-    console.log(this.props.authentication);
     this.state = {
       open: false,
       name: this.getName(),
@@ -41,7 +42,6 @@ class EventRegistrationForm extends Component {
       timezone: '',
       provider: '',
     };
-    console.log(this.state)
   }
 
   componentDidMount() {
@@ -92,6 +92,16 @@ class EventRegistrationForm extends Component {
     this.registerHandler(body);
   };
 
+  resetForm = () => {
+    this.setState({
+      nick_name: '',
+      device_id: '',
+      country: '',
+      timezone: '',
+      provider: '',
+    });
+  };
+
   setName = (name) => {
     this.setState({ name });
   }
@@ -134,6 +144,7 @@ class EventRegistrationForm extends Component {
 
   handleOpen = () => {
     this.setState({ open: true });
+    setTimeout(() => { window.location.href = HOME_ROUTE; }, 250);
   }
 
   handleClose = () => {
@@ -185,6 +196,7 @@ class EventRegistrationForm extends Component {
                 <TextField
                   id="nickname"
                   label="Participant Nick name"
+                  value={this.state.nick_name}
                   // className={classes.textField}
                   // value={eventName}
                   InputLabelProps={{
@@ -214,6 +226,7 @@ class EventRegistrationForm extends Component {
                   label="Device id"
                   // className={classes.textField}
                   // value={eventPlace}
+                  value={this.state.device_id}
                   onChange={(event) => { this.setDeviceId(event.target.value); }}
                   InputLabelProps={{
                     shrink: true,
@@ -227,6 +240,7 @@ class EventRegistrationForm extends Component {
                   label="Country"
                   // className={classes.textField}
                   // value={eventPlace}
+                  value={this.state.country}
                   onChange={(event) => { this.setCountry(event.target.value); }}
                   InputLabelProps={{
                     shrink: true,
@@ -241,6 +255,7 @@ class EventRegistrationForm extends Component {
                   label="Time zone"
                   // className={classes.textField}
                   // value={eventMaxParticipant}
+                  value={this.state.timezone}
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -273,7 +288,7 @@ class EventRegistrationForm extends Component {
               {/* </Grid> */}
               {/* <br></br> */}
               <Grid item xs={12} style={{ marginTop: 50 }}>
-                <Button type="button" variant="contained">
+                <Button type="button" variant="contained" onClick={() => { this.resetForm(); }}>
                   Reset
                 </Button>
                 <Button variant="contained" color="primary" type="submit">
