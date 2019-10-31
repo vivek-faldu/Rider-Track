@@ -4,6 +4,11 @@
     Author: Janani Thiagarajan
     Date: 10/21/2019
     US: 101, Task : 104
+
+    Update to toggle start/stop button and event status
+    Author: Janani Thiagarajan
+    Date: 10/31/2019
+    US : 123 , Task : 129
  */
 
 import React, { Component } from 'react';
@@ -18,6 +23,7 @@ export default class CreatedEventsListItem extends Component {
         this.state = {
             open: false,
             messageSet: null,
+            statusFlag: this.props.eventStatus,
         }
     }
 
@@ -59,7 +65,8 @@ export default class CreatedEventsListItem extends Component {
     handleStart = () => {
         this.setState({
             open: true,
-            messageSet: "Event started successfully"
+            messageSet: "Event started successfully",
+            statusFlag: "Live",
         });
     }
 
@@ -67,7 +74,8 @@ export default class CreatedEventsListItem extends Component {
         this.setState(
             {
                 open: true,
-                messageSet: "Event stopped successfully"
+                messageSet: "Event stopped successfully",
+                statusFlag: "Completed",
             });
     }
 
@@ -79,28 +87,36 @@ export default class CreatedEventsListItem extends Component {
     }
 
     render() {
-
         let isLive = null;
         let isUpcoming = null;
+        let isCompleted = null;
 
-        if (this.props.eventStatus === 'Upcoming') {
+        if (this.state.statusFlag === 'Upcoming') {
             isUpcoming = (
-                <div>
+                <span className="col-md-2 rt-events-list-item-text">
+                    <p>{this.state.statusFlag}</p>
                     <Button type="button" variant="contained" onClick={() => { this.start(this.props.eventId); }}>Start</Button>
-                </div>
+                </span>
             );
         }
 
-        if (this.props.eventStatus === 'Live') {
+        if (this.state.statusFlag === 'Live') {
             isLive = (
-                <div>
+                <span className="col-md-2 rt-events-list-item-text">
+                    <p>{this.state.statusFlag}</p>
                     <Button type="button" variant="contained" onClick={() => { this.stop(this.props.eventId); }}>Stop</Button>
-                </div>
+                </span>
             );
+        }
+
+        if (this.state.statusFlag === 'Completed') {
+            isCompleted = (<span className="col-md-2 rt-events-list-item-text">
+                <p>{this.state.statusFlag}</p>
+            </span>)
         }
 
         return (
-            <Box className="row">
+            < Box className="row" >
                 <div className="col-md-2 rt-events-list-item-text">
                     <p>
                         {this.props.eventDate}
@@ -118,13 +134,9 @@ export default class CreatedEventsListItem extends Component {
                         {this.props.eventDescription}
                     </p>
                 </div>
-                <div className="col-md-2 rt-events-list-item-text">
-                    <p>
-                        {this.props.eventStatus}
-                    </p>
-                </div>
                 {isLive}
                 {isUpcoming}
+                {isCompleted}
 
                 <Snackbar
                     anchorOrigin={{
@@ -147,7 +159,7 @@ export default class CreatedEventsListItem extends Component {
                         />,
                     ]}
                 />
-            </Box>
+            </Box >
         );
     }
 }
