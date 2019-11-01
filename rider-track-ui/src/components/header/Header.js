@@ -18,14 +18,14 @@ import AddBox from '@material-ui/icons/AddBox';
 import Room from '@material-ui/icons/Room';
 import Hidden from '@material-ui/core/Hidden';
 import withWidth from '@material-ui/core/withWidth';
+import Menu from '@material-ui/core/Menu';
 import Login from '../authentication/Login';
 import Register from '../authentication/Register';
 import {
-  PARTICIPANT_HISTORY, HOME_ROUTE, EVENT_CREATION_PATH, CREATED_EVENTS,
+  PARTICIPANT_HISTORY, HOME_ROUTE, EVENT_CREATION_PATH, CREATED_EVENTS, ABOUT_US
 } from '../../RouteConstants';
 import store from '../../store';
 import Logout from '../authentication/Logout';
-import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
 class Header extends Component {
@@ -35,7 +35,7 @@ class Header extends Component {
       isLoggedIn: this.props.authentication.isAuthenticated,
       anchorEl: null,
       menuAnchorEl: null,
-      menuOpen: false
+      menuOpen: false,
     };
   }
 
@@ -43,27 +43,27 @@ class Header extends Component {
   handleClick = (event) => {
     this.setState({
       anchorEl: event.currentTarget,
-    })
+    });
   };
 
   handleMenuClick = (event) => {
     this.setState({
       menuAnchorEl: event.currentTarget,
-      menuOpen: true
-    })
+      menuOpen: true,
+    });
   };
 
   handleClose = () => {
     this.setState({
       anchorEl: null,
-    })
+    });
   };
 
   handleMenuClose = (event) => {
     this.setState({
-      menuAnchorEl:null,
-      menuOpen: false
-    })
+      menuAnchorEl: null,
+      menuOpen: false,
+    });
   }
 
   handleListKeyDown = (e) => {
@@ -71,8 +71,8 @@ class Header extends Component {
       e.preventDefault();
       this.setState({
         menuOpen: false,
-        menuAnchorEl: null
-      })
+        menuAnchorEl: null,
+      });
     }
   }
 
@@ -86,7 +86,6 @@ class Header extends Component {
 
 
   render() {
-    
     return (
       <div>
         <Grid container alignItems="center" className="country_bar">
@@ -101,38 +100,45 @@ class Header extends Component {
             <Link href={HOME_ROUTE}>
               <Button className="menu_button" color="inherit">Home</Button>
             </Link>
+            <span>
+              <Link href={ABOUT_US}>
+                <Button className="menu_button" color="inherit">About</Button>
+              </Link>
+            </span>
           </Grid>
           <Hidden smDown>
-            <Button 
+            <Button
               ref={this.state.menuAnchorEl}
-              className="menu_button" 
-              aria-controls="simple-menu" 
-              aria-haspopup="true" 
+              className="menu_button"
+              aria-controls="simple-menu"
+              aria-haspopup="true"
               onClick={this.handleMenuClick}
             >
-            <Grid container alignment="center" justify="center" md={12}>
-              { this.state.isLoggedIn? 
+              <Grid container alignment="center" justify="center" md={12}>
+              { this.state.isLoggedIn ?
                 (
                   <Grid item className="rt_username">
-                    Hello { this.props.authentication.user.username }
+                    Hello 
+{' '}
+{this.props.authentication.user.username}
                   </Grid>
                 ) : (
-                    <Grid item className="rt_username">
+                  <Grid item className="rt_username">
                       Login/Signup
                     </Grid>
                  )}
-              <Grid item>{<Person />}</Grid>
+              <Grid item><Person /></Grid>
             </Grid>
             </Button>
 
             <Menu
-                  id="simple-menu"
-                  anchorEl={this.state.menuAnchorEl}
-                  keepMounted
-                  open={this.state.menuOpen}
-                  onClose={this.handleMenuClose}
-                >
-              {this.state.isLoggedIn? (
+              id="simple-menu"
+              anchorEl={this.state.menuAnchorEl}
+              keepMounted
+              open={this.state.menuOpen}
+              onClose={this.handleMenuClose}
+            >
+              {this.state.isLoggedIn ? (
                 <div>
                   <MenuItem
                     onClick={this.handleMenuClose}
@@ -146,7 +152,7 @@ class Header extends Component {
                       <Button className="menu_button" color="inherit">My Events</Button>
                     </Link>
                   </MenuItem>
-                  { this.props.authentication.user.is_admin? (
+                  { this.props.authentication.user.is_admin ? (
                     <div>
                       <MenuItem
                         onClick={this.handleMenuClose}
@@ -166,7 +172,7 @@ class Header extends Component {
                   ) : null }
                 </div>
                 ):(
-                <div>
+                  <div>
                   <MenuItem
                     onClick={this.handleMenuClose}
                   >
