@@ -21,7 +21,7 @@ import withWidth from '@material-ui/core/withWidth';
 import Login from '../authentication/Login';
 import Register from '../authentication/Register';
 import {
-  PARTICIPANT_HISTORY, HOME_ROUTE, EVENT_CREATION_PATH, CREATED_EVENTS,
+  PARTICIPANT_HISTORY, HOME_ROUTE, EVENT_CREATION_PATH, CREATED_EVENTS, ABOUT_US
 } from '../../RouteConstants';
 import store from '../../store';
 import Logout from '../authentication/Logout';
@@ -60,7 +60,7 @@ class Header extends Component {
 
 
   render() {
-    
+
     return (
       <div>
         <Grid container alignItems="center" className="country_bar">
@@ -76,13 +76,13 @@ class Header extends Component {
               <Button className="menu_button" color="inherit">Home</Button>
             </Link>
 
-            {this.state.isLoggedIn ? 
-            (
-              <Link href={PARTICIPANT_HISTORY}>
-                <Button className="menu_button" color="inherit">My Events</Button>
-              </Link>
-            ):null}
-            
+            {this.state.isLoggedIn ?
+              (
+                <Link href={PARTICIPANT_HISTORY}>
+                  <Button className="menu_button" color="inherit">My Events</Button>
+                </Link>
+              ) : null}
+
             {this.state.isLoggedIn && this.props.authentication.user.is_admin ? (
               <span>
                 <Button className="menu_button" aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick} >
@@ -108,7 +108,7 @@ class Header extends Component {
                 </Menu>
               </span>
             ) : null}
-            
+
 
             {this.state.isLoggedIn ? <Logout />
               : (
@@ -117,16 +117,21 @@ class Header extends Component {
                   <Register />
                 </span>
               )}
+            <span>
+              <Link href={ABOUT_US}>
+                <Button className="menu_button" color="inherit">About</Button>
+              </Link>
+            </span>
 
           </Grid>
           <Hidden smDown>
             <Grid container alignment="center" justify="center" md={12} lg={2} spacing={3}>
-              { this.state.isLoggedIn? 
+              {this.state.isLoggedIn ?
                 (
                   <Grid item className="rt_username">
-                    Hello { this.props.authentication.user.username }
+                    Hello {this.props.authentication.user.username}
                   </Grid>
-                ) : null }
+                ) : null}
               <Grid item>{<Person />}</Grid>
             </Grid>
           </Hidden>
