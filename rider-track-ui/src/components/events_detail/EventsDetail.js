@@ -27,6 +27,7 @@ import { connect } from 'react-redux';
 import withWidth from '@material-ui/core/withWidth';
 
 import Login from '../authentication/Login';
+import { Snackbar, IconButton, } from '@material-ui/core';
 
 class EventsDetail extends Component {
   start = async (eventId) => {
@@ -177,31 +178,25 @@ class EventsDetail extends Component {
                 </p>
               </Grid>
             </Grid>
-            <br />
-            <Grid
-item
-container
-className="event_info_bar"
-direction="row"
-justify="space-around"
-              alignItems="center"
-            >
+            <br/>
+            <Grid item container className="event_info_bar" direction="row" justify="space-around"
+                  alignItems="center">
               <Grid item>
-                <AvTimerIcon />
+                <AvTimerIcon/>
                 <p>
                   {this.state.details.duration}
                 </p>
               </Grid>
               <Grid item>
-                <EventIcon />
+                <EventIcon/>
                 <p>{`${this.state.time.getMonth()}-${this.state.time.getDay()}-${this.state.time.getFullYear()}`}</p>
               </Grid>
               <Grid item>
-                <PeopleIcon />
+                <PeopleIcon/>
                 <p>{this.state.details.max_participant}</p>
               </Grid>
             </Grid>
-            <br />
+            <br/>
 
             <div item>
               <h6 align="left">Description</h6>
