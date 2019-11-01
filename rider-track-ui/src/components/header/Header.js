@@ -19,14 +19,14 @@ import Room from '@material-ui/icons/Room';
 import Hidden from '@material-ui/core/Hidden';
 import withWidth from '@material-ui/core/withWidth';
 import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import Login from '../authentication/Login';
 import Register from '../authentication/Register';
 import {
-  PARTICIPANT_HISTORY, HOME_ROUTE, EVENT_CREATION_PATH, CREATED_EVENTS, ABOUT_US
+  PARTICIPANT_HISTORY, HOME_ROUTE, EVENT_CREATION_PATH, CREATED_EVENTS, ABOUT_US,
 } from '../../RouteConstants';
 import store from '../../store';
 import Logout from '../authentication/Logout';
-import MenuItem from '@material-ui/core/MenuItem';
 
 class Header extends Component {
   constructor(props) {
@@ -100,6 +100,21 @@ class Header extends Component {
             <Link href={HOME_ROUTE}>
               <Button className="menu_button" color="inherit">Home</Button>
             </Link>
+
+            {this.state.isLoggedIn
+              ? (
+                <Link href={PARTICIPANT_HISTORY}>
+                  <Button className="menu_button" color="inherit">My Events</Button>
+                </Link>
+              ) : null}
+
+            {this.state.isLoggedIn ? <Logout />
+              : (
+                <span>
+                  <Login />
+                  <Register />
+                </span>
+              )}
             <span>
               <Link href={ABOUT_US}>
                 <Button className="menu_button" color="inherit">About</Button>
@@ -115,20 +130,20 @@ class Header extends Component {
               onClick={this.handleMenuClick}
             >
               <Grid container alignment="center" justify="center" md={12}>
-              { this.state.isLoggedIn ?
-                (
+                { this.state.isLoggedIn
+                ? (
                   <Grid item className="rt_username">
-                    Hello 
-{' '}
-{this.props.authentication.user.username}
+                    Hello
+                    {' '}
+                    {this.props.authentication.user.username}
                   </Grid>
                 ) : (
                   <Grid item className="rt_username">
                       Login/Signup
-                    </Grid>
+                  </Grid>
                  )}
-              <Grid item><Person /></Grid>
-            </Grid>
+                <Grid item><Person /></Grid>
+              </Grid>
             </Button>
 
             <Menu
@@ -171,19 +186,19 @@ class Header extends Component {
                     </div>
                   ) : null }
                 </div>
-                ):(
+                ) : (
                   <div>
-                  <MenuItem
-                    onClick={this.handleMenuClose}
-                  >
-                    <Login />
-                  </MenuItem>
-                  <MenuItem
-                    onClick={this.handleMenuClose}
-                  >
-                    <Register />
-                  </MenuItem>
-                </div>
+                    <MenuItem
+                      onClick={this.handleMenuClose}
+                    >
+                      <Login />
+                    </MenuItem>
+                    <MenuItem
+                      onClick={this.handleMenuClose}
+                    >
+                      <Register />
+                    </MenuItem>
+                  </div>
               )}
             </Menu>
           </Hidden>
