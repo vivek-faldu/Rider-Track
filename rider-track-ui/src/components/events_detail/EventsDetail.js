@@ -28,6 +28,7 @@ import withWidth from '@material-ui/core/withWidth';
 
 import Login from '../authentication/Login';
 import { Snackbar, IconButton, } from '@material-ui/core';
+import Login from '../authentication/Login';
 
 class EventsDetail extends Component {
   start = async (eventId) => {
@@ -163,6 +164,8 @@ class EventsDetail extends Component {
           </span>
         );
       }
+
+
     }
 
     return (
