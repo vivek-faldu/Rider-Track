@@ -101,20 +101,6 @@ class Header extends Component {
               <Button className="menu_button" color="inherit">Home</Button>
             </Link>
 
-            {this.state.isLoggedIn
-              ? (
-                <Link href={PARTICIPANT_HISTORY}>
-                  <Button className="menu_button" color="inherit">My Events</Button>
-                </Link>
-              ) : null}
-
-            {this.state.isLoggedIn ? <Logout />
-              : (
-                <span>
-                  <Login />
-                  <Register />
-                </span>
-              )}
             <span>
               <Link href={ABOUT_US}>
                 <Button className="menu_button" color="inherit">About</Button>
