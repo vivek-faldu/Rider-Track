@@ -1,7 +1,7 @@
 /**
  * Author: Shaunak Shah
- * Task: add event start/stop for event organizers on event details page
- * Task no: 138
+ * Task: Add redirect to register page
+ * Task no: 137
  * Date: 10/31/2019
  */
 
@@ -26,6 +26,7 @@ import { any, default as PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import withWidth from '@material-ui/core/withWidth';
 import { Snackbar, IconButton, } from '@material-ui/core';
+import Login from '../authentication/Login';
 
 class EventsDetail extends Component {
   start = async (eventId) => {
@@ -99,6 +100,7 @@ class EventsDetail extends Component {
       open: false,
       messageSet: null,
       statusFlag: this.props.eventStatus,
+      triedToRegister: false,
     };
   }
 
@@ -126,11 +128,20 @@ class EventsDetail extends Component {
     }
   }
 
+  handleRegisterClick = (event) => {
+    if (!this.state.isLoggedIn) {
+      event.preventDefault();
+      this.setState({
+        triedToRegister: true,
+      });
+    }
+  }
+
   render() {
     let isLive = null;
     let isUpcoming = null;
 
-    if(this.state.isLoggedIn){
+    if(this.state.isLoggedIn && this.props.authentication.user.is_admin){
       if (this.state.details.status === 'Upcoming') {
         isLive = null;
         isUpcoming = (
@@ -150,6 +161,8 @@ class EventsDetail extends Component {
                 </span>
         );
       }
+
+
     }
 
     return (
@@ -208,9 +221,17 @@ class EventsDetail extends Component {
               </List>
             </div>
 
-            <Link to={EVENT_REGISTRATION_PATH.replace(':id', this.props.match.params.id)}>
-              <Button color="green">Register Today</Button>
+            <Button color="green">
+            <Link to={EVENT_REGISTRATION_PATH.replace(':id', this.props.match.params.id)} onClick={this.handleRegisterClick}>
+              Register Today
             </Link>
+            </Button>
+            {!this.state.isLoggedIn && this.state.triedToRegister
+              ? (
+                <Login
+                  openDialog
+                />
+              ) : null }
             <br/>
 
             {isUpcoming}
@@ -249,11 +270,13 @@ class EventsDetail extends Component {
 }
 
 EventsDetail.propTypes = {
+  cancelLoginAttempt: PropTypes.object.isRequired,
   authentication: PropTypes.object.isRequired,
 };
 
 const mapState = (state) => ({
   authentication: state.authentication,
+  loginUser: state.login,
 });
 
 async function fetchData(url){
