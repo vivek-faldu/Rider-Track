@@ -55,9 +55,28 @@ router.get("/", async (req, res) => {
     });
 });
 
-// to delete the list of event
+/** 
+ * route to delete the list of event.
+ * Author: Sai Saran Kandimalla
+ * Task: #122
+ */
 router.delete("/delete/:id", (request, response) => {
-    console.log("set");
+    // removing all the instances of event_id in user_events schema.
+    User_Event.collection.deleteMany({event_id: request.params.id});
+    
+    /** 
+     * undoing participant registration before deleting the event in backend.
+     */ 
+    Event.findById({_id:request.params.id}).then((event) => {
+        event.participants.map((participant) => {
+            User.findById(participant.id).then((user) => {
+                user.participated_events.filter((participated_event) => {
+                    participated_event != request.params.id;
+                });
+            });
+        });
+    });
+
     Event.remove({_id:request.params.id}).then(res => {
         return response.status(200).json();
     }).catch((err) => {
