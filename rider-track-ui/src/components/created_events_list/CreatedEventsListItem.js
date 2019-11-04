@@ -131,15 +131,15 @@ class CreatedEventsListItem extends Component {
             deleteButton = (
               <span>
                 <Button
-                    type="button"
-                    variant="contained"
-                    color="secondary"
-                    onClick={() => {
+                  type="button"
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => {
                             this.deleteEvent(this.props.eventId);
                         }}
-                  >
+                >
                         Delete
-                  </Button>
+                </Button>
               </span>
             );
         }
@@ -147,30 +147,30 @@ class CreatedEventsListItem extends Component {
         if (this.state.statusFlag === 'Completed') {
             isCompleted = (
               <span className="col-md-2 rt-events-list-item-text">
-  <p>{this.state.statusFlag}</p>
-</span>
+                <p>{this.state.statusFlag}</p>
+                            </span>
 );
         }
 
         return (
           <Box className="row">
             <div className="col-md-2 rt-events-list-item-text">
-                <p>
-                    {this.props.eventDate}
-                  </p>
-              </div>
+              <p>
+                  {this.props.eventDate}
+                </p>
+            </div>
             <div className="col-md-3 rt-events-list-item-text">
-                <Typography>
-                    <Link href={EVENT_DETAIL_PATH.replace(':id', this.props.eventId)}>
-                        {this.props.eventName}
-                      </Link>
-                  </Typography>
-              </div>
+              <Typography>
+                  <Link href={EVENT_DETAIL_PATH.replace(':id', this.props.eventId)}>
+                      {this.props.eventName}
+                    </Link>
+                </Typography>
+            </div>
             <div className="col-md-3 rt-events-list-item-text">
-                <p>
-                    {this.props.eventDescription}
-                  </p>
-              </div>
+              <p>
+                  {this.props.eventDescription}
+                </p>
+            </div>
 
             {isLive}
             {isUpcoming}
@@ -178,26 +178,26 @@ class CreatedEventsListItem extends Component {
             {deleteButton}
 
             <Snackbar
-                anchorOrigin={{
+              anchorOrigin={{
                         vertical: 'bottom',
                         horizontal: 'center',
                     }}
-                open={this.state.open}
-                autoHideDuration={6000}
-                onClose={this.handleClose}
-                ContentProps={{
+              open={this.state.open}
+              autoHideDuration={6000}
+              onClose={this.handleClose}
+              ContentProps={{
                         'aria-describedby': 'message-id',
                     }}
-                message={<span id="message-id">{this.state.messageSet}</span>}
-                action={[
-                    <IconButton
-                        key="close"
-                        aria-label="close"
-                        color="inherit"
-                        style={{ padding: 0.5 }}
-                      />,
+              message={<span id="message-id">{this.state.messageSet}</span>}
+              action={[
+                  <IconButton
+                      key="close"
+                      aria-label="close"
+                      color="inherit"
+                      style={{ padding: 0.5 }}
+                    />,
                     ]}
-              />
+            />
           </Box>
 
         );
