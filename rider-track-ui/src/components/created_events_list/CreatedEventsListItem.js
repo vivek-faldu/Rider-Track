@@ -15,9 +15,11 @@ import React, { Component } from 'react';
 import {
     Box, Typography, Link, Button, Snackbar, IconButton,
 } from '@material-ui/core';
+import PropTypes, { object } from 'prop-types';
+import { connect } from 'react-redux';
 import { EVENT_DETAIL_PATH } from '../../RouteConstants';
 
-export default class CreatedEventsListItem extends Component {
+class CreatedEventsListItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -76,7 +78,7 @@ export default class CreatedEventsListItem extends Component {
                 open: true,
                 messageSet: 'Event stopped successfully',
                 statusFlag: 'Completed',
-            }
+            },
 );
     }
 
@@ -84,14 +86,21 @@ export default class CreatedEventsListItem extends Component {
         this.setState(
             {
                 open: false,
-            }
+            },
 );
     }
 
-    deleteEvent = (eventID) => {
-        // once the backend is done, an ajax call will be made to the backend to delete
-        // event from here
-        console.log(eventID);
+    deleteEvent = async (eventId) => {
+        const url = `http://localhost:4241/api/events/delete/${eventId}`;
+
+        const response = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: this.props.authentication.user,
+        });
     }
 
     render() {
@@ -103,94 +112,105 @@ export default class CreatedEventsListItem extends Component {
         if (this.state.statusFlag === 'Upcoming') {
             isUpcoming = (
               <span className="col-md-2 rt-events-list-item-text">
-                  <p>{this.state.statusFlag}</p>
-                  <Button type="button" variant="contained" onClick={() => { this.start(this.props.eventId); }}>Start</Button>
-                </span>
+                <p>{this.state.statusFlag}</p>
+                <Button type="button" variant="contained" onClick={() => { this.start(this.props.eventId); }}>Start</Button>
+              </span>
             );
         }
 
         if (this.state.statusFlag === 'Live') {
             isLive = (
               <span className="col-md-2 rt-events-list-item-text">
-                  <p>{this.state.statusFlag}</p>
-                  <Button type="button" variant="contained" onClick={() => { this.stop(this.props.eventId); }}>Stop</Button>
-                </span>
+                <p>{this.state.statusFlag}</p>
+                <Button type="button" variant="contained" onClick={() => { this.stop(this.props.eventId); }}>Stop</Button>
+              </span>
             );
         }
 
         if (this.props.eventStatus !== 'Live') {
             deleteButton = (
               <span>
-                  <Button
-                      type="button"
-                      variant="contained"
-                      color="secondary"
-                      onClick={() => {
+                <Button
+                    type="button"
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => {
                             this.deleteEvent(this.props.eventId);
                         }}
-                    >
+                  >
                         Delete
-                    </Button>
-                </span>
+                  </Button>
+              </span>
             );
         }
 
         if (this.state.statusFlag === 'Completed') {
             isCompleted = (
-<span className="col-md-2 rt-events-list-item-text">
-                <p>{this.state.statusFlag}</p>
-            </span>
+              <span className="col-md-2 rt-events-list-item-text">
+  <p>{this.state.statusFlag}</p>
+</span>
 );
         }
 
         return (
           <Box className="row">
-              <div className="col-md-2 rt-events-list-item-text">
-                  <p>
-                      {this.props.eventDate}
-                    </p>
-                </div>
-              <div className="col-md-3 rt-events-list-item-text">
-                  <Typography>
-                      <Link href={EVENT_DETAIL_PATH.replace(':id', this.props.eventId)}>
-                          {this.props.eventName}
-                        </Link>
-                    </Typography>
-                </div>
-              <div className="col-md-3 rt-events-list-item-text">
-                  <p>
-                      {this.props.eventDescription}
-                    </p>
-                </div>
+            <div className="col-md-2 rt-events-list-item-text">
+                <p>
+                    {this.props.eventDate}
+                  </p>
+              </div>
+            <div className="col-md-3 rt-events-list-item-text">
+                <Typography>
+                    <Link href={EVENT_DETAIL_PATH.replace(':id', this.props.eventId)}>
+                        {this.props.eventName}
+                      </Link>
+                  </Typography>
+              </div>
+            <div className="col-md-3 rt-events-list-item-text">
+                <p>
+                    {this.props.eventDescription}
+                  </p>
+              </div>
 
-              {isLive}
-              {isUpcoming}
-              {isCompleted}
-              {deleteButton}
+            {isLive}
+            {isUpcoming}
+            {isCompleted}
+            {deleteButton}
 
-              <Snackbar
-                  anchorOrigin={{
+            <Snackbar
+                anchorOrigin={{
                         vertical: 'bottom',
                         horizontal: 'center',
                     }}
-                  open={this.state.open}
-                  autoHideDuration={6000}
-                  onClose={this.handleClose}
-                  ContentProps={{
+                open={this.state.open}
+                autoHideDuration={6000}
+                onClose={this.handleClose}
+                ContentProps={{
                         'aria-describedby': 'message-id',
                     }}
-                  message={<span id="message-id">{this.state.messageSet}</span>}
-                  action={[
-                      <IconButton
-                          key="close"
-                          aria-label="close"
-                          color="inherit"
-                          style={{ padding: 0.5 }}
-                        />,
+                message={<span id="message-id">{this.state.messageSet}</span>}
+                action={[
+                    <IconButton
+                        key="close"
+                        aria-label="close"
+                        color="inherit"
+                        style={{ padding: 0.5 }}
+                      />,
                     ]}
-                />
-            </Box>
+              />
+          </Box>
 
         );
     }
 }
+CreatedEventsListItem.PropTypes = {
+    authentication: PropTypes.func.isRequired,
+};
+
+const mapState = (state) => ({
+    authentication: state.authentication,
+});
+
+export default connect(
+    mapState,
+)(CreatedEventsListItem);
