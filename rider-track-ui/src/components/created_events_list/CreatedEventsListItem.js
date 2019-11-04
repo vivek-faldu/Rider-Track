@@ -11,8 +11,11 @@ import {
     Box, Typography, Link, Button,
 } from '@material-ui/core';
 import { EVENT_DETAIL_PATH } from '../../RouteConstants';
+import PropTypes, { object } from 'prop-types';
+import { connect } from 'react-redux';
 
-export default class CreatedEventsListItem extends Component {
+
+class CreatedEventsListItem extends Component {
     start = async (eventId) => {
         const url = `http://localhost:4241/api/events/start/${eventId}`;
 
@@ -42,10 +45,17 @@ export default class CreatedEventsListItem extends Component {
         await res.json();
     }
 
-    deleteEvent = (eventID) => {
-        // once the backend is done, an ajax call will be made to the backend to delete
-        // event from here
-        console.log(eventID);
+    deleteEvent = async (eventId) => {
+        const url = `http://localhost:4241/api/events/delete/${eventId}`;
+
+        const response = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: this.props.authentication.user
+        });
     }
 
     render() {
@@ -121,3 +131,14 @@ export default class CreatedEventsListItem extends Component {
         );
     }
 }
+CreatedEventsListItem.PropTypes = {
+    authentication: PropTypes.func.isRequired
+};
+
+const mapState = (state) => ({
+    authentication: state.authentication,
+});
+
+export default connect (
+    mapState
+)(CreatedEventsListItem);
