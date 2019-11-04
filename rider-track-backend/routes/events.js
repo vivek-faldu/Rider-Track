@@ -58,10 +58,18 @@ router.route('/').post(bodyParser, (req, res) => {
     let event = new Event(req.body);
     event.save()
         .then(event => {
-            res.status(200).json({
-                status: 200,
-                message: 'Added successfully'
-            });
+            User.findById(req.body.creator_id, function (err, user) {
+                if (err) {
+                    send(err);
+                }
+                user.created_events.push(event._id);
+                user.save().then(user => {
+                    res.status(200).json({
+                        status: 200,
+                        message: 'Added successfully'
+                    })
+                })
+            })
         })
         .catch(err => {
             res.status(400).send('Failed to create new event');
