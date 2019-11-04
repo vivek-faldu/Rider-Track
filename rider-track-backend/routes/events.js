@@ -105,6 +105,7 @@ router.delete("/delete/:id", (request, response) => {
     Event.findById({_id:request.params.id}).then((event) => {
         event.participants.map((participant) => {
             User.findById(participant.id).then((user) => {
+                sendEventCancelEventNotificationEmail(user, event.event_name);
                 user.participated_events.filter((participated_event) => {
                     participated_event != request.params.id;
                 });
@@ -113,6 +114,7 @@ router.delete("/delete/:id", (request, response) => {
     });
 
     Event.remove({_id:request.params.id}).then(res => {
+        
         return response.status(200).json();
     }).catch((err) => {
         response.status(400).json({

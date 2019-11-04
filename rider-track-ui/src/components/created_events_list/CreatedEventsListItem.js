@@ -18,6 +18,8 @@ import {
 import PropTypes, { object } from 'prop-types';
 import { connect } from 'react-redux';
 import { EVENT_DETAIL_PATH } from '../../RouteConstants';
+import PropTypes, { object } from 'prop-types';
+import { connect } from 'react-redux';
 
 class CreatedEventsListItem extends Component {
     constructor(props) {
@@ -103,10 +105,17 @@ class CreatedEventsListItem extends Component {
         });
     }
 
-    deleteEvent = (eventID) => {
-        // once the backend is done, an ajax call will be made to the backend to delete
-        // event from here
-        console.log(eventID);
+    deleteEvent = async (eventId) => {
+        const url = `http://localhost:4241/api/events/delete/${eventId}`;
+
+        const response = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: this.props.authentication.user
+        });
     }
 
     render() {
