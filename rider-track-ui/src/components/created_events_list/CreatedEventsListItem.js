@@ -30,7 +30,6 @@ class CreatedEventsListItem extends Component {
             statusFlag: this.props.eventStatus,
         };
     }
-
     start = async (eventId) => {
         const url = `http://localhost:4241/api/events/start/${eventId}`;
 
