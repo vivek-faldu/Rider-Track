@@ -21,6 +21,16 @@ import { connect } from 'react-redux';
 
 
 class CreatedEventsListItem extends Component {
+    constructor(props) {
+        super(props);
+        console.log(this.props.authentication.user)
+        this.state = {
+            open: false,
+            messageSet: null,
+            statusFlag: this.props.eventStatus,
+        }
+    }
+    
     start = async (eventId) => {
         const url = `http://localhost:4241/api/events/start/${eventId}`;
 
@@ -47,6 +57,7 @@ class CreatedEventsListItem extends Component {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
+
         });
 
         const response = await res.json();
@@ -88,9 +99,8 @@ class CreatedEventsListItem extends Component {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: this.props.authentication.user
-        }).then((response) => {
-            location.reload();
+        }).then(()=> {
+            window.location.reload();
         });
     }
 
@@ -102,8 +112,7 @@ class CreatedEventsListItem extends Component {
 
         if (this.state.statusFlag === 'Upcoming') {
             isUpcoming = (
-                <span className="col-md-2 rt-events-list-item-text">
-                    <p>{this.state.statusFlag}</p>
+                <span className="col-md-1 rt-events-list-item-text">
                     <Button type="button" variant="contained" onClick={() => { this.start(this.props.eventId); }}>Start</Button>
                 </span>
             );
@@ -111,19 +120,26 @@ class CreatedEventsListItem extends Component {
 
         if (this.state.statusFlag === 'Live') {
             isLive = (
-                <span className="col-md-2 rt-events-list-item-text">
-                    <p>{this.state.statusFlag}</p>
+                <span className="col-md-1 rt-events-list-item-text">
                     <Button type="button" variant="contained" onClick={() => { this.stop(this.props.eventId); }}>Stop</Button>
                 </span>
             )};
         
-
-        if (this.state.statusFlag === 'Completed') {
-            isCompleted = (<span className="col-md-2 rt-events-list-item-text">
-                <p>{this.state.statusFlag}</p>
-            </span>)
+        if( this.state.statusFlag != 'Live') {
+            deleteButton = (
+                <span className="col-md-1 rt-evemts-list-item-text">
+                    <Button 
+                        type="button" 
+                        variant="contained"
+                        color="secondary" 
+                        onClick={() => {this.deleteEvent(this.props.eventId); }}
+                    >
+                        Delete
+                    </Button>
+                </span>
+            );
         }
-
+        
         return (
             < Box className="row" >
                 <div className="col-md-2 rt-events-list-item-text">
@@ -143,7 +159,12 @@ class CreatedEventsListItem extends Component {
                         {this.props.eventDescription}
                     </p>
                 </div>
-                <div className="col-md-4 rt-events-list-item-text">
+                <div className="col-md-1 rt-events-list-item-text">
+                    <p>
+                        {this.state.statusFlag}
+                    </p>
+                </div>
+                <div className="col-md-3 rt-events-list-item-text">
                     <span>
                         {isLive}
                         {isUpcoming}
