@@ -41,6 +41,9 @@ class CreatedEventsListItem extends Component {
                 'Content-Type': 'application/json',
             },
             // body: JSON.stringify(content),
+        }).then((result) => {
+            console.log(result);
+            
         });
         await res.json();
     }
