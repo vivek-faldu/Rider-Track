@@ -47,7 +47,6 @@ class CreatedEventsListItem extends Component {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
-
         });
 
         const response = await res.json();
@@ -90,6 +89,8 @@ class CreatedEventsListItem extends Component {
                 'Content-Type': 'application/json',
             },
             body: this.props.authentication.user
+        }).then((response) => {
+            location.reload();
         });
     }
 
