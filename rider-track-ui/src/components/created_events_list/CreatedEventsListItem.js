@@ -18,13 +18,11 @@ import {
 import { EVENT_DETAIL_PATH } from '../../RouteConstants';
 import PropTypes, { object } from 'prop-types';
 import { connect } from 'react-redux';
-<<<<<<< HEAD
 
 
 class CreatedEventsListItem extends Component {
     constructor(props) {
         super(props);
-        console.log(this.props.authentication.user)
         this.state = {
             open: false,
             messageSet: null,
@@ -32,11 +30,6 @@ class CreatedEventsListItem extends Component {
         }
     }
     
-=======
-
-
-class CreatedEventsListItem extends Component {
->>>>>>> e457b2e457bcc54c038d5ef7936c0d4214fc1cf5
     start = async (eventId) => {
         const url = `http://localhost:4241/api/events/start/${eventId}`;
 
@@ -63,7 +56,6 @@ class CreatedEventsListItem extends Component {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
-<<<<<<< HEAD
 
         });
 
@@ -108,25 +100,6 @@ class CreatedEventsListItem extends Component {
             },
         }).then(()=> {
             window.location.reload();
-=======
-            // body: JSON.stringify(content),
-        }).then((result) => {
-            console.log(result);
-            
->>>>>>> e457b2e457bcc54c038d5ef7936c0d4214fc1cf5
-        });
-    }
-
-    deleteEvent = async (eventId) => {
-        const url = `http://localhost:4241/api/events/delete/${eventId}`;
-
-        const response = await fetch(url, {
-            method: 'DELETE',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: this.props.authentication.user
         });
     }
 
