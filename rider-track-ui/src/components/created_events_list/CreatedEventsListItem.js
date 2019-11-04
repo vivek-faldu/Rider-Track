@@ -57,6 +57,7 @@ class CreatedEventsListItem extends Component {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
+
         });
 
         const response = await res.json();
@@ -113,9 +114,8 @@ class CreatedEventsListItem extends Component {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: this.props.authentication.user
-        }).then((response) => {
-            location.reload();
+        }).then(()=> {
+            window.location.reload();
         });
     }
 
@@ -167,7 +167,7 @@ class CreatedEventsListItem extends Component {
               </span>
 );
         }
-
+        
         return (
           <Box className="row">
               <div className="col-md-2 rt-events-list-item-text">
