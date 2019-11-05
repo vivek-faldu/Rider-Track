@@ -12,7 +12,7 @@
     US : 123 , Task : 130
 */
 
-import React, { useState, useEffect, Component } from 'react';
+import React, { Component } from 'react';
 import {
     Card,
     Divider,
@@ -54,7 +54,7 @@ class CreatedEvents extends Component {
                 <Divider className="row" />
                 <div>
                     <ul>
-                        {this.state.createdevents.map((el) => (
+                        {this.state.createdevents.length > 0 ? this.state.createdevents.map((el) => (
                             <div>
                                 <li>
                                     <CreatedEventsListItem
@@ -67,7 +67,7 @@ class CreatedEvents extends Component {
                                 </li>
                                 <Divider variant="middle" />
                             </div>
-                        ))}
+                        )) : "You have not organized any events yet"}
                     </ul>
                 </div>
             </Card>)
