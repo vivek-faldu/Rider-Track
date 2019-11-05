@@ -9,14 +9,42 @@
  * Task no: 83
  * Date: 10/07/2019
  * 
+ * Task: Create a backend api to update specific details of a user
+ * Task no: 149
+ * Date: 11/05/2019
+ * 
  */
+
 var express = require('express');
 var router = express.Router();
 const Users = require('../models/users');
 const Event = require('../models/events');
 const UserEvent = require('../models/user_events');
 
-//const getRegisteredEvents = require('../services/getRegisteredEvents');
+router.put("/profile/:id", async (req, res) => {
+    let uid = req.params.id;
+    Users.findById(uid, (err, user) => {
+        if (err) {
+            res.status(500).json("Internal Server Error");
+        } else {
+            if (user == null) {
+                res.status(404).json("User not found");
+            }
+            else {
+                user.email = req.body.email;
+                user.username = req.body.username;
+                user.save().then(newuser => {
+                    res.status(200).json({
+                        status: 200,
+                        event: "User information has been updated sucessfully"
+                    });
+                }).catch(err => {
+                    res.status(500).send("Failed to update the user info");
+                });
+            }
+        }
+    });
+});
 
 router.get("/events", async (req, res) => {
     let uid = req.query.userid;
