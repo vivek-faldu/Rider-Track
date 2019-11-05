@@ -12,7 +12,7 @@
     US : 123 , Task : 130
 */
 
-import React, { useState, useEffect, Component } from 'react';
+import React, { Component } from 'react';
 import {
   Card,
   Divider,
@@ -52,7 +52,7 @@ class ParticipantHistory extends Component {
         <Divider className="row" />
         <div>
           <ul>
-            {this.state.events.map((el) => (
+            {this.state.events.length > 0 ? this.state.events.map((el) => (
               <div>
                 <li>
                   <ParticipantHistoryItem
@@ -65,7 +65,7 @@ class ParticipantHistory extends Component {
                 </li>
                 <Divider variant="middle" />
               </div>
-            ))}
+            )) : "You have not registered for any event yet!!!"}
           </ul>
         </div>
       </Card>
