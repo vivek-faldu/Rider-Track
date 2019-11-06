@@ -12,7 +12,7 @@ import EventsList from './components/events/EventsList';
 import EventsDetail from './components/events_detail/EventsDetail';
 import {
   HOME_ROUTE, EVENT_REGISTRATION_PATH, EVENT_DETAIL_PATH, EVENT_CREATION_PATH, LIVE_MAP,
-  PARTICIPANT_HISTORY, REGISTERED_EVENT_DETAIL_PATH, CREATED_EVENTS, ABOUT_US
+  PARTICIPANT_HISTORY, REGISTERED_EVENT_DETAIL_PATH, CREATED_EVENTS, ABOUT_US, PROFILE,
 } from './RouteConstants';
 import EventRegistrationForm from './components/eventregistration/EventRegistrationForm';
 import EventCreationForm from './components/eventcreation/EventCreationForm';
@@ -21,6 +21,7 @@ import ParticipantHistory from './components/participant_history/ParticipantHist
 import RegisteredEventDetail from './components/registered_event_detail/RegisteredEventDetail';
 import CreatedEvents from './components/created_events_list/CreatedEvents';
 import About from './components/about/about';
+import UserProfile from './components/user_profile/UserProfile';
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
                 <Route path={REGISTERED_EVENT_DETAIL_PATH} component={RegisteredEventDetail} />
                 <Route path={CREATED_EVENTS} component={CreatedEvents} />
                 <Route path={ABOUT_US} component={About} />
+                <Route path={PROFILE} component={UserProfile} />
               </Switch>
             </div>
             <Footer />
