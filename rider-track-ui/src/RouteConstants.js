@@ -7,3 +7,4 @@ export const LIVE_MAP = '/live/:id';
 export const PARTICIPANT_HISTORY = '/history';
 export const REGISTERED_EVENT_DETAIL_PATH = '/userevent/:id';
 export const CREATED_EVENTS = '/createdevents';
+export const PROFILE = '/profile';
