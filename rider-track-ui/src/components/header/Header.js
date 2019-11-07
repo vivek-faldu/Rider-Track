@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 
-import { Button, Link } from '@material-ui/core';
+import { Button, Link, ClickAwayListener } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Person from '@material-ui/icons/Person';
 import AddBox from '@material-ui/icons/AddBox';
@@ -33,7 +33,9 @@ class Header extends Component {
     super(props);
     this.state = {
       isLoggedIn: this.props.authentication.isAuthenticated,
-      anchorEl: null
+      anchorEl: null,
+      menuAnchorEl: null,
+      menuOpen: false
     };
   }
 
@@ -44,11 +46,35 @@ class Header extends Component {
     })
   };
 
+  handleMenuClick = (event) => {
+    this.setState({
+      menuAnchorEl: event.currentTarget,
+      menuOpen: true
+    })
+  };
+
   handleClose = () => {
     this.setState({
       anchorEl: null,
     })
   };
+
+  handleMenuClose = (event) => {
+    this.setState({
+      menuAnchorEl:null,
+      menuOpen: false
+    })
+  }
+
+  handleListKeyDown = (e) => {
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      this.setState({
+        menuOpen: false,
+        menuAnchorEl: null
+      })
+    }
+  }
 
   UNSAFE_componentWillReceiveProps = (newProps) => {
     if (newProps.authentication) {
@@ -95,6 +121,7 @@ class Header extends Component {
                   open={Boolean(this.state.anchorEl)}
                   onClose={this.handleClose}
                 >
+                  <ClickAwayListener onClickAway={this.handleListKeyDown}>
                   <MenuItem>
                     <Link href={EVENT_CREATION_PATH}>
                       <Button color="inherit">Create New Event</Button>
@@ -105,30 +132,56 @@ class Header extends Component {
                       <Button color="inherit">My Created Events</Button>
                     </Link>
                   </MenuItem>
+                  </ClickAwayListener>
                 </Menu>
               </span>
             ) : null}
-            
-
-            {this.state.isLoggedIn ? <Logout />
-              : (
-                <span>
-                  <Login />
-                  <Register />
-                </span>
-              )}
-
           </Grid>
           <Hidden smDown>
-            <Grid container alignment="center" justify="center" md={12} lg={2} spacing={3}>
+            <Button 
+              ref={this.state.menuAnchorEl}
+              className="menu_button" 
+              aria-controls="simple-menu" 
+              aria-haspopup="true" 
+              onClick={this.handleMenuClick}
+            >
+            <Grid container alignment="center" justify="center" md={12}>
               { this.state.isLoggedIn? 
                 (
                   <Grid item className="rt_username">
                     Hello { this.props.authentication.user.username }
                   </Grid>
-                ) : null }
+                ) : (
+                    <Grid item className="rt_username">
+                      Login/Signup
+                    </Grid>
+                 )}
               <Grid item>{<Person />}</Grid>
             </Grid>
+            </Button>
+
+            <Menu
+                  id="simple-menu"
+                  anchorEl={this.state.menuAnchorEl}
+                  keepMounted
+                  open={this.state.menuOpen}
+                  onClose={this.handleMenuClose}
+                >
+              {this.state.isLoggedIn? (
+                <MenuItem>
+                  <Logout />
+                </MenuItem>
+              ):(
+                <div>
+                  <MenuItem>
+                    <Login />
+                  </MenuItem>
+                  <MenuItem>
+                    <Register />
+                  </MenuItem>
+                </div>
+              )}
+            </Menu>
           </Hidden>
         </Grid>
         <Grid container alignItems="center" className="info_bar">
