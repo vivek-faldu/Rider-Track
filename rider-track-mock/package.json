@@ -1,0 +1,24 @@
+{
+  "name": "rider-track-mock",
+  "version": "1.0.0",
+  "description": "",
+  "main": "cleaner.js",
+  "dependencies": {
+    "fast-csv": "^3.4.0",
+    "sleep": "^6.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vivek-faldu/Rider-Track.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vivek-faldu/Rider-Track/issues"
+  },
+  "homepage": "https://github.com/vivek-faldu/Rider-Track#readme"
+}
