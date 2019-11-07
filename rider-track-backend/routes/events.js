@@ -33,14 +33,26 @@ router.get("/stop/:id", (req, res) => {
 });
 
 router.get("/", async (req, res) => {
-    Event
-        .find()
-        .exec(function (error, event) {
-            if (error) {
-                res.status(500).json("Internal Server Error");
-            } else
-                res.status(200).json(event);
+    
+    var startDate = req.query.startDate;
+    var endDate = req.query.endDate;
+    var query;
+    if (startDate === undefined || endDate === undefined)
+        query = Event.find();
+    else {
+        query = Event.find({
+            date_time: {
+                $gt: startDate,
+                $lt: endDate
+            },
         });
+    }
+    query.exec(function (error, event) {
+        if (error) {
+            res.status(500).json("Internal Server Error");
+        } else
+            res.status(200).json(event);
+    });
 });
 
 router.get("/:id", async (req, res) => {
