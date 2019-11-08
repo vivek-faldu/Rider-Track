@@ -17,16 +17,19 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Card from '@material-ui/core/Card';
-import { Button, Divider } from '@material-ui/core';
-import EventDetailMap from './EventDetailMap';
+import {
+ Button, Divider, Snackbar, IconButton 
+} from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { EVENT_REGISTRATION_PATH } from '../../RouteConstants';
 import EventListItem from '../events/EventListItem';
 import { any, default as PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import withWidth from '@material-ui/core/withWidth';
-import { Snackbar, IconButton, } from '@material-ui/core';
+import EventDetailMap from './EventDetailMap';
+
 import Login from '../authentication/Login';
+
 
 class EventsDetail extends Component {
   start = async (eventId) => {
@@ -67,8 +70,8 @@ class EventsDetail extends Component {
   handleStart = () => {
     this.setState({
       open: true,
-      messageSet: "Event started successfully",
-      statusFlag: "Live",
+      messageSet: 'Event started successfully',
+      statusFlag: 'Live',
     });
   }
 
@@ -76,16 +79,18 @@ class EventsDetail extends Component {
     this.setState(
       {
         open: true,
-        messageSet: "Event stopped successfully",
-        statusFlag: "Completed",
-      });
+        messageSet: 'Event stopped successfully',
+        statusFlag: 'Completed',
+      },
+);
   }
 
   handleClose = () => {
     this.setState(
       {
         open: false,
-      });
+      },
+);
   }
 
   constructor(props) {
@@ -109,8 +114,7 @@ class EventsDetail extends Component {
     url = url.concat(this.props.match.params.id);
     const res = fetch(url)
       .then((response) => response.json())
-      .then((result) =>
-        this.setState({
+      .then((result) => this.setState({
           details: result,
           parts: result.participants,
           time: new Date(result.date_time),
@@ -141,14 +145,14 @@ class EventsDetail extends Component {
     let isLive = null;
     let isUpcoming = null;
 
-    if(this.state.isLoggedIn && this.props.authentication.user.is_admin){
+    if (this.state.isLoggedIn && this.props.authentication.user.is_admin) {
       if (this.state.details.status === 'Upcoming') {
         isLive = null;
         isUpcoming = (
           <span className="col-md-2 rt-events-list-item-text">
-                    <p>{this.state.statusFlag}</p>
-                    <Button type="button" variant="contained" onClick={() => { this.start(this.state.details._id); }}>Start</Button>
-                </span>
+            <p>{this.state.statusFlag}</p>
+            <Button type="button" variant="contained" onClick={() => { this.start(this.state.details._id); }}>Start</Button>
+          </span>
         );
       }
 
@@ -156,13 +160,11 @@ class EventsDetail extends Component {
         isUpcoming = null;
         isLive = (
           <span className="col-md-2 rt-events-list-item-text">
-                    <p>{this.state.statusFlag}</p>
-                    <Button type="button" variant="contained" onClick={() => { this.stop(this.state.details._id); }}>Stop</Button>
-                </span>
+            <p>{this.state.statusFlag}</p>
+            <Button type="button" variant="contained" onClick={() => { this.stop(this.state.details._id); }}>Stop</Button>
+          </span>
         );
       }
-
-
     }
 
     return (
@@ -178,31 +180,37 @@ class EventsDetail extends Component {
                 </p>
               </Grid>
             </Grid>
-            <br/>
-            <Grid item container className="event_info_bar" direction="row" justify="space-around"
-                  alignItems="center">
+            <br />
+            <Grid
+item
+container
+className="event_info_bar"
+direction="row"
+justify="space-around"
+              alignItems="center"
+            >
               <Grid item>
-                <AvTimerIcon/>
+                <AvTimerIcon />
                 <p>
                   {this.state.details.duration}
                 </p>
               </Grid>
               <Grid item>
-                <EventIcon/>
+                <EventIcon />
                 <p>{`${this.state.time.getMonth()}-${this.state.time.getDay()}-${this.state.time.getFullYear()}`}</p>
               </Grid>
               <Grid item>
-                <PeopleIcon/>
+                <PeopleIcon />
                 <p>{this.state.details.max_participant}</p>
               </Grid>
             </Grid>
-            <br/>
+            <br />
 
             <div item>
               <h6 align="left">Description</h6>
               <p>{this.state.details.event_description}</p>
             </div>
-            <br/>
+            <br />
 
             <div item>
               <h6 align="left">Participants</h6>
@@ -211,20 +219,20 @@ class EventsDetail extends Component {
                   <div>
                     <ListItem>
                       <ListItemIcon>
-                        <PersonIcon/>
+                        <PersonIcon />
                       </ListItemIcon>
-                      <ListItemText primary={el.name}/>
+                      <ListItemText primary={el.name} />
                     </ListItem>
-                    <Divider variant="middle"/>
+                    <Divider variant="middle" />
                   </div>
                 ))}
               </List>
             </div>
 
             <Button color="green">
-            <Link to={EVENT_REGISTRATION_PATH.replace(':id', this.props.match.params.id)} onClick={this.handleRegisterClick}>
+              <Link to={EVENT_REGISTRATION_PATH.replace(':id', this.props.match.params.id)} onClick={this.handleRegisterClick}>
               Register Today
-            </Link>
+              </Link>
             </Button>
             {!this.state.isLoggedIn && this.state.triedToRegister
               ? (
@@ -232,7 +240,7 @@ class EventsDetail extends Component {
                   openDialog
                 />
               ) : null }
-            <br/>
+            <br />
 
             {isUpcoming}
             {isLive}
@@ -262,7 +270,7 @@ class EventsDetail extends Component {
           </Card>
         </Grid>
         <Grid item md={12} lg={8}>
-          <EventDetailMap coordinate={this.state.details.checkpoints}/>
+          <EventDetailMap coordinate={this.state.details.checkpoints} />
         </Grid>
       </Grid>
     );
@@ -279,7 +287,7 @@ const mapState = (state) => ({
   loginUser: state.login,
 });
 
-async function fetchData(url){
+async function fetchData(url) {
   const res = await fetch(url);
   res.json()
     .then((result) => {
