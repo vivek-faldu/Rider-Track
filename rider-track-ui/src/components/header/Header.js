@@ -23,7 +23,11 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Login from '../authentication/Login';
 import Register from '../authentication/Register';
 import {
+<<<<<<< HEAD
   PARTICIPANT_HISTORY, HOME_ROUTE, EVENT_CREATION_PATH, CREATED_EVENTS, ABOUT_US,
+=======
+  PARTICIPANT_HISTORY, HOME_ROUTE, EVENT_CREATION_PATH, CREATED_EVENTS, ABOUT_US
+>>>>>>> c894dfbcbe011f48ff6b39cea80a7367daed9e5d
 } from '../../RouteConstants';
 import store from '../../store';
 import Logout from '../authentication/Logout';
