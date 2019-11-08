@@ -17,17 +17,18 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Card from '@material-ui/core/Card';
-import { Button, Divider , Snackbar, IconButton, } from '@material-ui/core';
-import EventDetailMap from './EventDetailMap';
+import {
+ Button, Divider, Snackbar, IconButton 
+} from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { EVENT_REGISTRATION_PATH } from '../../RouteConstants';
 import EventListItem from '../events/EventListItem';
 import { any, default as PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import withWidth from '@material-ui/core/withWidth';
+import EventDetailMap from './EventDetailMap';
 
 import Login from '../authentication/Login';
-import { Snackbar, IconButton, } from '@material-ui/core';
 
 
 class EventsDetail extends Component {
@@ -80,7 +81,7 @@ class EventsDetail extends Component {
         open: true,
         messageSet: 'Event stopped successfully',
         statusFlag: 'Completed',
-      }
+      },
 );
   }
 
@@ -88,7 +89,7 @@ class EventsDetail extends Component {
     this.setState(
       {
         open: false,
-      }
+      },
 );
   }
 
@@ -164,8 +165,6 @@ class EventsDetail extends Component {
           </span>
         );
       }
-
-
     }
 
     return (
@@ -181,25 +180,31 @@ class EventsDetail extends Component {
                 </p>
               </Grid>
             </Grid>
-            <br/>
-            <Grid item container className="event_info_bar" direction="row" justify="space-around"
-                  alignItems="center">
+            <br />
+            <Grid
+item
+container
+className="event_info_bar"
+direction="row"
+justify="space-around"
+              alignItems="center"
+            >
               <Grid item>
-                <AvTimerIcon/>
+                <AvTimerIcon />
                 <p>
                   {this.state.details.duration}
                 </p>
               </Grid>
               <Grid item>
-                <EventIcon/>
+                <EventIcon />
                 <p>{`${this.state.time.getMonth()}-${this.state.time.getDay()}-${this.state.time.getFullYear()}`}</p>
               </Grid>
               <Grid item>
-                <PeopleIcon/>
+                <PeopleIcon />
                 <p>{this.state.details.max_participant}</p>
               </Grid>
             </Grid>
-            <br/>
+            <br />
 
             <div item>
               <h6 align="left">Description</h6>
@@ -227,7 +232,7 @@ class EventsDetail extends Component {
             <Button color="green">
               <Link to={EVENT_REGISTRATION_PATH.replace(':id', this.props.match.params.id)} onClick={this.handleRegisterClick}>
               Register Today
-            </Link>
+              </Link>
             </Button>
             {!this.state.isLoggedIn && this.state.triedToRegister
               ? (
