@@ -9,3 +9,4 @@ export const REGISTERED_EVENT_DETAIL_PATH = '/userevent/:id';
 export const CREATED_EVENTS = '/createdevents';
 export const ABOUT_US = '/about';
 export const PROFILE = '/profile';
+export const EVENT_EDIT_PATH = '/edit-event/:id';

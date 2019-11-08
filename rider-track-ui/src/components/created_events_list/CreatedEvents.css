@@ -14,7 +14,9 @@
     list-style: none;
     padding: 10px;
 }
-
+.edit {
+    color:white;
+}
 .rt-events-header {
     float: left;
     padding: 10px 10px 0px 10px;
