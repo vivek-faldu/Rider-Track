@@ -16,8 +16,7 @@ import TextField from '@material-ui/core/TextField';
 import DialogActions from '@material-ui/core/DialogActions';
 import { connect } from "react-redux";
 import PropTypes from 'prop-types';
-import { registerUser } from '../../actions/authenticationAction';
-
+import { registerUser, resetRegister } from '../../actions/authenticationAction';
 
 
 class Register extends Component {
@@ -57,7 +56,11 @@ class Register extends Component {
   };
 
   handleRegistrationClose = () => {
-    this.setState({ registrationOpen: false });
+    this.setState({ 
+      registrationOpen: false,
+      registrationDone: false, 
+    });
+    this.props.resetRegister();
   };
 
   handleCheckBox = (event) => {
@@ -223,6 +226,7 @@ class Register extends Component {
 
 Register.propTypes = {
   registerUser: PropTypes.func.isRequired,
+  resetRegister: PropTypes.func.isRequired,
   authentication: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
 };
@@ -234,5 +238,5 @@ const mapState = (state) => ({
 
 export default connect(
   mapState,
-  { registerUser },
+  { registerUser, resetRegister },
 )(Register);

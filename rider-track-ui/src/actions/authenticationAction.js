@@ -26,6 +26,18 @@ export const registerUser = (userData) => (dispatch) => {
     });
 };
 
+export const resetRegister = () => (dispatch) => {
+    dispatch({
+        type: REGISTER_USER,
+        payload: false,
+    });
+
+    dispatch({
+        type: FETCH_ERRORS,
+        payload: {},
+    });
+};
+
 export const updateCurrentUser = (decode) => {
     return {
         type: UPDATE_CURRENT_USER,
