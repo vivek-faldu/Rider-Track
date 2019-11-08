@@ -1,0 +1,19 @@
+  /**
+ * Author: Vivek Faldu
+ * Task: Create event map
+ * Task no: 43
+ * Date: 09/25/2019
+ */
+
+  .add-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 12px 24px;
+    margin: 20px;
+    font-size: 13px;
+    line-height: 2;
+    color: #6b6b76;
+    text-transform: uppercase;
+    outline: none;
+  }

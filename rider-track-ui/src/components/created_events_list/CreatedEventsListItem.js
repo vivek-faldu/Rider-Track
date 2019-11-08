@@ -17,9 +17,7 @@ import {
 } from '@material-ui/core';
 import PropTypes, { object } from 'prop-types';
 import { connect } from 'react-redux';
-import { EVENT_DETAIL_PATH } from '../../RouteConstants';
-import PropTypes, { object } from 'prop-types';
-import { connect } from 'react-redux';
+import { EVENT_DETAIL_PATH, EVENT_CREATION_PATH, EVENT_EDIT_PATH } from '../../RouteConstants';
 
 class CreatedEventsListItem extends Component {
     constructor(props) {
@@ -30,6 +28,7 @@ class CreatedEventsListItem extends Component {
             statusFlag: this.props.eventStatus,
         };
     }
+
     start = async (eventId) => {
         const url = `http://localhost:4241/api/events/start/${eventId}`;
 
@@ -113,7 +112,21 @@ class CreatedEventsListItem extends Component {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
-        }).then(()=> {
+        }).then(() => {
+            window.location.reload();
+        });
+    }
+
+
+    editEvent = async (eventId) => {
+        const url = `http://localhost:4241/api/events/edit/${eventId}`;
+        const response = await fetch(url, {
+            method: 'EDIT',
+            headers: {
+                Accept: 'application/json',
+                'Content-type': 'application/json',
+            },
+        }).then(() => {
             window.location.reload();
         });
     }
@@ -121,8 +134,9 @@ class CreatedEventsListItem extends Component {
     render() {
         let isLive = null;
         let isUpcoming = null;
-        let isCompleted = null;
+        const isCompleted = null;
         let deleteButton = null;
+        let editButton = null;
 
         if (this.state.statusFlag === 'Upcoming') {
             isUpcoming = (
@@ -158,40 +172,53 @@ class CreatedEventsListItem extends Component {
               </span>
             );
         }
-
-        if (this.state.statusFlag === 'Completed') {
-            isCompleted = (
-              <span className="col-md-2 rt-events-list-item-text">
-                <p>{this.state.statusFlag}</p>
-              </span>
-);
+        if (this.state.statusFlag == 'Upcoming') {
+            editButton = (
+              <span className="col-md-1 rt-evemts-list-item-text">
+                  <Button
+                      type="button"
+                      variant="contained"
+                      color="primary"
+                    >
+                      <Link href={EVENT_EDIT_PATH.replace(':id', this.props.eventId)}>
+                          <div className="edit">Edit</div>
+                        </Link>
+                    </Button>
+                </span>
+            );
         }
-        
+
         return (
           <Box className="row">
-              <div className="col-md-2 rt-events-list-item-text">
+              <div className="col-2 rt-events-list-item-text">
                   <p>
                       {this.props.eventDate}
                     </p>
                 </div>
-              <div className="col-md-3 rt-events-list-item-text">
+              <div className="col-2 rt-events-list-item-text">
                   <Typography>
                       <Link href={EVENT_DETAIL_PATH.replace(':id', this.props.eventId)}>
                           {this.props.eventName}
                         </Link>
                     </Typography>
                 </div>
-              <div className="col-md-3 rt-events-list-item-text">
+              <div className="col-2 rt-events-list-item-text">
                   <p>
                       {this.props.eventDescription}
                     </p>
                 </div>
-              <div className="col-md-4 rt-events-list-item-text">
+              <div className="col-md-1 rt-events-list-item-text">
+                  <p>
+                      {this.state.statusFlag}
+                    </p>
+                </div>
+              <div className="col-4 rt-events-list-item-text">
                   <span>
                       {isLive}
                       {isUpcoming}
                       {isCompleted}
                       {deleteButton}
+                      {editButton}
                     </span>
                 </div>
 
@@ -208,12 +235,12 @@ class CreatedEventsListItem extends Component {
                     }}
                   message={<span id="message-id">{this.state.messageSet}</span>}
                   action={[
-                <IconButton
-                    key="close"
-                    aria-label="close"
-                    color="inherit"
-                    style={{ padding: 0.5 }}
-                  />,
+                    <IconButton
+                  key="close"
+                  aria-label="close"
+                  color="inherit"
+                  style={{ padding: 0.5 }}
+                />,
                     ]}
                 />
             </Box>

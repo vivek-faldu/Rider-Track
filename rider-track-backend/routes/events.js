@@ -97,12 +97,12 @@ router.delete("/delete/:id", (request, response) => {
  */
 router.delete("/delete/:id", (request, response) => {
     // removing all the instances of event_id in user_events schema.
-    User_Event.collection.deleteMany({event_id: request.params.id});
-    
+    User_Event.collection.deleteMany({ event_id: request.params.id });
+
     /** 
      * undoing participant registration before deleting the event in backend.
-     */ 
-    Event.findById({_id:request.params.id}).then((event) => {
+     */
+    Event.findById({ _id: request.params.id }).then((event) => {
         event.participants.map((participant) => {
             User.findById(participant.id).then((user) => {
                 sendEventCancelEventNotificationEmail(user, event.event_name);
@@ -113,8 +113,8 @@ router.delete("/delete/:id", (request, response) => {
         });
     });
 
-    Event.remove({_id:request.params.id}).then(res => {
-        
+    Event.remove({ _id: request.params.id }).then(res => {
+
         return response.status(200).json();
     }).catch((err) => {
         response.status(400).json({
@@ -134,6 +134,7 @@ router.get("/:id", async (req, res) => {
     });
 
 });
+
 
 router.route('/').post(bodyParser, (req, res) => {
     let event = new Event(req.body);
@@ -198,6 +199,42 @@ router.route("/:id").put(bodyParser, (req, res) => {
                 })
             })
     });
+});
+
+// Event Edit
+// Edits row in event - adds participant to the given eventid
+//Edits row in user - adds eventid to participatedevents
+//adds new row in user-event
+
+router.route('/edit/:id').put(bodyParser, (req, res) => {
+    Event.findById(req.params.id, function (err, event) {
+        if (err) {
+            res.status(500).json();
+        }
+        console.log("ere");
+        console.log(event);
+        event.event_name = req.body.event_name;
+        event.event_description = req.body.event_description;
+        event.date_time = req.body.date_time;
+        event.duration = req.body.duration;
+        event.max_participant = req.body.max_participant;
+        event.place = req.body.place;
+        console.log("after edit " + event);
+        event.save()
+            .then(event => {
+                console.log("success now");
+                res.status(200).json({
+                    status: 200,
+                    message: 'Event edited successfully'
+                });
+            })
+            .catch(err => {
+                console.log("failed now");
+                console.log(err);
+                res.status(400).send('Failed to Edit the event');
+            });
+    })
+
 });
 
 router.route("/start/:id").put(bodyParser, (req, res) => {
