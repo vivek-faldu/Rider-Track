@@ -7,7 +7,7 @@
 
 import React, { Component } from 'react';
 import MapGL, { Marker, NavigationControl } from 'react-map-gl';
-import { Fab } from '@material-ui/core';
+import { Fab, Typography } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import Pin from './pin';
 import './CreateEventMap.css';
@@ -34,6 +34,10 @@ export default class CreateEventMap extends Component {
         onDragEnd={(event) => self._onMarkerDragEnd(event, i)}
       >
         <Pin size={20} />
+        <Typography color="secondary">
+          {i + 1}
+
+        </Typography>
       </Marker>
     ));
   }

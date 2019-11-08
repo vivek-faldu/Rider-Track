@@ -1,11 +1,16 @@
 import React, { useEffect } from 'react';
 import {
- Card, Divider, FormControl, NativeSelect, FormHelperText,
+ Card, Divider, FormControl, NativeSelect, FormHelperText, Button,
 } from '@material-ui/core';
 import './events.css';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 import { LIVE_EVENTS, UPCOMING_EVENTS, COMPLETED_EVENTS } from './EventsConstants';
 import EventListItem from './EventListItem';
-
 /*
     Added call to the backend api for list of events and filter to display them.
     Author: Sai Saran Kandimalla
@@ -26,8 +31,14 @@ const EventsList = () => {
         events: [],
     });
 
+    const [selectedDropDown, setSelectedDropDown] = React.useState(LIVE_EVENTS);
+    const currentDate = new Date();
+    const startdate = currentDate.setMonth(currentDate.getMonth() - 12);
+    const [from, setFrom] = React.useState(startdate);
+    const [to, setTo] = React.useState(Date());
+
     async function fetchData() {
-        const url = 'http://localhost:4241/api/events/';
+        const url = `http://localhost:4241/api/events?startDate=${from}&endDate=${to}`;
         const res = await fetch(url);
         res.json()
           .then((result) => {
@@ -43,6 +54,7 @@ const EventsList = () => {
                   completedEvents.push(result[i]);
                 }
               }
+              setSelectedDropDown(LIVE_EVENTS);
               setEvents({
                   live: liveEvents,
                   upcoming: upcomingEvents,
@@ -56,8 +68,8 @@ const EventsList = () => {
     }
 
     const handleEventTypeChange = (name) => (event) => {
-        // fetchData();
-        console.log(events.live);
+        console.log(event.target.value);
+        setSelectedDropDown(event.target.value);
         let eventsTemp = events.live;
         if (event.target.value === UPCOMING_EVENTS) {
             eventsTemp = events.upcoming;
@@ -74,19 +86,61 @@ const EventsList = () => {
         fetchData();
     }, []);
 
+
     return (
       <Card className="rt-events-card">
         <div className="row">
-          <div className="col-md-4">
+          <div className="col-md-2">
             <h1 className="rt-events-header">{state.header}</h1>
           </div>
-          <div className="col-md-8">
+          <div className="col-md-2">
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <KeyboardDatePicker
+                disableToolbar
+                variant="inline"
+                format="MM/dd/yyyy"
+                margin="none"
+                id="date-picker-inline"
+                label="From"
+                value={from}
+                onChange={(date) => setFrom(date)}
+                KeyboardButtonProps={{
+            'aria-label': 'change date',
+          }}
+              />
+            </MuiPickersUtilsProvider>
+          </div>
+          <div className="col-md-2">
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <KeyboardDatePicker
+                disableToolbar
+                variant="inline"
+                format="MM/dd/yyyy"
+                margin="none"
+                id="date-picker-inline"
+                label="To"
+                value={to}
+                onChange={(date) => setTo(date)}
+                KeyboardButtonProps={{
+            'aria-label': 'change date',
+          }}
+              />
+
+            </MuiPickersUtilsProvider>
+
+          </div>
+          <div className="col-md-1">
+            <Button color="primary" variant="outlined" onClick={() => fetchData()}>Go</Button>
+          </div>
+          <div className="col-md-5">
             <div className="rt-event-type-dropdown">
               <FormControl>
                 <NativeSelect
+
                   inputProps={{
                                     name: 'event-type-selector',
                                 }}
+                  value={selectedDropDown}
                   onChange={handleEventTypeChange('event-type-selector')}
                 >
                   <option value={LIVE_EVENTS}>Live</option>

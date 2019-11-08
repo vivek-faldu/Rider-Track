@@ -23,7 +23,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Login from '../authentication/Login';
 import Register from '../authentication/Register';
 import {
-  PARTICIPANT_HISTORY, HOME_ROUTE, EVENT_CREATION_PATH, CREATED_EVENTS, ABOUT_US,
+  PARTICIPANT_HISTORY, HOME_ROUTE, EVENT_CREATION_PATH, CREATED_EVENTS, ABOUT_US, PROFILE,
 } from '../../RouteConstants';
 import store from '../../store';
 import Logout from '../authentication/Logout';
@@ -84,7 +84,6 @@ class Header extends Component {
     }
   }
 
-
   render() {
     return (
       <div>
@@ -100,7 +99,15 @@ class Header extends Component {
             <Link href={HOME_ROUTE}>
               <Button className="menu_button" color="inherit">Home</Button>
             </Link>
-
+            {this.state.isLoggedIn
+              ? (
+<span>
+                <Link href={PROFILE}>
+                <Button className="menu_button" color="inherit">Profile</Button>
+              </Link>
+              </span>
+)
+            : null}
             <span>
               <Link href={ABOUT_US}>
                 <Button className="menu_button" color="inherit">About</Button>
@@ -193,7 +200,7 @@ class Header extends Component {
           <Grid item xs={12}>
             <Hidden smDown>
               <p>
-                Organise, Participate, Tract And Share Events! Visualize The Events as They Take Place.
+                Organize, Participate, Track And Share Events! Visualize The Events As They Take Place.
               </p>
             </Hidden>
           </Grid>
