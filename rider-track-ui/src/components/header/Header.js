@@ -11,29 +11,31 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 
-import { Button, Link } from '@material-ui/core';
+import { Button, Link, ClickAwayListener } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Person from '@material-ui/icons/Person';
 import AddBox from '@material-ui/icons/AddBox';
 import Room from '@material-ui/icons/Room';
 import Hidden from '@material-ui/core/Hidden';
 import withWidth from '@material-ui/core/withWidth';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import Login from '../authentication/Login';
 import Register from '../authentication/Register';
 import {
-  PARTICIPANT_HISTORY, HOME_ROUTE, EVENT_CREATION_PATH, CREATED_EVENTS,
+  PARTICIPANT_HISTORY, HOME_ROUTE, EVENT_CREATION_PATH, CREATED_EVENTS, ABOUT_US,
 } from '../../RouteConstants';
 import store from '../../store';
 import Logout from '../authentication/Logout';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 
 class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoggedIn: this.props.authentication.isAuthenticated,
-      anchorEl: null
+      anchorEl: null,
+      menuAnchorEl: null,
+      menuOpen: false,
     };
   }
 
@@ -41,14 +43,38 @@ class Header extends Component {
   handleClick = (event) => {
     this.setState({
       anchorEl: event.currentTarget,
-    })
+    });
+  };
+
+  handleMenuClick = (event) => {
+    this.setState({
+      menuAnchorEl: event.currentTarget,
+      menuOpen: true,
+    });
   };
 
   handleClose = () => {
     this.setState({
       anchorEl: null,
-    })
+    });
   };
+
+  handleMenuClose = (event) => {
+    this.setState({
+      menuAnchorEl: null,
+      menuOpen: false,
+    });
+  }
+
+  handleListKeyDown = (e) => {
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      this.setState({
+        menuOpen: false,
+        menuAnchorEl: null,
+      });
+    }
+  }
 
   UNSAFE_componentWillReceiveProps = (newProps) => {
     if (newProps.authentication) {
@@ -60,7 +86,6 @@ class Header extends Component {
 
 
   render() {
-    
     return (
       <div>
         <Grid container alignItems="center" className="country_bar">
@@ -76,59 +101,92 @@ class Header extends Component {
               <Button className="menu_button" color="inherit">Home</Button>
             </Link>
 
-            {this.state.isLoggedIn ? 
-            (
-              <Link href={PARTICIPANT_HISTORY}>
-                <Button className="menu_button" color="inherit">My Events</Button>
+            <span>
+              <Link href={ABOUT_US}>
+                <Button className="menu_button" color="inherit">About</Button>
               </Link>
-            ):null}
-            
-            {this.state.isLoggedIn && this.props.authentication.user.is_admin ? (
-              <span>
-                <Button className="menu_button" aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick} >
-                  Admin
-                </Button>
-                <Menu
-                  id="simple-menu"
-                  anchorEl={this.state.anchorEl}
-                  keepMounted
-                  open={Boolean(this.state.anchorEl)}
-                  onClose={this.handleClose}
-                >
-                  <MenuItem>
-                    <Link href={EVENT_CREATION_PATH}>
-                      <Button color="inherit">Create New Event</Button>
-                    </Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link href={CREATED_EVENTS}>
-                      <Button color="inherit">My Created Events</Button>
-                    </Link>
-                  </MenuItem>
-                </Menu>
-              </span>
-            ) : null}
-            
-
-            {this.state.isLoggedIn ? <Logout />
-              : (
-                <span>
-                  <Login />
-                  <Register />
-                </span>
-              )}
-
+            </span>
           </Grid>
           <Hidden smDown>
-            <Grid container alignment="center" justify="center" md={12} lg={2} spacing={3}>
-              { this.state.isLoggedIn? 
-                (
+            <Button
+              ref={this.state.menuAnchorEl}
+              className="menu_button"
+              aria-controls="simple-menu"
+              aria-haspopup="true"
+              onClick={this.handleMenuClick}
+            >
+              <Grid container alignment="center" justify="center" md={12}>
+                { this.state.isLoggedIn
+                ? (
                   <Grid item className="rt_username">
-                    Hello { this.props.authentication.user.username }
+                    Hello
+                    {' '}
+                    {this.props.authentication.user.username}
                   </Grid>
-                ) : null }
-              <Grid item>{<Person />}</Grid>
-            </Grid>
+                ) : (
+                  <Grid item className="rt_username">
+                      Login/Signup
+                  </Grid>
+                 )}
+                <Grid item><Person /></Grid>
+              </Grid>
+            </Button>
+
+            <Menu
+              id="simple-menu"
+              anchorEl={this.state.menuAnchorEl}
+              keepMounted
+              open={this.state.menuOpen}
+              onClose={this.handleMenuClose}
+            >
+              {this.state.isLoggedIn ? (
+                <div>
+                  <MenuItem
+                    onClick={this.handleMenuClose}
+                  >
+                    <Logout />
+                  </MenuItem>
+                  <MenuItem
+                    onClick={this.handleMenuClose}
+                  >
+                    <Link href={PARTICIPANT_HISTORY}>
+                      <Button className="menu_button" color="inherit">My Events</Button>
+                    </Link>
+                  </MenuItem>
+                  { this.props.authentication.user.is_admin ? (
+                    <div>
+                      <MenuItem
+                        onClick={this.handleMenuClose}
+                      >
+                        <Link href={EVENT_CREATION_PATH}>
+                          <Button color="inherit">Create New Event</Button>
+                        </Link>
+                      </MenuItem>
+                      <MenuItem
+                        onClick={this.handleMenuClose}
+                      >
+                        <Link href={CREATED_EVENTS}>
+                          <Button color="inherit">My Created Events</Button>
+                        </Link>
+                      </MenuItem>
+                    </div>
+                  ) : null }
+                </div>
+                ) : (
+                  <div>
+                    <MenuItem
+                      onClick={this.handleMenuClose}
+                    >
+                      <Login />
+                    </MenuItem>
+                    <MenuItem
+                      onClick={this.handleMenuClose}
+                    >
+                      <Register />
+                    </MenuItem>
+                  </div>
+              )}
+            </Menu>
           </Hidden>
         </Grid>
         <Grid container alignItems="center" className="info_bar">
