@@ -22,9 +22,9 @@ import {
   IconButton,
 } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
-import CreateEventMap from './CreateEventMap';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import CreateEventMap from './CreateEventMap';
 
 class EventCreationForm extends Component {
   constructor(props) {
@@ -143,9 +143,7 @@ class EventCreationForm extends Component {
     });
   }
 
-  getUserId = () => {
-    return this.props.authentication.isAuthenticated ? this.props.authentication.user.id : '';
-  };
+  getUserId = () => this.props.authentication.isAuthenticated ? this.props.authentication.user.id : '';
 
 
   onSubmit = (event) => {
@@ -270,7 +268,7 @@ class EventCreationForm extends Component {
         <Grid item xs={12}>
           <Typography variant="h5" align="center" style={{ padding: '20px' }} gutterBottom>
             Rider Track | Event | Create
-        </Typography>
+          </Typography>
         </Grid>
 
         <Grid container alignItems="flex-start" justify="center">
@@ -387,7 +385,7 @@ class EventCreationForm extends Component {
 
             <Grid item xs={12} style={{ width: '1150px' }}>
               Add Check Points
-            <CreateEventMap setEventMarker={this.setEventMarker} marker={marker} viewport={viewport} setViewPort={this.setViewPort} />
+              <CreateEventMap setEventMarker={this.setEventMarker} marker={marker} viewport={viewport} setViewPort={this.setViewPort} />
             </Grid>
 
             <Grid item xs={12} style={{ marginTop: 50 }}>
@@ -400,7 +398,7 @@ class EventCreationForm extends Component {
               >
                 Reset
 
-            </Button>
+              </Button>
 
 
               <Button
@@ -409,7 +407,7 @@ class EventCreationForm extends Component {
                 type="submit"
               >
                 Submit
-            </Button>
+              </Button>
             </Grid>
           </form>
         </Grid>
