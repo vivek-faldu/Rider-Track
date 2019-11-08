@@ -141,7 +141,7 @@ class CreatedEventsListItem extends Component {
         if (this.state.statusFlag === 'Upcoming') {
             isUpcoming = (
               <span className="col-md-2 rt-events-list-item-text">
-                <p>{this.state.statusFlag}</p>
+                {/* <p>{this.state.statusFlag}</p> */}
                 <Button type="button" variant="contained" onClick={() => { this.start(this.props.eventId); }}>Start</Button>
               </span>
             );
@@ -150,7 +150,7 @@ class CreatedEventsListItem extends Component {
         if (this.state.statusFlag === 'Live') {
             isLive = (
               <span className="col-md-2 rt-events-list-item-text">
-                <p>{this.state.statusFlag}</p>
+                {/* <p>{this.state.statusFlag}</p> */}
                 <Button type="button" variant="contained" onClick={() => { this.stop(this.props.eventId); }}>Stop</Button>
               </span>
             );
@@ -175,75 +175,75 @@ class CreatedEventsListItem extends Component {
         if (this.state.statusFlag == 'Upcoming') {
             editButton = (
               <span className="col-md-1 rt-evemts-list-item-text">
-                  <Button
-                      type="button"
-                      variant="contained"
-                      color="primary"
-                    >
-                      <Link href={EVENT_EDIT_PATH.replace(':id', this.props.eventId)}>
-                          <div className="edit">Edit</div>
-                        </Link>
-                    </Button>
-                </span>
+                <Button
+                  type="button"
+                  variant="contained"
+                  color="primary"
+                >
+                  <Link href={EVENT_EDIT_PATH.replace(':id', this.props.eventId)}>
+                      <div className="edit">Edit</div>
+                    </Link>
+                </Button>
+              </span>
             );
         }
 
         return (
           <Box className="row">
-              <div className="col-2 rt-events-list-item-text">
-                  <p>
-                      {this.props.eventDate}
-                    </p>
-                </div>
-              <div className="col-2 rt-events-list-item-text">
-                  <Typography>
-                      <Link href={EVENT_DETAIL_PATH.replace(':id', this.props.eventId)}>
-                          {this.props.eventName}
-                        </Link>
-                    </Typography>
-                </div>
-              <div className="col-2 rt-events-list-item-text">
-                  <p>
-                      {this.props.eventDescription}
-                    </p>
-                </div>
-              <div className="col-md-1 rt-events-list-item-text">
-                  <p>
-                      {this.state.statusFlag}
-                    </p>
-                </div>
-              <div className="col-4 rt-events-list-item-text">
-                  <span>
-                      {isLive}
-                      {isUpcoming}
-                      {isCompleted}
-                      {deleteButton}
-                      {editButton}
-                    </span>
-                </div>
+            <div className="col-2 rt-events-list-item-text">
+              <p>
+                  {this.props.eventDate}
+                </p>
+            </div>
+            <div className="col-2 rt-events-list-item-text">
+              <Typography>
+                  <Link href={EVENT_DETAIL_PATH.replace(':id', this.props.eventId)}>
+                      {this.props.eventName}
+                    </Link>
+                </Typography>
+            </div>
+            <div className="col-2 rt-events-list-item-text">
+              <p>
+                  {this.props.eventDescription}
+                </p>
+            </div>
+            <div className="col-md-1 rt-events-list-item-text">
+              <p>
+                  {this.state.statusFlag}
+                </p>
+            </div>
+            <div className="col-4 rt-events-list-item-text">
+              <span>
+                  {isLive}
+                  {isUpcoming}
+                  {isCompleted}
+                  {deleteButton}
+                  {editButton}
+                </span>
+            </div>
 
-              <Snackbar
-                  anchorOrigin={{
+            <Snackbar
+              anchorOrigin={{
                         vertical: 'bottom',
                         horizontal: 'center',
                     }}
-                  open={this.state.open}
-                  autoHideDuration={6000}
-                  onClose={this.handleClose}
-                  ContentProps={{
+              open={this.state.open}
+              autoHideDuration={6000}
+              onClose={this.handleClose}
+              ContentProps={{
                         'aria-describedby': 'message-id',
                     }}
-                  message={<span id="message-id">{this.state.messageSet}</span>}
-                  action={[
-                    <IconButton
-                  key="close"
-                  aria-label="close"
-                  color="inherit"
-                  style={{ padding: 0.5 }}
-                />,
+              message={<span id="message-id">{this.state.messageSet}</span>}
+              action={[
+                  <IconButton
+                      key="close"
+                      aria-label="close"
+                      color="inherit"
+                      style={{ padding: 0.5 }}
+                    />,
                     ]}
-                />
-            </Box>
+            />
+          </Box>
             );
     }
 }
