@@ -5,80 +5,61 @@
     Author: Janani Thiagarajan
     Date: 10/06/2019
     US: 3, Task : 63
-
-    Update to fetch user id from session
-    Author: Janani Thiagarajan
-    Date: 10/30/2019
-    US : 123 , Task : 130
 */
 
-import React, { useState, useEffect, Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Card,
   Divider,
 } from '@material-ui/core';
 import './ParticipantHistory.css';
 import ParticipantHistoryItem from './ParticipantHistoryItem';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
-class ParticipantHistory extends Component {
-  constructor(props) {
-    super(props);
+const ParticipantHistory = () => {
+  const [hasError, setErrors] = useState(false);
+  const [events, setEvents] = useState([]);
 
-    this.state = {
-      events: [],
-    };
-  }
+  useEffect(() => {
+    async function fetchData() {
+      const res = await fetch('http://localhost:4241/api/user/events?userid=5d96e4e1e78f0b615d85cf34');
+      res.json()
+        .then((res) => {
+          setEvents(res.participated_events);
+        })
+        .catch((err) => setErrors(err));
+    }
 
+    fetchData();
+  }, []);
 
-  async componentDidMount() {
-    let uid = this.props.authentication.user.id;
-    let url = 'http://localhost:4241/api/user/events?userid=' + uid;
-    const res = await fetch(url);
-    res.json()
-      .then((res) => this.setState({ events: res.participated_events }))
-      .catch((err) => console.log('Error in fetching registered events list', err));
-  }
-
-  render() {
-    return (
-      <Card className="rt-history-card">
-        <div className="row">
-          <div className="col-md-4">
-            <h1 className="rt-history-header">Registered Events</h1>
-          </div>
+  return (
+    <Card className="rt-history-card">
+      <div className="row">
+        <div className="col-md-4">
+          <h1 className="rt-history-header">Registered Events</h1>
         </div>
-        <Divider className="row" />
-        <div>
-          <ul>
-            {this.state.events.map((el) => (
-              <div>
-                <li>
-                  <ParticipantHistoryItem
-                    eventName={el.event_name}
-                    eventDescription={el.event_description}
-                    eventDate={el.date_time}
-                    eventId={el._id}
-                    eventStatus={el.status}
-                  />
-                </li>
-                <Divider variant="middle" />
-              </div>
-            ))}
-          </ul>
-        </div>
-      </Card>
-    );
-  }
-}
-
-ParticipantHistory.PropTypes = {
-  authentication: PropTypes.func.isRequired,
+      </div>
+      <Divider className="row" />
+      <div>
+        <ul>
+          {events.map((el) => (
+            <div>
+              <li>
+                <ParticipantHistoryItem
+                  eventName={el.event_name}
+                  eventDescription={el.event_description}
+                  eventDate={el.date_time}
+                  eventId={el._id}
+                  eventStatus={el.status}
+                />
+              </li>
+              <Divider variant="middle" />
+            </div>
+          ))}
+        </ul>
+      </div>
+    </Card>
+  );
 };
 
-const mapState = (state) => ({
-  authentication: state.authentication,
-});
-
-export default connect(mapState)(ParticipantHistory);
+export default ParticipantHistory;

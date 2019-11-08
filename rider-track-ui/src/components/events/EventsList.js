@@ -101,7 +101,7 @@ const EventsList = () => {
         <Divider className="row" />
         <div>
           <ul>
-            {state.events.length > 0 ? state.events.map((el) => (
+            {state.events.map((el) => (
               <div>
                 <li>
                   <EventListItem
@@ -117,7 +117,7 @@ const EventsList = () => {
                 </li>
                 <Divider variant="middle" />
               </div>
-  )) : `No ${state.header} exists`}
+))}
           </ul>
         </div>
       </Card>

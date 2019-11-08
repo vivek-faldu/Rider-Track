@@ -4,119 +4,66 @@
     Author: Janani Thiagarajan
     Date: 10/21/2019
     US: 101, Task : 104
-
-    Update to toggle start/stop button and event status
-    Author: Janani Thiagarajan
-    Date: 10/31/2019
-    US : 123 , Task : 129
  */
 
 import React, { Component } from 'react';
 import {
-    Box, Typography, Link, Button, Snackbar, IconButton,
+    Box, Typography, Link, Button,
 } from '@material-ui/core';
 import { EVENT_DETAIL_PATH } from '../../RouteConstants';
 
 export default class CreatedEventsListItem extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            open: false,
-            messageSet: null,
-            statusFlag: this.props.eventStatus,
-        }
-    }
-
     start = async (eventId) => {
         const url = `http://localhost:4241/api/events/start/${eventId}`;
 
         const res = await fetch(url, {
-            method: 'PUT',
+            method: 'PUT', // Update to PUT
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
+            // body: JSON.stringify(content),
         });
 
-        const response = await res.json();
-        if (response.status === 200) {
-            this.handleStart();
-        }
+        await res.json();
     }
 
     stop = async (eventId) => {
         const url = `http://localhost:4241/api/events/stop/${eventId}`;
 
         const res = await fetch(url, {
-            method: 'PUT',
+            method: 'PUT', // Update to PUT
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
-
+            // body: JSON.stringify(content),
         });
-
-        const response = await res.json();
-        if (response.status === 200) {
-            this.handleStop();
-        }
-    }
-
-    handleStart = () => {
-        this.setState({
-            open: true,
-            messageSet: "Event started successfully",
-            statusFlag: "Live",
-        });
-    }
-
-    handleStop = () => {
-        this.setState(
-            {
-                open: true,
-                messageSet: "Event stopped successfully",
-                statusFlag: "Completed",
-            });
-    }
-
-    handleClose = () => {
-        this.setState(
-            {
-                open: false,
-            });
+        await res.json();
     }
 
     render() {
         let isLive = null;
         let isUpcoming = null;
-        let isCompleted = null;
 
-        if (this.state.statusFlag === 'Upcoming') {
+        if (this.props.eventStatus === 'Upcoming') {
             isUpcoming = (
-                <span className="col-md-2 rt-events-list-item-text">
-                    <p>{this.state.statusFlag}</p>
+                <div>
                     <Button type="button" variant="contained" onClick={() => { this.start(this.props.eventId); }}>Start</Button>
-                </span>
+                </div>
             );
         }
 
-        if (this.state.statusFlag === 'Live') {
+        if (this.props.eventStatus === 'Live') {
             isLive = (
-                <span className="col-md-2 rt-events-list-item-text">
-                    <p>{this.state.statusFlag}</p>
+                <div>
                     <Button type="button" variant="contained" onClick={() => { this.stop(this.props.eventId); }}>Stop</Button>
-                </span>
+                </div>
             );
-        }
-
-        if (this.state.statusFlag === 'Completed') {
-            isCompleted = (<span className="col-md-2 rt-events-list-item-text">
-                <p>{this.state.statusFlag}</p>
-            </span>)
         }
 
         return (
-            < Box className="row" >
+            <Box className="row">
                 <div className="col-md-2 rt-events-list-item-text">
                     <p>
                         {this.props.eventDate}
@@ -134,32 +81,14 @@ export default class CreatedEventsListItem extends Component {
                         {this.props.eventDescription}
                     </p>
                 </div>
+                <div className="col-md-2 rt-events-list-item-text">
+                    <p>
+                        {this.props.eventStatus}
+                    </p>
+                </div>
                 {isLive}
                 {isUpcoming}
-                {isCompleted}
-
-                <Snackbar
-                    anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'center',
-                    }}
-                    open={this.state.open}
-                    autoHideDuration={6000}
-                    onClose={this.handleClose}
-                    ContentProps={{
-                        'aria-describedby': 'message-id',
-                    }}
-                    message={<span id="message-id">{this.state.messageSet}</span>}
-                    action={[
-                        <IconButton
-                            key="close"
-                            aria-label="close"
-                            color="inherit"
-                            style={{ padding: 0.5 }}
-                        />,
-                    ]}
-                />
-            </Box >
+            </Box>
         );
     }
 }

@@ -1,8 +1,8 @@
 /**
  * Author: Shaunak Shah
- * Task: Added styling for scroll on participants list
- * Task no: 136
- * Date: 30/05/2019
+ * Task: Added styling for that map component
+ * Task no: 65
+ * Date: 10/05/2019
  */
 
 .map_image {
@@ -17,8 +17,6 @@
 
 .participants_list {
     padding-left: 3px;
-    max-height: 10em;
-    overflow-y: scroll;
 }
 
 .event_info_bar {

@@ -58,30 +58,6 @@ export default class LiveEventMap extends Component {
     });
   }
 
-  getStats = async (object) => {
-    const lat = object.latitude;
-    const long = object.longitude;
-    const query = `https://api.mapbox.com/v4/mapbox.mapbox-terrain-v2/tilequery/${long},${lat}.json?layers=contour&limit=50&access_token=${MAPBOX_TOKEN}`;
-    const res = await fetch(query);
-      res.json()
-        .then((data) => {
-        const allFeatures = data.features;
-        const elevations = [];
-        // eslint-disable-next-line no-plusplus
-        for (let i = 0; i < allFeatures.length; i++) {
-            // eslint-disable-next-line no-undef
-            elevations.push(allFeatures[i].properties.ele);
-        }
-        // console.log(elevations);
-        const highestElevation = Math.max(...elevations);
-
-        const newObject = { ...object, elevation: highestElevation };
-
-        this.setState({ popupInfo: newObject });
-})
-        .catch((err) => console.log('error in altitude api call ', err));
-  }
-
   updateMarker = (coordinates) => {
     this.setState({
       coordinates,
@@ -111,8 +87,7 @@ export default class LiveEventMap extends Component {
         // borderRadius: '100%',
  }}
         onClick={() => {
-          this.getStats(object);
-          // this.setState({ popupInfo: object });
+          this.setState({ popupInfo: object });
  }}
       >
         <img
@@ -170,9 +145,7 @@ getpopup = () => {
                 <span style={{ fontWeight: 'bold' }}> 5 m/s</span>
                 <br />
                 Altitude:
-                <span style={{ fontWeight: 'bold' }}>
-                  {`${popupInfo.elevation} meter `}
-                </span>
+                <span style={{ fontWeight: 'bold' }}> 321.0 m </span>
                 <br />
                 Distance:
                 <span style={{ fontWeight: 'bold' }}> 5 km</span>

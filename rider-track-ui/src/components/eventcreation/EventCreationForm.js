@@ -21,7 +21,6 @@ import {
   Snackbar,
   IconButton,
 } from '@material-ui/core';
-import { Redirect } from 'react-router-dom';
 import CreateEventMap from './CreateEventMap';
 
 
@@ -31,18 +30,11 @@ export default class EventCreationForm extends Component {
     this.state = {
       open: false,
       selectedDate: new Date(),
-      eventName: null,
-      eventPlace: null,
-      eventMaxParticipant: null,
-      eventDuration: null,
-      eventDescription: null,
-      validateMessage: null,
-      eventNameError: false,
-      eventDescriptionError: false,
-      eventPlaceError: false,
-      eventMaxParticipantError: false,
-      eventDurationError: false,
-
+      eventName: '',
+      eventPlace: '',
+      eventMaxParticipant: '',
+      eventDuration: '',
+      eventDescription: '',
       viewport: {
         latitude: 33.4224,
         longitude: -111.9495,
@@ -96,6 +88,7 @@ export default class EventCreationForm extends Component {
   };
 
   send = async (content) => {
+    console.log('content', content);
     const res = await fetch('http://localhost:4241/api/events/', {
       method: 'POST',
       headers: {
@@ -108,9 +101,6 @@ export default class EventCreationForm extends Component {
     const response = await res.json();
     if (response.status === 200) {
         this.handleOpen();
-        setTimeout(() => {
-          this.props.history.push('/');
-        }, 3000);
     }
   }
 
@@ -146,13 +136,8 @@ export default class EventCreationForm extends Component {
   onSubmit = (event) => {
     event.preventDefault();
     const {
-  eventName, eventDescription, selectedDate, eventDuration, eventPlace, eventMaxParticipant, marker,
-      } = this.state;
-
-
-      if (!this.validate(eventName, eventDescription, eventDuration, eventPlace, eventMaxParticipant)) {
-        return;
-      }
+ eventName, eventDescription, selectedDate, eventDuration, eventPlace, eventMaxParticipant, marker,
+} = this.state;
 
     const body = {
       creator_id: '12345',
@@ -169,79 +154,6 @@ export default class EventCreationForm extends Component {
     this.send(body);
   };
 
-  validate = (eventName, eventDescription, eventDuration, eventPlace, eventMaxParticipant) => {
-    if (eventName == null || eventName.length <= 0) {
-      this.setState({
-        eventNameError: true,
-        eventMaxParticipantError: false,
-        eventPlaceError: false,
-        eventDurationError: false,
-        eventDescriptionError: false,
-        validateMessage: 'Please enter event name',
-      });
-      return false;
-    }
-
-    if (eventDescription == null || eventDescription.length <= 0) {
-      this.setState({
-        eventDescriptionError: true,
-        eventMaxParticipantError: false,
-        eventPlaceError: false,
-        eventDurationError: false,
-        eventNameError: false,
-        validateMessage: 'Please enter event description',
-      });
-      return false;
-    }
-
-    if (eventPlace == null || eventPlace.length <= 0) {
-      this.setState({
-        eventPlaceError: true,
-        eventMaxParticipantError: false,
-        eventDurationError: false,
-        eventDescriptionError: false,
-        eventNameError: false,
-        validateMessage: 'Please enter event place',
-      });
-      return false;
-    }
-
-    if (eventMaxParticipant == null || eventMaxParticipant.length <= 0) {
-      this.setState({
-        eventMaxParticipantError: true,
-        eventPlaceError: false,
-        eventDurationError: false,
-        eventDescriptionError: false,
-        eventNameError: false,
-        validateMessage: 'Please enter max participant',
-      });
-      return false;
-    }
-
-    if (eventDuration == null || eventDuration.length <= 0) {
-      this.setState({
-        eventDurationError: true,
-        eventMaxParticipantError: false,
-        eventPlaceError: false,
-        eventDescriptionError: false,
-        eventNameError: false,
-        validateMessage: 'Please enter event duration',
-      });
-      return false;
-    }
-
-    this.setState({
-      eventMaxParticipantError: false,
-      eventPlaceError: false,
-      eventDurationError: false,
-      eventDescriptionError: false,
-      eventNameError: false,
-      validateMessage: '',
-
-    });
-    return true;
-  }
-
   handleClose = () => {
   this.setState({ open: false });
   }
@@ -252,11 +164,9 @@ this.setState({ open: true });
 
   render() {
     const {
-            eventName, eventDescription, selectedDate, eventDuration, eventPlace,
-            eventMaxParticipant, marker, viewport, open, validateMessage, eventDescriptionError,
-            eventNameError, eventMaxParticipantError, eventDurationError, eventPlaceError,
-          } = this.state;
-
+eventName, eventDescription, selectedDate, eventDuration, eventPlace,
+eventMaxParticipant, marker, viewport, open,
+} = this.state;
   return (
     <Grid style={{
       border: 'solid', borderWidth: '3px', height: '1100px', margin: 20,
@@ -273,25 +183,22 @@ this.setState({ open: true });
         <form onSubmit={(e) => { this.onSubmit(e); }} noValidate autoComplete="off">
           <Grid item xs={12}>
             <TextField
-              error={eventNameError}
-              helperText={eventNameError ? validateMessage : null}
               id="eventname"
               label="Event Name"
+
               style={{ width: '40%' }}
               value={eventName}
               InputLabelProps={{
                   shrink: true,
                 }}
               onChange={(event) => {
-              this.setEventName(event.target.value);
+                 this.setEventName(event.target.value);
 }}
               margin="normal"
             />
           </Grid>
           <Grid item xs={12}>
             <TextField
-              error={eventDescriptionError}
-              helperText={eventDescriptionError ? validateMessage : null}
               id="eventdescription"
               label="Event Description"
               style={{ width: '40%' }}
@@ -307,8 +214,6 @@ this.setState({ open: true });
           <Grid item xs={12}>
             <TextField
               id="place"
-              error={eventPlaceError}
-              helperText={eventPlaceError ? validateMessage : null}
               label="Place"
               style={{ width: '40%' }}
               value={eventPlace}
@@ -349,8 +254,6 @@ this.setState({ open: true });
             <TextField
               id="max-participant"
               label="Max Participants"
-              error={eventMaxParticipantError}
-              helperText={eventMaxParticipantError ? validateMessage : null}
               style={{ width: '40%' }}
               value={eventMaxParticipant}
               InputLabelProps={{
@@ -367,8 +270,6 @@ this.setState({ open: true });
             <TextField
               id="duration"
               label="Duration"
-              error={eventDurationError}
-              helperText={eventDurationError ? validateMessage : null}
               style={{ width: '40%' }}
               value={eventDuration}
               InputLabelProps={{
@@ -430,7 +331,6 @@ this.setState({ open: true });
           />,
         ]}
       />
-
     </Grid>
 
   );
