@@ -13,7 +13,7 @@ const Schema = mongoose.Schema;
 
 let events = new Schema({
     creator_id: {
-        type: Number,
+        type: String,
         required: true,
         trim: true
     },
