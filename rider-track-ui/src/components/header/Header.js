@@ -9,7 +9,7 @@ import React, { Component } from 'react';
 import './Header.css';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
+import { withRouter } from 'react-router-dom';
 
 import { Button, Link, ClickAwayListener } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
@@ -84,6 +84,11 @@ class Header extends Component {
     }
   }
 
+  handleLogoClick = () => {
+    const { history } = this.props;
+    history.push('/');
+  }
+
   render() {
     return (
       <div>
@@ -101,11 +106,11 @@ class Header extends Component {
             </Link>
             {this.state.isLoggedIn
               ? (
-<span>
-                <Link href={PROFILE}>
-                <Button className="menu_button" color="inherit">Profile</Button>
-              </Link>
-              </span>
+                <span>
+                  <Link href={PROFILE}>
+                    <Button className="menu_button" color="inherit">Profile</Button>
+                  </Link>
+                </span>
 )
             : null}
             <span>
@@ -218,4 +223,4 @@ const mapState = (state) => ({
   authentication: state.authentication,
 });
 
-export default connect(mapState)(withWidth()(Header));
+export default withRouter(connect(mapState)(withWidth()(Header)));

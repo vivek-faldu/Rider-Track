@@ -21,7 +21,7 @@ import {
   Snackbar,
   IconButton,
 } from '@material-ui/core';
-import { Redirect } from 'react-router-dom';
+
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import CreateEventMap from './CreateEventMap';
@@ -143,7 +143,7 @@ class EventCreationForm extends Component {
     });
   }
 
-  getUserId = () => this.props.authentication.isAuthenticated ? this.props.authentication.user.id : '';
+  getUserId = () => (this.props.authentication.isAuthenticated ? this.props.authentication.user.id : '');
 
 
   onSubmit = (event) => {
