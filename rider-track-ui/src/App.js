@@ -12,7 +12,11 @@ import EventsList from './components/events/EventsList';
 import EventsDetail from './components/events_detail/EventsDetail';
 import {
   HOME_ROUTE, EVENT_REGISTRATION_PATH, EVENT_DETAIL_PATH, EVENT_CREATION_PATH, LIVE_MAP,
+<<<<<<< HEAD
   PARTICIPANT_HISTORY, REGISTERED_EVENT_DETAIL_PATH, CREATED_EVENTS, ABOUT_US, PROFILE, EVENT_EDIT_PATH,
+=======
+  PARTICIPANT_HISTORY, REGISTERED_EVENT_DETAIL_PATH, CREATED_EVENTS, EVENT_EDIT_PATH
+>>>>>>> a7d0a4cfdc6adbc4d46a56d38f7661b8192a6c40
 } from './RouteConstants';
 import EventRegistrationForm from './components/eventregistration/EventRegistrationForm';
 import EventCreationForm from './components/eventcreation/EventCreationForm';
@@ -20,8 +24,11 @@ import LivePage from './components/live/LivePage';
 import ParticipantHistory from './components/participant_history/ParticipantHistory';
 import RegisteredEventDetail from './components/registered_event_detail/RegisteredEventDetail';
 import CreatedEvents from './components/created_events_list/CreatedEvents';
+<<<<<<< HEAD
 import About from './components/about/about';
 import UserProfile from './components/user_profile/UserProfile';
+=======
+>>>>>>> a7d0a4cfdc6adbc4d46a56d38f7661b8192a6c40
 import EventEdit from './components/eventedit/EventEdit';
 
 function App() {
@@ -41,8 +48,11 @@ function App() {
                 <Route path={PARTICIPANT_HISTORY} component={ParticipantHistory} />
                 <Route path={REGISTERED_EVENT_DETAIL_PATH} component={RegisteredEventDetail} />
                 <Route path={CREATED_EVENTS} component={CreatedEvents} />
+<<<<<<< HEAD
                 <Route path={ABOUT_US} component={About} />
                 <Route path={PROFILE} component={UserProfile} />
+=======
+>>>>>>> a7d0a4cfdc6adbc4d46a56d38f7661b8192a6c40
                 <Route path={EVENT_EDIT_PATH} component={EventEdit} />
               </Switch>
             </div>
