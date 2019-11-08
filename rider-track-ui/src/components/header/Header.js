@@ -101,41 +101,6 @@ class Header extends Component {
             <Link href={HOME_ROUTE}>
               <Button className="menu_button" color="inherit">Home</Button>
             </Link>
-
-            {this.state.isLoggedIn ? 
-            (
-              <Link href={PARTICIPANT_HISTORY}>
-                <Button className="menu_button" color="inherit">My Events</Button>
-              </Link>
-            ):null}
-            
-            {this.state.isLoggedIn && this.props.authentication.user.is_admin ? (
-              <span>
-                <Button className="menu_button" aria-controls="simple-menu" aria-haspopup="true" onClick={this.handleClick} >
-                  Admin
-                </Button>
-                <Menu
-                  id="simple-menu"
-                  anchorEl={this.state.anchorEl}
-                  keepMounted
-                  open={Boolean(this.state.anchorEl)}
-                  onClose={this.handleClose}
-                >
-                  <ClickAwayListener onClickAway={this.handleListKeyDown}>
-                  <MenuItem>
-                    <Link href={EVENT_CREATION_PATH}>
-                      <Button color="inherit">Create New Event</Button>
-                    </Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link href={CREATED_EVENTS}>
-                      <Button color="inherit">My Created Events</Button>
-                    </Link>
-                  </MenuItem>
-                  </ClickAwayListener>
-                </Menu>
-              </span>
-            ) : null}
           </Grid>
           <Hidden smDown>
             <Button 
@@ -168,15 +133,48 @@ class Header extends Component {
                   onClose={this.handleMenuClose}
                 >
               {this.state.isLoggedIn? (
-                <MenuItem>
-                  <Logout />
-                </MenuItem>
-              ):(
                 <div>
-                  <MenuItem>
+                  <MenuItem
+                    onClick={this.handleMenuClose}
+                  >
+                    <Logout />
+                  </MenuItem>
+                  <MenuItem
+                    onClick={this.handleMenuClose}
+                  >
+                    <Link href={PARTICIPANT_HISTORY}>
+                      <Button className="menu_button" color="inherit">My Events</Button>
+                    </Link>
+                  </MenuItem>
+                  { this.props.authentication.user.is_admin? (
+                    <div>
+                      <MenuItem
+                        onClick={this.handleMenuClose}
+                      >
+                        <Link href={EVENT_CREATION_PATH}>
+                          <Button color="inherit">Create New Event</Button>
+                        </Link>
+                      </MenuItem>
+                      <MenuItem
+                        onClick={this.handleMenuClose}
+                      >
+                        <Link href={CREATED_EVENTS}>
+                          <Button color="inherit">My Created Events</Button>
+                        </Link>
+                      </MenuItem>
+                    </div>
+                  ) : null }
+                </div>
+                ):(
+                <div>
+                  <MenuItem
+                    onClick={this.handleMenuClose}
+                  >
                     <Login />
                   </MenuItem>
-                  <MenuItem>
+                  <MenuItem
+                    onClick={this.handleMenuClose}
+                  >
                     <Register />
                   </MenuItem>
                 </div>
