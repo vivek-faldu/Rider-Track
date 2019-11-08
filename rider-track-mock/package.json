@@ -4,12 +4,16 @@
   "description": "",
   "main": "cleaner.js",
   "dependencies": {
+    "express": "^4.17.1",
     "fast-csv": "^3.4.0",
     "sleep": "^6.1.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "nodemon": "^1.19.4"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",

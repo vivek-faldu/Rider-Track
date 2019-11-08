@@ -12,12 +12,15 @@ const csv = require('fast-csv');
 var net = require('net');
 var sleep = require('sleep');
 
+var path = require('path');
+var appDir = path.dirname(require.main.filename);
+
 var client = new net.Socket();
 client.connect(PORT, HOST, function() {
     console.log('Connected');
   });
 
-csv.parseFile('./spot_users.csv', {headers: true})
+csv.parseFile(appDir+'/spot_users.csv', {headers: true})
 .on('data', data => {
   const mes = data.id+','+data.Latitude+','+data.Longitude;
   client.write(mes);
