@@ -139,8 +139,7 @@ export default function About() {
                             </CardMedia>
                             <CardContent>
                                 <Typography variant="body2" color="textSecondary" component="p">
-                                    Janani is a Software Engineering graduate student at Arizona State University. She has a bachelor’s degree in Computer Science from Visvesvaraya Technological University
-
+                                    Janani is a Software Engineering graduate student at Arizona State University. She has a bachelor’s degree in Computer Science from SASTRA university
                                  </Typography>
                             </CardContent>
 
@@ -159,7 +158,7 @@ export default function About() {
                     </CardMedia>
                     <CardContent>
                         <Typography variant="body2" color="textSecondary" component="p">
-                            Sai Saran is a Software Engineering graduate student at Arizona State University. She has a bachelor’s degree in Computer Science from Visvesvaraya Technological University
+                            Sai Saran is a Software Engineering graduate student at Arizona State University. He has a bachelor’s degree in Electrical Engineerig from GITAM University
 
                                  </Typography>
                     </CardContent>
@@ -197,7 +196,7 @@ export default function About() {
                     </CardMedia>
                     <CardContent>
                         <Typography variant="body2" color="textSecondary" component="p">
-                            Shaunak is a Software Engineering graduate student at Arizona State University. She has a bachelor’s degree in Computer Science from Visvesvaraya Technological University
+                            Shaunak is a Software Engineering graduate student at Arizona State University. He has a bachelor’s degree in Computer Science from BITS.
 
                                  </Typography>
                     </CardContent>
@@ -215,7 +214,7 @@ export default function About() {
                     </CardMedia>
                     <CardContent>
                         <Typography variant="body2" color="textSecondary" component="p">
-                            Vivek is a Software Engineering graduate student at Arizona State University. She has a bachelor’s degree in Computer Science from Visvesvaraya Technological University
+                            Vivek is a Software Engineering graduate student at Arizona State University. He has a bachelor’s degree in Computer Science from MSV university.
 
                                  </Typography>
                     </CardContent>
