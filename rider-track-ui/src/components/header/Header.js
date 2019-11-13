@@ -156,11 +156,6 @@ class Header extends Component {
                   <MenuItem
                     onClick={this.handleMenuClose}
                   >
-                    <Logout />
-                  </MenuItem>
-                  <MenuItem
-                    onClick={this.handleMenuClose}
-                  >
                     <Link href={PARTICIPANT_HISTORY}>
                       <Button className="menu_button" color="inherit">My Events</Button>
                     </Link>
@@ -180,6 +175,11 @@ class Header extends Component {
                         <Link href={CREATED_EVENTS}>
                           <Button color="inherit">My Created Events</Button>
                         </Link>
+                      </MenuItem>
+                      <MenuItem
+                        onClick={this.handleMenuClose}
+                      >
+                        <Logout />
                       </MenuItem>
                     </div>
                   ) : null }
