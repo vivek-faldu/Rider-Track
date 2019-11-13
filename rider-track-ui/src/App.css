@@ -1,10 +1,15 @@
 .App {
   text-align: center;
+  text-transform: none !important; 
 }
 
 .App Button {
   text-transform: none !important;
   margin: 5px;
+}
+
+.App MenuItem {
+  text-transform: none !important;
 }
 
 .App-logo {
