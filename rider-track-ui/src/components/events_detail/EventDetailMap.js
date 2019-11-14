@@ -1,12 +1,13 @@
 /**
  * Author: Shaunak Shah
- * Task: Fixed lat and long to match with the backend data that we are getting.
- * Task no: 82
- * Date: 10/10/2019
+ * Task: Add start and finish markers.
+ * Task no: 171
+ * Date: 11/14/2019
  */
 
 import React, { useEffect, useRef } from 'react';
-import MapGL, { NavigationControl } from 'react-map-gl';
+import MapGL, { NavigationControl, Marker, Popup } from 'react-map-gl';
+import { Fab, Typography } from '@material-ui/core';
 import './EventsDetail.css';
 import PolylineOverlay from './PolyLineOverlay';
 
@@ -21,6 +22,12 @@ function EventDetailMap(props) {
       pitch: 0,
     },
   });
+
+  const [markers, setMarks] = React.useState({
+    start: [],
+    end: [],
+  })
+
   let reactMap = useRef(null);
 
   // method to update the viewport as dragged on screen.
@@ -43,6 +50,7 @@ function EventDetailMap(props) {
       },
     });
   }
+
   async function fetchData(a, b, c) {
     let url = 'https://api.mapbox.com/directions/v5/mapbox/driving/';
     url = url.concat(`${a}?geometries=geojson&access_token=${TOKEN}`);
@@ -51,19 +59,30 @@ function EventDetailMap(props) {
       .then((result) => {
         goToPoint(b, result.routes);
 
+        setMarks({
+          start: result.routes[0].geometry.coordinates[0],
+          end: result.routes[0].geometry.coordinates[1],
+        })
+
         const map = c.getMap();
+
         map.addLayer({
           id: 'route',
           type: 'line',
           source: {
             type: 'geojson',
             data: {
-              type: 'Feature',
-              properties: {},
-              geometry: {
-                type: 'LineString',
-                coordinates: result.routes[0].geometry.coordinates,
-              },
+              type: 'FeatureCollection',
+              features: [
+                {
+                  type: 'Feature',
+                  properties: {},
+                  geometry: {
+                    type: 'LineString',
+                    coordinates: result.routes[0].geometry.coordinates,
+                  },
+                },
+              ],
             },
           },
           layout: {
@@ -74,6 +93,52 @@ function EventDetailMap(props) {
             'line-color': '#1DB954',
             'line-width': 3,
           },
+        });
+
+        map.addLayer({
+          id: 'start_point',
+          type: 'symbol',
+          source: {
+            type: 'geojson',
+            data: {
+              type: 'FeatureCollection',
+              features: [
+                {
+                  type: "Feature",
+                  geometry: {
+                    coordinates: result.routes[0].geometry.coordinates[0],
+                    type: "Point"
+                  },
+                  properties: {
+                    title: 'Start',
+                    icon: 'marker',
+                  }
+                },
+                {
+                  type: "Feature",
+                  geometry: {
+                    coordinates: result.routes[0].geometry.coordinates[result.routes[0].geometry.coordinates.length-1],
+                    type: "Point"
+                  },
+                  properties: {
+                    title: 'Finish',
+                    icon: 'marker',
+                  }
+                },
+              ],
+            },
+          },
+
+          layout: {
+            // get the icon name from the source's "icon" property
+            // concatenate the name to get an icon from the style's sprite sheet
+            "icon-image": ["concat", ["get", "icon"], "-15"],
+            // get the title name from the source's "title" property
+            "text-field": ["get", "title"],
+            "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+            "text-offset": [0, 0.6],
+            "text-anchor": "top",
+            }
         });
       });
   }
@@ -96,6 +161,11 @@ function EventDetailMap(props) {
     }
   }, [props.coordinate]);
 
+  // const getMarker = (coord) => (
+  //   // console.log(markers.start);
+  //   <Marker latitude={coord[0]} longitude={coord[1]} offsetLeft={-20} offsetTop={-10}> <div>start</div> </Marker>
+  // );
+
   const TOKEN = 'pk.eyJ1Ijoidml2ZWtmYWxkdSIsImEiOiJjazBzaGI1aGMwMm1hM2hwZDY5Zmc0OHd5In0.I2EViz8YDQwXvwW_38Oujg';
   return (
     <MapGL
@@ -109,11 +179,20 @@ function EventDetailMap(props) {
       mapboxApiAccessToken={TOKEN}
       style={{ padding: 10 }}
     >
+      {/* <Marker
+        latitude={markers.start}
+        longitude={markers.end}
+        offsetLeft={-20}
+        offsetTop={-10}
+        >
+          <div>start</div>
+        </Marker> */}
 
       <div className="detail_map_frame">
         <NavigationControl onViewportChange={updateViewport} />
       </div>
 
+        {/* {getMarker(markers.start)} */}
     </MapGL>
   );
 }
