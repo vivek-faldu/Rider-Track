@@ -26,4 +26,8 @@
     font-weight: bold;
 }
 
+.footer_button span.MuiButton-label {
+    font-size: 11.2px !important;
+}
+
 

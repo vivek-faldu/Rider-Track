@@ -18,7 +18,9 @@ import Hidden from '@material-ui/core/Hidden';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Login from '../authentication/Login';
+import Signup from '../authentication/Register';
 import Logout from '../authentication/Logout';
+import { HOME_ROUTE, ABOUT_US } from '../../RouteConstants';
 
 class Footer extends Component {
   
@@ -27,6 +29,14 @@ class Footer extends Component {
     this.state = {
       isLoggedIn: false,
     }
+  }
+
+  redirectHome = () => {
+    this.props.history.push(HOME_ROUTE);
+  }
+
+  redirectAbout = () => {
+    this.props.history.push(ABOUT_US);
   }
 
   UNSAFE_componentWillReceiveProps = (newProps) => {
@@ -42,22 +52,40 @@ class Footer extends Component {
       <Grid container alignItems="center" className="bottom">
         <Hidden mdDown>
           <Grid container item md={4} direction="column" justify="center" alignItems="center">
-            <Grid item md={3}><Button className="footer_button" color="inherit">Home</Button></Grid>
-            <Grid item md={3}><Button className="footer_button" color="inherit">Organisers</Button></Grid>
-            <Grid item md={3}><Button className="footer_button" color="inherit">About</Button></Grid>
+            <Grid item md={3}>
+              <Button 
+                className="footer_button" 
+                onClick={this.redirectHome} 
+                color="inherit"
+              >
+                Home
+              </Button>
+            </Grid>
+            
+            <Grid item md={3}>
+              <Button 
+                className="footer_button" 
+                color="inherit"
+                onClick={this.redirectAbout}
+              >
+                About
+              </Button>
+            </Grid>
+            
             { this.state.isLoggedIn?
             (
-              <Grid item md={3}>
-                <Button className="footer_button" color="inherit">
-                  <Logout />
-                </Button>
+              <Grid className="footer_button" item md={3}>
+                <Logout />
               </Grid>
             ):(
-              <Grid item md={3}>
-                <Button className="footer_button" color="inherit">
+              <div>
+                <Grid className="footer_button" item md={3}>
                   <Login />
-                </Button>
-              </Grid>
+                </Grid>
+                <Grid className="footer_button" item md={3}>
+                  <Signup />
+                </Grid>
+              </div>
             )}
           </Grid>
         </Hidden>
