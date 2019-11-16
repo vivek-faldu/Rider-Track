@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import './RegisteredEventDetail.css';
 import AvTimerIcon from '@material-ui/icons/AvTimer';
@@ -8,9 +8,11 @@ import Card from '@material-ui/core/Card';
 import DirectionsRunIcon from '@material-ui/icons/DirectionsRun';
 import WatchIcon from '@material-ui/icons/Watch';
 import EventNoteIcon from '@material-ui/icons/EventNote';
-import map from '../../assets/map.png';
 import RegisteredEventDetailMap from './RegisteredEventDetailMap';
+import EventDetailMap from '../events_detail/EventDetailMap';
 
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 /* import PersonIcon from '@material-ui/icons/Person';
 import List from '@material-ui/core/List';
@@ -19,71 +21,84 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import { Button } from '@material-ui/core';
  */
+class RegisteredEventDetail extends Component {
+  constructor(props) {
+    super(props);
 
-function RegisteredEventDetail({ match }) {
-  const [hasError, setErrors] = useState(false)
-  const [details, setDetails] = useState({})
+    this.state = {
+      details: {},
+    };
+  }
 
-  useEffect(() => {
-    async function fetchData() {
-      const res = await fetch('http://localhost:4241/api/user/eventdetail?userid=5d96e4e1e78f0b615d85cf34&eventid=' + match.params.id);
-      res.json()
-        .then(res => setDetails(res))
-        .catch(err => setErrors(err));
-    }
-    fetchData();
-  }, []);
+  async componentDidMount() {
+    let uid = this.props.authentication.user.id;
+    let url = 'http://localhost:4241/api/user/eventdetail?userid=' + uid + '&eventid=';
+    url = url.concat(this.props.match.params.id);
+    const res = await fetch(url);
+    res.json()
+      .then((res) => this.setState({ details: res }))
+      .catch((err) => console.log('Error in fetching registered event details', err));
+  }
 
-  return (
-    <Grid container className="event_layout" direction="row">
-      <Grid item md={12} lg={4} direction="column" className="event_info_column" container>
-        <Card>
-          <br />
-          <Grid item><h4>{details.event_name}</h4></Grid>
-          <Grid item direction="row" justify="flex-start" container>
+  render() {
+    return (
+      <Grid container className="event_layout" direction="row">
+        <Grid item md={12} lg={4} direction="column" className="event_info_column" container>
+          <Card>
             <br />
-            <Grid item><p>{details.event_description}</p></Grid>
-          </Grid>
-          <br />
-          <Grid item container className="event_info_bar" direction="row" justify="space-around" alignItems="center">
-            <Grid item>
-              <AvTimerIcon />
-              <p>{details.duration}</p>
+            <Grid item><h4>{this.state.details.event_name}</h4></Grid>
+            <Grid item direction="row" justify="flex-start" container>
+              <br />
+              <Grid item><p>{this.state.details.event_description}</p></Grid>
             </Grid>
-            <Grid item>
-              <EventIcon />
-              <p>{details.date_time}</p>
+            <br />
+            <Grid item container className="event_info_bar" direction="row" justify="space-around" alignItems="center">
+              <Grid item>
+                <AvTimerIcon />
+                <p>{this.state.details.duration}</p>
+              </Grid>
+              <Grid item>
+                <EventIcon />
+                <p>{this.state.details.date_time}</p>
+              </Grid>
+              <Grid item>
+                <PeopleIcon />
+                <p>{this.state.details.max_participant}</p>
+              </Grid>
             </Grid>
-            <Grid item>
-              <PeopleIcon />
-              <p>{details.max_participant}</p>
+            <br />
+            <Grid item container className="event_info_bar" direction="row" justify="space-around" alignItems="center">
+              <Grid item>
+                <DirectionsRunIcon />
+                <p>5mph</p>
+              </Grid>
+              <Grid item>
+                <WatchIcon />
+                <p>20minutes</p>
+              </Grid>
+              <Grid item>
+                <EventNoteIcon />
+                <p>{this.state.details.status}</p>
+              </Grid>
             </Grid>
-          </Grid>
-          <br />
-          <Grid item container className="event_info_bar" direction="row" justify="space-around" alignItems="center">
-            <Grid item>
-              <DirectionsRunIcon />
-              <p>5mph</p>
-            </Grid>
-            <Grid item>
-              <WatchIcon />
-              <p>20minutes</p>
-            </Grid>
-            <Grid item>
-              <EventNoteIcon />
-              <p>{details.status}</p>
-            </Grid>
-          </Grid>
-          <br />
-        </Card>
+            <br />
+          </Card>
+        </Grid>
+        <Grid item md={12} lg={8}>
+          {this.state.details.status === 'Completed'
+            ? <RegisteredEventDetailMap checkpoints={this.state.details.checkpoints} />
+            : <EventDetailMap coordinate={this.state.details.event_checkpoints} />}
+        </Grid>
       </Grid>
-      <Grid item md={12} lg={8}>
-        {details.status === 'Completed'
-          ? <RegisteredEventDetailMap checkpoints={details.checkpoints} />
-          : <img className="map_image" img src={map} alt="map" />}
-      </Grid>
-    </Grid>
-  );
+    );
+  }
 }
+RegisteredEventDetail.PropTypes = {
+  authentication: PropTypes.func.isRequired,
+};
 
-export default RegisteredEventDetail;
+const mapState = (state) => ({
+  authentication: state.authentication,
+});
+
+export default connect(mapState)(RegisteredEventDetail);
