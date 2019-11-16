@@ -5,6 +5,12 @@
  * Date: 09/26/2019
  */
 
+ /**
+ * Author: Shaunak Shah
+ * Task: #172 Create a map to show moving points on map which represent the live location of participant, Create pusher service for front end.
+ * Date: 10/16/2019
+ */
+
 import React, { Component } from 'react';
 import MapGL, { Marker, Popup } from 'react-map-gl';
 import Pusher from 'pusher-js';
@@ -35,12 +41,16 @@ export default class LiveEventMap extends Component {
         pitch: 20,
       },
       popupInfo: null,
+      details: {},
     };
   }
 
 
   componentDidMount() {
     this.initPusher();
+
+    // call to get the points of track.
+    this.getPoints();
   }
 
   componentWillUnmount() {
@@ -86,6 +96,98 @@ export default class LiveEventMap extends Component {
     this.setState({
       coordinates,
     });
+  }
+
+  // function fetches the checkpoints data for the track of the particular event.
+  getPoints = async () => {
+    let url = 'http://localhost:4241/api/events/';
+    url = url.concat(this.props.eventid);
+    const res = await fetch(url);
+    res.json()
+      .then((result) => this.setState({
+          details: result,
+        }))
+      .then((res) => this.setupPoints(this.state.details))
+      .catch((err) => this.setState = {
+        errors: err,
+      });
+  }
+
+  // method to move center of the page to coordinates passed in.
+  // Very important to load once the coordinates are initialized.
+  // We use starting point of the track as initial center.
+  goToPoint = (center) => {
+    this.setState({
+      viewport: {
+        latitude: center[0],
+        longitude: center[1],
+        zoom: 11.5,
+        bearing: 0,
+        pitch: 0,
+      },
+    });
+  }
+
+  // fetch the data from mapbox api to get the detailed coordinates of the 
+  // track of the event. And draw the track on main map.
+  fetchData = async (a, b) => {
+    let url = 'https://api.mapbox.com/directions/v5/mapbox/driving/';
+    url = url.concat(`${a}?geometries=geojson&access_token=${MAPBOX_TOKEN}`);
+    const res = await fetch(url);
+    res.json()
+      .then((result) => {
+
+        this.goToPoint(b);
+        const map = this.myRef.getMap();
+        console.log(result.routes[0].geometry.coordinates);
+        map.addLayer({
+          id: 'route',
+          type: 'line',
+          source: {
+            type: 'geojson',
+            data: {
+              type: 'FeatureCollection',
+              features: [
+                {
+                  type: 'Feature',
+                  properties: {},
+                  geometry: {
+                    type: 'LineString',
+                    coordinates: result.routes[0].geometry.coordinates,
+                  },
+                },
+              ],
+            },
+          },
+          layout: {
+            'line-join': 'round',
+            'line-cap': 'round',
+          },
+          paint: {
+            'line-color': '#1DB954',
+            'line-width': 3,
+          },
+        });
+      });
+  }
+
+  // arrange the detailed coordinates in a string to be queried for mapbox api.
+  setupPoints= (details) => {
+    let c = 0;
+    const pts = [];
+    if (details.checkpoints != null) {
+      let str = '';
+      details.checkpoints.forEach((point) => {
+        str += `${point.longitude},${point.latitude}`;
+        if (details.checkpoints.length - 1 !== c) {
+          str += ';';
+          pts[0] = point.latitude;
+          pts[1] = point.longitude;
+        }
+        c += 1;
+      });
+      this.fetchData(str, pts);
+    }
   }
 
   _onViewportChange = (viewport) => this.setState({ viewport });
@@ -160,7 +262,6 @@ getpopup = () => {
                 style={{ fontSize: 10 }}
                 color="textSecondary"
               >
-
                 <span style={{ }}>{`${new Date().toLocaleString()}`}</span>
                 <br />
                 GPS:
@@ -188,7 +289,6 @@ getpopup = () => {
       )
     );
   }
-
 
   render() {
     const { viewport } = this.state;
