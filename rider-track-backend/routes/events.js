@@ -95,8 +95,26 @@ router.get("/:id", async (req, res) => {
         if (err) {
             //console.log(err);
             res.status(404).json();
-        } else
-            res.json(event);
+        } else {
+            User.findById(event.creator_id, function (err, user) {
+                result = {
+                    'date_time': event.date_time
+                };
+                result.duration = event.duration;
+                result.status = event.status;
+                result.checkpoints = event.checkpoints;
+                result.place = event.place;
+                result._id = event._id;
+                result.creator_id = event.creator_id;
+                result.organized_by = user.username;
+                result.event_name = event.event_name;
+                result.event_description = event.event_description;
+                result.max_participant = event.max_participant;
+                result.participants = event.participants;
+
+                res.json(result);
+            })
+        }
     });
 
 });
