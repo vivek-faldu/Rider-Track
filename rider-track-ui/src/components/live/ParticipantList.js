@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
@@ -8,22 +7,24 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
+import Checkbox from '@material-ui/core/Checkbox';
 
-const useStyles = makeStyles((theme) => ({
+const classes = {
   root: {
     width: '100%',
     maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
   },
-  inline: {
-    display: 'inline',
-  },
-}));
+};
 
-export default function PaticipantList(props) {
-  const classes = useStyles();
-  // const [userList] = useState([{ name: 'Vivek', url: 'https://qodebrisbane.com/wp-content/uploads/2019/07/This-is-not-a-person-2-1.jpeg' }, { name: 'Matt', url: 'https://qodebrisbane.com/wp-content/uploads/2019/07/This-is-not-a-person-2-1.jpeg' }]);
-  const { userList } = props;
+export default class PaticipantList extends React.Component {
+handleChangechecked = (index) => {
+  const { checkboxValue } = this.props;
+  checkboxValue[index][1] = !checkboxValue[index][1];
+   this.props.handleChangecheckedvalues(checkboxValue);
+ };
+
+render() {
+  const { checkboxValue, userList } = this.props;
   return (
     <div>
       <div><Typography color="textSecondary">Participants list</Typography></div>
@@ -31,10 +32,16 @@ export default function PaticipantList(props) {
       <Paper style={{ maxHeight: 400, overflow: 'auto' }}>
         <List dense className={classes.root}>
 
-
-          {userList.map((element) => (
+          {userList.map((element, i) => (
             <div>
               <ListItem alignItems="center">
+                <Checkbox
+                  checked={checkboxValue[i][1]}
+                  onChange={() => { this.handleChangechecked(i); }}
+                  inputProps={{
+          'aria-label': 'primary checkbox',
+        }}
+                />
                 <ListItemAvatar>
                   <Avatar alt="Travis Howard" src={element.url} />
                 </ListItemAvatar>
@@ -49,4 +56,5 @@ export default function PaticipantList(props) {
       </Paper>
     </div>
   );
+}
 }
