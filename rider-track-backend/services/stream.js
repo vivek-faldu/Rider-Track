@@ -90,6 +90,7 @@ var promisefun = function again(user, eventId) {
             ob.longitude = parseFloat(cur.longitude);
             ob.name = user.name;
             ob.url = user.url;
+            ob.id = user.id;
             resolve(ob);
         })
     });
