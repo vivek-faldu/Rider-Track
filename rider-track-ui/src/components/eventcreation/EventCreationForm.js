@@ -25,6 +25,7 @@ import {
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import CreateEventMap from './CreateEventMap';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 class EventCreationForm extends Component {
   constructor(props) {
@@ -43,7 +44,6 @@ class EventCreationForm extends Component {
       eventPlaceError: false,
       eventMaxParticipantError: false,
       eventDurationError: false,
-
       viewport: {
         latitude: 33.4224,
         longitude: -111.9495,
@@ -62,6 +62,14 @@ class EventCreationForm extends Component {
     };
   }
 
+  topLocations = [{ title: 'The Shawshank Redemption', year: 1994 },
+    // { title: 'The Godfather', year: 1972 },
+    // { title: 'The Godfather: Part II', year: 1974 },
+    // { title: 'The Dark Knight', year: 2008 },
+    // { title: '12 Angry Men', year: 1957 },
+    // { title: "Schindler's List", year: 1993 },
+    // { title: 'Pulp Fiction', year: 1994 }
+  ];
 
   setSelectedDate = (selectedDate) => {
     this.setState({ selectedDate });
@@ -72,6 +80,9 @@ class EventCreationForm extends Component {
   }
 
   setEventPlace = (eventPlace) => {
+    if (eventPlace.length > 3) {
+
+    }
     this.setState({ eventPlace });
   }
 
@@ -385,6 +396,25 @@ class EventCreationForm extends Component {
 
             <Grid item xs={12} style={{ width: '1150px' }}>
               Add Check Points
+              <Autocomplete
+                freeSolo
+                id="free-solo-2-demo"
+                disableClearable
+                options={this.topLocations.map(option => option.title)}
+                onInputChange={(event, val) => {
+                  this.setEventPlace(val);
+                }}
+                renderInput={params => (
+                  <TextField
+                    {...params}
+                    label="Search input"
+                    margin="normal"
+                    variant="outlined"
+                    fullWidth
+                    InputProps={{ ...params.InputProps, type: 'search' }}
+                  />
+                )}
+              />
               <CreateEventMap setEventMarker={this.setEventMarker} marker={marker} viewport={viewport} setViewPort={this.setViewPort} />
             </Grid>
 
