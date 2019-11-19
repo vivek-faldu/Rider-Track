@@ -44,6 +44,7 @@ class EventCreationForm extends Component {
       eventPlaceError: false,
       eventMaxParticipantError: false,
       eventDurationError: false,
+      topLocations: [],
       viewport: {
         latitude: 33.4224,
         longitude: -111.9495,
@@ -62,15 +63,6 @@ class EventCreationForm extends Component {
     };
   }
 
-  topLocations = [{ title: 'The Shawshank Redemption', year: 1994 },
-    // { title: 'The Godfather', year: 1972 },
-    // { title: 'The Godfather: Part II', year: 1974 },
-    // { title: 'The Dark Knight', year: 2008 },
-    // { title: '12 Angry Men', year: 1957 },
-    // { title: "Schindler's List", year: 1993 },
-    // { title: 'Pulp Fiction', year: 1994 }
-  ];
-
   setSelectedDate = (selectedDate) => {
     this.setState({ selectedDate });
   }
@@ -81,7 +73,40 @@ class EventCreationForm extends Component {
 
   setEventPlace = (eventPlace) => {
     if (eventPlace.length > 3) {
+      let url = "https://api.mapbox.com/geocoding/v5/mapbox.places/" + eventPlace + ".json?access_token=pk.eyJ1Ijoidml2ZWtmYWxkdSIsImEiOiJjazBzaGI1aGMwMm1hM2hwZDY5Zmc0OHd5In0.I2EViz8YDQwXvwW_38Oujg";
+      //  url = url.concat(this.props.match.params.id);
+      const res = fetch(url)
+        .then((response) => response.json())
+        .then((result) => {
+          debugger;
+          //test = [];
+          const test = result.features.map(v => v.place_name);
+          this.setState({ topLocations: test });
 
+          debugger;
+          console.log("Test");
+          test;
+          // this.topLocations = result.features.map(val => val);
+          // for (var i = 0; i < result.features.length; i++) {
+          //   debugger;
+          //   this.topLocations.push(result.features[i].place_name);
+          // }
+          // debugger;
+          // this.topLocations;
+          // this.setEventName(result.event_name);
+          // this.setEventDescription(result.event_description);
+          // this.setEventPlace(result.place);
+          // this.setSelectedDate(result.date_time);
+          // this.setEventDuration(result.duration);
+          // this.setEventMaxParticipant(result.max_participant);
+        }
+        )
+        .catch((err) => {
+          debugger;
+          this.setState = {
+            errors: err,
+          }
+        });
     }
     this.setState({ eventPlace });
   }
@@ -267,7 +292,7 @@ class EventCreationForm extends Component {
     const {
       eventName, eventDescription, selectedDate, eventDuration, eventPlace,
       eventMaxParticipant, marker, viewport, open, validateMessage, eventDescriptionError,
-      eventNameError, eventMaxParticipantError, eventDurationError, eventPlaceError,
+      eventNameError, eventMaxParticipantError, eventDurationError, eventPlaceError, topLocations
     } = this.state;
 
     return (
@@ -398,9 +423,8 @@ class EventCreationForm extends Component {
               Add Check Points
               <Autocomplete
                 freeSolo
-                id="free-solo-2-demo"
                 disableClearable
-                options={this.topLocations.map(option => option.title)}
+                options={topLocations.map(option => option)}
                 onInputChange={(event, val) => {
                   this.setEventPlace(val);
                 }}
