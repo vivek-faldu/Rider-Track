@@ -144,6 +144,7 @@ class EventsDetail extends Component {
   render() {
     let isLive = null;
     let isUpcoming = null;
+    let registrationOpen = null;
 
     if (this.state.isLoggedIn && this.props.authentication.user.is_admin && (this.state.details.creator_id === this.props.authentication.user.id)) {
       if (this.state.details.status === 'Upcoming') {
@@ -165,6 +166,16 @@ class EventsDetail extends Component {
           </span>
         );
       }
+    }
+
+    if (this.state.details.status === 'Upcoming') {
+      registrationOpen = (
+        <Button color="green">
+          <Link to={EVENT_REGISTRATION_PATH.replace(':id', this.props.match.params.id)} onClick={this.handleRegisterClick}>
+            Register Today
+              </Link>
+        </Button>
+      )
     }
 
     return (
@@ -229,11 +240,7 @@ class EventsDetail extends Component {
               </List>
             </div>
 
-            <Button color="green">
-              <Link to={EVENT_REGISTRATION_PATH.replace(':id', this.props.match.params.id)} onClick={this.handleRegisterClick}>
-                Register Today
-              </Link>
-            </Button>
+            {registrationOpen}
             {!this.state.isLoggedIn && this.state.triedToRegister
               ? (
                 <Login
