@@ -7,8 +7,8 @@
 
  /**
  * Author: Shaunak Shah
- * Task: #172 Create a map to show moving points on map which represent the live location of participant, Create pusher service for front end.
- * Date: 10/16/2019
+ * Task: #170 Create a map to show moving points on map which represent the live location of participant, Create pusher service for front end.
+ * Date: 10/19/2019
  */
 
 import React, { Component } from 'react';
@@ -130,6 +130,53 @@ export default class LiveEventMap extends Component {
             'line-width': 3,
           },
         });
+
+        map.addLayer({
+          id: 'start_point',
+          type: 'symbol',
+          source: {
+            type: 'geojson',
+            data: {
+              type: 'FeatureCollection',
+              features: [
+                {
+                  type: "Feature",
+                  geometry: {
+                    coordinates: result.routes[0].geometry.coordinates[0],
+                    type: "Point"
+                  },
+                  properties: {
+                    title: 'Start',
+                    icon: 'marker',
+                  }
+                },
+                {
+                  type: "Feature",
+                  geometry: {
+                    coordinates: result.routes[0].geometry.coordinates[result.routes[0].geometry.coordinates.length-1],
+                    type: "Point"
+                  },
+                  properties: {
+                    title: 'Finish',
+                    icon: 'marker',
+                  }
+                },
+              ],
+            },
+          },
+
+          layout: {
+            // get the icon name from the source's "icon" property
+            // concatenate the name to get an icon from the style's sprite sheet
+            "icon-image": ["concat", ["get", "icon"], "-15"],
+            // get the title name from the source's "title" property
+            "text-field": ["get", "title"],
+            "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+            "text-offset": [0, 0.6],
+            "text-anchor": "top",
+            }
+        });
+
       });
   }
 
