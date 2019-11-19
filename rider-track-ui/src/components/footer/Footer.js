@@ -11,6 +11,8 @@ import FolderIcon from '@material-ui/icons/Folder';
 import RestoreIcon from '@material-ui/icons/Restore';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
+import Fab from '@material-ui/core/Fab';
+import Tooltip from '@material-ui/core/Tooltip';
 import Grid from '@material-ui/core/Grid';
 import './Footer.css';
 import { Button } from '@material-ui/core';
@@ -20,10 +22,12 @@ import { connect } from 'react-redux';
 import Login from '../authentication/Login';
 import Signup from '../authentication/Register';
 import Logout from '../authentication/Logout';
-import { HOME_ROUTE, ABOUT_US } from '../../RouteConstants';
+import { HOME_ROUTE, ABOUT_US, FACEBOOK_HANDLE, YOUTUBE_HANDLE, TWITTER_HANDLE, INSTAGRAM_HANDLE, getLocation, POSITION } from '../../RouteConstants';
+
 
 class Footer extends Component {
   
+
   constructor() {
     super();
     this.state = {
@@ -37,6 +41,22 @@ class Footer extends Component {
 
   redirectAbout = () => {
     this.props.history.push(ABOUT_US);
+  }
+
+  redirectToFacebook = () => {
+    window.location.href = FACEBOOK_HANDLE;
+  }
+  
+  redirectToYoutube = () => {
+    window.location.href = YOUTUBE_HANDLE;
+  }
+
+  redirectToTwitter = () => {
+    window.location.href = TWITTER_HANDLE;
+  }
+
+  redirectToInstagram = () => {
+    window.location.href = INSTAGRAM_HANDLE;
   }
 
   UNSAFE_componentWillReceiveProps = (newProps) => {
@@ -93,14 +113,46 @@ class Footer extends Component {
           <Grid md={3} className="quick_actions"><FolderIcon /></Grid>
           <Grid md={3} className="quick_actions"><RestoreIcon /></Grid>
           <Grid md={3} className="quick_actions"><FavoriteIcon /></Grid>
-          <Grid md={3} className="quick_actions"><LocationOnIcon /></Grid>
+          <Grid md={3} className="quick_actions">
+            <Tooltip title={getLocation()} aria-label="add">
+              <LocationOnIcon />
+            </Tooltip>
+          </Grid>
         </Grid>
         <Hidden mdDown>
           <Grid item md={4} container direction="column" justify="center" alignItems="center">
-            <Grid item><Button className="footer_button" color="inherit">Facebook</Button></Grid>
-            <Grid item><Button className="footer_button" color="inherit">Twitter</Button></Grid>
-            <Grid item><Button className="footer_button" color="inherit">Instgram</Button></Grid>
-            <Grid item><Button className="footer_button" color="inherit">Youtube</Button></Grid>
+            <Grid item>
+              <Button
+                className="footer_button"
+                color="inherit"
+                onClick={this.redirectToFacebook}
+              >
+                Facebook
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                className="footer_button" 
+                color="inherit"
+                onClick={this.redirectToTwitter}
+              >
+                Twitter
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button className="footer_button" color="inherit" onClick={this.redirectToInstagram}>
+                Instgram
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                className="footer_button" 
+                color="inherit"
+                onClick={this.redirectToYoutube}
+              >
+                Youtube
+              </Button>
+            </Grid>
           </Grid>
         </Hidden>
       </Grid>
