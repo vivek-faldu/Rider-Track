@@ -27,6 +27,7 @@ import { connect } from 'react-redux';
 import CreateEventMap from './CreateEventMap';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
+
 class EventCreationForm extends Component {
   constructor(props) {
     super(props);
@@ -71,46 +72,36 @@ class EventCreationForm extends Component {
     this.setState({ eventName });
   }
 
-  setEventPlace = (eventPlace) => {
-    if (eventPlace.length > 3) {
-      let url = "https://api.mapbox.com/geocoding/v5/mapbox.places/" + eventPlace + ".json?access_token=pk.eyJ1Ijoidml2ZWtmYWxkdSIsImEiOiJjazBzaGI1aGMwMm1hM2hwZDY5Zmc0OHd5In0.I2EViz8YDQwXvwW_38Oujg";
-      //  url = url.concat(this.props.match.params.id);
+  setEventPlace = (evt, eventPlace) => {
+    const place = this.state.topLocations.find(place => place.place_name == eventPlace);
+    const lat = place.center[1];
+    const longi = place.center[0];
+    var newViewport = this.state.viewport;
+    newViewport.latitude = Number(lat);
+    newViewport.longitude = Number(longi);
+    this.setViewPort(newViewport);
+    this.setState({ eventPlace });
+  }
+
+  searchLocation = (loc) => {
+    if (loc.length > 3) {
+      const TOKEN = 'pk.eyJ1Ijoidml2ZWtmYWxkdSIsImEiOiJjazBzaGI1aGMwMm1hM2hwZDY5Zmc0OHd5In0.I2EViz8YDQwXvwW_38Oujg';
+
+      let url = "https://api.mapbox.com/geocoding/v5/mapbox.places/" + loc + ".json?access_token=" + TOKEN;
       const res = fetch(url)
         .then((response) => response.json())
         .then((result) => {
-          debugger;
-          //test = [];
-          const test = result.features.map(v => v.place_name);
+          const test = result.features.map(v => v);
           this.setState({ topLocations: test });
-
-          debugger;
-          console.log("Test");
-          test;
-          // this.topLocations = result.features.map(val => val);
-          // for (var i = 0; i < result.features.length; i++) {
-          //   debugger;
-          //   this.topLocations.push(result.features[i].place_name);
-          // }
-          // debugger;
-          // this.topLocations;
-          // this.setEventName(result.event_name);
-          // this.setEventDescription(result.event_description);
-          // this.setEventPlace(result.place);
-          // this.setSelectedDate(result.date_time);
-          // this.setEventDuration(result.duration);
-          // this.setEventMaxParticipant(result.max_participant);
         }
         )
         .catch((err) => {
-          debugger;
           this.setState = {
             errors: err,
           }
         });
     }
-    this.setState({ eventPlace });
   }
-
   setEventMaxParticipant = (eventMaxParticipant) => {
     this.setState({ eventMaxParticipant });
   }
@@ -343,18 +334,30 @@ class EventCreationForm extends Component {
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                id="place"
-                error={eventPlaceError}
-                helperText={eventPlaceError ? validateMessage : null}
-                label="Place"
-                style={{ width: '40%' }}
-                value={eventPlace}
-                onChange={(event) => { this.setEventPlace(event.target.value); }}
-                InputLabelProps={{
-                  shrink: true,
+              <Autocomplete
+                id="test-id"
+                freeSolo
+                disableClearable
+                options={topLocations.map(option => option.place_name)}
+                onInputChange={(event, val) => {
+                  this.searchLocation(val);
                 }}
-                margin="normal"
+                onChange={(event, val) => {
+                  this.setEventPlace(event, val);
+                }}
+                renderInput={params => (
+                  <TextField
+                    {...params}
+                    label="Search location"
+                    margin="normal"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    fullWidth
+                    style={{ width: '40%' }}
+                  // InputProps={{ ...params.InputProps, type: 'search' }}
+                  />
+                )}
               />
             </Grid>
             <Grid item xs={12}>
@@ -421,24 +424,6 @@ class EventCreationForm extends Component {
 
             <Grid item xs={12} style={{ width: '1150px' }}>
               Add Check Points
-              <Autocomplete
-                freeSolo
-                disableClearable
-                options={topLocations.map(option => option)}
-                onInputChange={(event, val) => {
-                  this.setEventPlace(val);
-                }}
-                renderInput={params => (
-                  <TextField
-                    {...params}
-                    label="Search input"
-                    margin="normal"
-                    variant="outlined"
-                    fullWidth
-                    InputProps={{ ...params.InputProps, type: 'search' }}
-                  />
-                )}
-              />
               <CreateEventMap setEventMarker={this.setEventMarker} marker={marker} viewport={viewport} setViewPort={this.setViewPort} />
             </Grid>
 
