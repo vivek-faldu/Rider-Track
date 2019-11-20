@@ -131,50 +131,53 @@ export default class LiveEventMap extends Component {
           },
         });
 
-        map.addLayer({
-          id: 'start_point',
-          type: 'symbol',
-          source: {
-            type: 'geojson',
-            data: {
-              type: 'FeatureCollection',
-              features: [
-                {
-                  type: "Feature",
-                  geometry: {
-                    coordinates: result.routes[0].geometry.coordinates[0],
-                    type: "Point"
+        map.loadImage('https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-512.png', function(error, image) {
+          if(error) throw error;
+          map.addImage('cat', image);
+          map.addLayer({
+            id: 'start_point',
+            type: 'symbol',
+            source: {
+              type: 'geojson',
+              data: {
+                type: 'FeatureCollection',
+                features: [
+                  {
+                    type: "Feature",
+                    geometry: {
+                      coordinates: result.routes[0].geometry.coordinates[0],
+                      type: "Point"
+                    },
+                    properties: {
+                      title: 'Start',
+                    }
                   },
-                  properties: {
-                    title: 'Start',
-                    icon: 'marker',
-                  }
-                },
-                {
-                  type: "Feature",
-                  geometry: {
-                    coordinates: result.routes[0].geometry.coordinates[result.routes[0].geometry.coordinates.length-1],
-                    type: "Point"
+                  {
+                    type: "Feature",
+                    geometry: {
+                      coordinates: result.routes[0].geometry.coordinates[result.routes[0].geometry.coordinates.length-1],
+                      type: "Point"
+                    },
+                    properties: {
+                      title: 'Finish',
+                    },
                   },
-                  properties: {
-                    title: 'Finish',
-                    icon: 'marker',
-                  }
-                },
-              ],
+                ],
+              },
             },
-          },
-
-          layout: {
-            // get the icon name from the source's "icon" property
-            // concatenate the name to get an icon from the style's sprite sheet
-            "icon-image": ["concat", ["get", "icon"], "-15"],
-            // get the title name from the source's "title" property
-            "text-field": ["get", "title"],
-            "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
-            "text-offset": [0, 0.6],
-            "text-anchor": "top",
-            }
+  
+            layout: {
+              // get the icon name from the source's "icon" property
+              // concatenate the name to get an icon from the style's sprite sheet
+              "icon-image": "cat",
+              "icon-size": 0.05,
+              // get the title name from the source's "title" property
+              "text-field": ["get", "title"],
+              "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+              "text-offset": [0, 0.6],
+              "text-anchor": "top",
+              }
+          });
         });
 
       });
