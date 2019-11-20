@@ -18,7 +18,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Card from '@material-ui/core/Card';
 import {
- Button, Divider, Snackbar, IconButton 
+  Button, Divider, Snackbar, IconButton
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { EVENT_REGISTRATION_PATH } from '../../RouteConstants';
@@ -82,7 +82,7 @@ class EventsDetail extends Component {
         messageSet: 'Event stopped successfully',
         statusFlag: 'Completed',
       },
-);
+    );
   }
 
   handleClose = () => {
@@ -90,7 +90,7 @@ class EventsDetail extends Component {
       {
         open: false,
       },
-);
+    );
   }
 
   constructor(props) {
@@ -115,10 +115,10 @@ class EventsDetail extends Component {
     const res = fetch(url)
       .then((response) => response.json())
       .then((result) => this.setState({
-          details: result,
-          parts: result.participants,
-          time: new Date(result.date_time),
-        }))
+        details: result,
+        parts: result.participants,
+        time: new Date(result.date_time),
+      }))
       .catch((err) => this.setState = {
         errors: err,
       });
@@ -144,8 +144,9 @@ class EventsDetail extends Component {
   render() {
     let isLive = null;
     let isUpcoming = null;
+    let registrationOpen = null;
 
-    if (this.state.isLoggedIn && this.props.authentication.user.is_admin) {
+    if (this.state.isLoggedIn && this.props.authentication.user.is_admin && (this.state.details.creator_id === this.props.authentication.user.id)) {
       if (this.state.details.status === 'Upcoming') {
         isLive = null;
         isUpcoming = (
@@ -167,6 +168,16 @@ class EventsDetail extends Component {
       }
     }
 
+    if (this.state.details.status === 'Upcoming') {
+      registrationOpen = (
+        <Button color="green">
+          <Link to={EVENT_REGISTRATION_PATH.replace(':id', this.props.match.params.id)} onClick={this.handleRegisterClick}>
+            Register Today
+              </Link>
+        </Button>
+      )
+    }
+
     return (
       <Grid container className="event_layout" direction="row">
         <Grid item md={12} lg={4} direction="column" className="event_info_column" container>
@@ -176,17 +187,17 @@ class EventsDetail extends Component {
               <Grid item>
                 <p>
                   Organized by:
-                  Foo Bar
+                  {this.state.details.organized_by}
                 </p>
               </Grid>
             </Grid>
             <br />
             <Grid
-item
-container
-className="event_info_bar"
-direction="row"
-justify="space-around"
+              item
+              container
+              className="event_info_bar"
+              direction="row"
+              justify="space-around"
               alignItems="center"
             >
               <Grid item>
@@ -229,17 +240,13 @@ justify="space-around"
               </List>
             </div>
 
-            <Button color="green">
-              <Link to={EVENT_REGISTRATION_PATH.replace(':id', this.props.match.params.id)} onClick={this.handleRegisterClick}>
-              Register Today
-              </Link>
-            </Button>
+            {registrationOpen}
             {!this.state.isLoggedIn && this.state.triedToRegister
               ? (
                 <Login
                   openDialog
                 />
-              ) : null }
+              ) : null}
             <br />
 
             {isUpcoming}

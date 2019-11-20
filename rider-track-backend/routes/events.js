@@ -34,7 +34,7 @@ router.get("/stop/:id", (req, res) => {
 });
 
 router.get("/", async (req, res) => {
-    
+
     var startDate = req.query.startDate;
     var endDate = req.query.endDate;
     var query;
@@ -53,74 +53,6 @@ router.get("/", async (req, res) => {
             res.status(500).json("Internal Server Error");
         } else
             res.status(200).json(event);
-    });
-});
-
-/** 
- * route to delete the list of event.
- * Author: Sai Saran Kandimalla
- * Task: #122
- */
-router.delete("/delete/:id", (request, response) => {
-    // removing all the instances of event_id in user_events schema.
-    User_Event.collection.deleteMany({event_id: request.params.id});
-    
-    /** 
-     * undoing participant registration before deleting the event in backend.
-     */ 
-    Event.findById({_id:request.params.id}).then((event) => {
-        event.participants.map((participant) => {
-            User.findById(participant.id).then((user) => {
-                sendEventCancelEventNotificationEmail(user, event.event_name);
-                user.participated_events.filter((participated_event) => {
-                    participated_event != request.params.id;
-                });
-            });
-        });
-    });
-
-    Event.remove({_id:request.params.id}).then(res => {
-        
-        return response.status(200).json();
-    }).catch((err) => {
-        response.status(400).json({
-            message: "the event delete request is unsuccessful",
-            error: err
-        });
-    });
-});
-
-/** 
- * route to delete the list of event.
- * Author: Sai Saran Kandimalla
- * Task: #122
- */
-router.delete("/delete/:id", (request, response) => {
-    // removing all the instances of event_id in user_events schema.
-    User_Event.collection.deleteMany({ event_id: request.params.id });
-
-    /** 
-     * undoing participant registration before deleting the event in backend.
-     */
-    Event.findById({ _id: request.params.id }).then((event) => {
-        event.participants.map((participant) => {
-            User.findById(participant.id).then((user) => {
-                sendEventCancelEventNotificationEmail(user, event.event_name);
-                user.participated_events.filter((participated_event) => {
-                    participated_event != request.params.id;
-                });
-            });
-        });
-    });
-
-    Event.remove({ _id: request.params.id }).then(res => {
-
-        return response.status(200).json();
-    }).catch((err) => {
-        response.status(400).json({
-            message: "the event delete request is unsuccessful",
-            error: err
-        });
     });
 });
 
@@ -163,8 +95,26 @@ router.get("/:id", async (req, res) => {
         if (err) {
             //console.log(err);
             res.status(404).json();
-        } else
-            res.json(event);
+        } else {
+            User.findById(event.creator_id, function (err, user) {
+                result = {
+                    'date_time': event.date_time
+                };
+                result.duration = event.duration;
+                result.status = event.status;
+                result.checkpoints = event.checkpoints;
+                result.place = event.place;
+                result._id = event._id;
+                result.creator_id = event.creator_id;
+                result.organized_by = user.username;
+                result.event_name = event.event_name;
+                result.event_description = event.event_description;
+                result.max_participant = event.max_participant;
+                result.participants = event.participants;
+
+                res.json(result);
+            })
+        }
     });
 
 });
@@ -245,25 +195,20 @@ router.route('/edit/:id').put(bodyParser, (req, res) => {
         if (err) {
             res.status(500).json();
         }
-        console.log("ere");
-        console.log(event);
         event.event_name = req.body.event_name;
         event.event_description = req.body.event_description;
         event.date_time = req.body.date_time;
         event.duration = req.body.duration;
         event.max_participant = req.body.max_participant;
         event.place = req.body.place;
-        console.log("after edit " + event);
         event.save()
             .then(event => {
-                console.log("success now");
                 res.status(200).json({
                     status: 200,
                     message: 'Event edited successfully'
                 });
             })
             .catch(err => {
-                console.log("failed now");
                 console.log(err);
                 res.status(400).send('Failed to Edit the event');
             });
@@ -278,6 +223,5 @@ router.route("/start/:id").put(bodyParser, (req, res) => {
 router.route("/stop/:id").put(bodyParser, (req, res) => {
     stopEvent(req, res);
 })
-
 
 module.exports = router;

@@ -53,11 +53,11 @@ router.get("/events", async (req, res) => {
         myEventsList = user.participated_events;
         myCreatedEventsList = user.created_events;
         var result;
-        return fetchEventDetails(myEventsList).then(function (events) {
+        return fetchEvents(myEventsList).then(function (events) {
             result = {
                 'participated_events': events
             };
-            return fetchEventDetails(myCreatedEventsList).then(function (events) {
+            return fetchEvents(myCreatedEventsList).then(function (events) {
                 result.created_events = events;
                 return res.json(result);
             })
@@ -78,6 +78,7 @@ router.get("/eventdetail", async (req, res) => {
         result.duration = myEvent.duration;
         result.status = myEvent.status;
         result.max_participant = myEvent.max_participant;
+        result.event_checkpoints = myEvent.checkpoints;
         return fetchUserCheckpoints(uid, eventId).then(function (userEvent) {
             result.checkpoints = userEvent.checkpoints;
 
@@ -99,7 +100,7 @@ function fetchUserEvents(myID) {
 }
 
 
-function fetchEventDetails(pList) {
+function fetchEvents(pList) {
     var query = Event.find({
         _id: {
             $in: pList
@@ -120,6 +121,7 @@ function fetchEventDetail(eventId) {
         myEvent.duration = event.duration;
         myEvent.status = event.status;
         myEvent.max_participant = event.max_participant;
+        myEvent.checkpoints = event.checkpoints;
         return myEvent;
     })
 }
