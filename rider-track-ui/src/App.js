@@ -23,6 +23,7 @@ import CreatedEvents from './components/created_events_list/CreatedEvents';
 import About from './components/about/about';
 import UserProfile from './components/user_profile/UserProfile';
 import EventEdit from './components/eventedit/EventEdit';
+import AppCarousel from './components/events/AppCarousel';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <BrowserRouter>
             <Header />
             <div>
+              <AppCarousel />
               <Switch>
                 <Route exact path={HOME_ROUTE} component={EventsList} />
                 <Route path={EVENT_REGISTRATION_PATH} component={EventRegistrationForm} />
