@@ -1,6 +1,20 @@
+/*
+    Added call to the backend api for list of events and filter to display them.
+    Author: Sai Saran Kandimalla
+    Author: Shaunak Shah
+    Date: 10/10/2019
+    US: 8 Task: 82
+    The state management has been referred from : https://material-ui.com/components/selects/
+
+    Update to have icons for event type selection (removed dropdown)
+    Author: Janani Thiagarajan
+    Date: 11/20/2019
+    US : None , Task : 186
+*/
+
 import React, { useEffect } from 'react';
 import {
- Card, Divider, FormControl, NativeSelect, FormHelperText, Button,
+  Card, CardMedia, Divider, Button, Grid, Avatar,
 } from '@material-ui/core';
 import './events.css';
 import {
@@ -9,130 +23,166 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import { makeStyles } from '@material-ui/core/styles';
 import { LIVE_EVENTS, UPCOMING_EVENTS, COMPLETED_EVENTS } from './EventsConstants';
 import EventListItem from './EventListItem';
-/*
-    Added call to the backend api for list of events and filter to display them.
-    Author: Sai Saran Kandimalla
-    Author: Shaunak Shah
-    Date: 10/10/2019
-    US: 8 Task: 82
-    The state management has been referred from : https://material-ui.com/components/selects/
-*/
+import Live from '../../assets/Live.png';
+import Upcoming from '../../assets/Upcoming-events.jpg';
+import Completed from '../../assets/Completed.jpg';
+
+const useStyles = makeStyles({
+  card: {
+    margin: 20,
+    width: 62,
+    height: 50,
+  },
+  media: {
+    height: 60,
+  },
+  avatar: {
+    width: 50,
+    height: 50,
+  },
+  avatar1: {
+    width: 67,
+    height: 52,
+  },
+  avatar2: {
+    width: 62,
+    height: 50,
+  },
+});
+
+
 const EventsList = () => {
-    const [events, setEvents] = React.useState({
-        live: [],
-        upcoming: [],
-        completed: [],
-    });
+  const [events, setEvents] = React.useState({
+    live: [],
+    upcoming: [],
+    completed: [],
+  });
 
-    const [state, setState] = React.useState({
-        header: LIVE_EVENTS,
-        events: [],
-    });
+  const [state, setState] = React.useState({
+    header: LIVE_EVENTS,
+    events: [],
+  });
 
-    const [selectedDropDown, setSelectedDropDown] = React.useState(LIVE_EVENTS);
-    const currentDate = new Date();
-    const startdate = currentDate.setMonth(currentDate.getMonth() - 12);
-    const [from, setFrom] = React.useState(startdate);
-    const [to, setTo] = React.useState(Date());
+  //const [selectedDropDown, setSelectedDropDown] = React.useState(LIVE_EVENTS);
+  const currentDate = new Date();
+  const startdate = currentDate.setMonth(currentDate.getMonth() - 12);
+  const [from, setFrom] = React.useState(startdate);
+  const [to, setTo] = React.useState(Date());
 
-    async function fetchData() {
-        const url = `http://localhost:4241/api/events?startDate=${from}&endDate=${to}`;
-        const res = await fetch(url);
-        res.json()
-          .then((result) => {
-              const liveEvents = [];
-              const upcomingEvents = [];
-              const completedEvents = [];
-              for (let i = 0; i < result.length; i++) {
-                if (result[i].status === 'Live') {
-                  liveEvents.push(result[i]);
-                } else if (result[i].status === 'Upcoming') {
-                  upcomingEvents.push(result[i]);
-                } else {
-                  completedEvents.push(result[i]);
-                }
-              }
-              setSelectedDropDown(LIVE_EVENTS);
-              setEvents({
-                  live: liveEvents,
-                  upcoming: upcomingEvents,
-                  completed: completedEvents,
-                });
-                setState({
-                header: 'Live Events',
-                events: liveEvents,
-              });
-          });
-    }
+  const classes = useStyles();
 
-    const handleEventTypeChange = (name) => (event) => {
-        console.log(event.target.value);
-        setSelectedDropDown(event.target.value);
-        let eventsTemp = events.live;
-        if (event.target.value === UPCOMING_EVENTS) {
-            eventsTemp = events.upcoming;
-        } else if (event.target.value === COMPLETED_EVENTS) {
-            eventsTemp = events.completed;
+  async function fetchData() {
+    const url = `http://localhost:4241/api/events?startDate=${from}&endDate=${to}`;
+    const res = await fetch(url);
+    res.json()
+      .then((result) => {
+        const liveEvents = [];
+        const upcomingEvents = [];
+        const completedEvents = [];
+        for (let i = 0; i < result.length; i++) {
+          if (result[i].status === 'Live') {
+            liveEvents.push(result[i]);
+          } else if (result[i].status === 'Upcoming') {
+            upcomingEvents.push(result[i]);
+          } else {
+            completedEvents.push(result[i]);
+          }
         }
-        setState({
-            header: event.target.value,
-            events: eventsTemp,
+        //setSelectedDropDown(LIVE_EVENTS);
+        setEvents({
+          live: liveEvents,
+          upcoming: upcomingEvents,
+          completed: completedEvents,
         });
-    };
+        setState({
+          header: 'Live Events',
+          events: liveEvents,
+        });
+      });
+  }
 
-    useEffect(() => {
-        fetchData();
-    }, []);
+  async function setEventList(name) {
+    let eventsTemp = events.live;
+    if (name === UPCOMING_EVENTS) {
+      eventsTemp = events.upcoming;
+    } else if (name === COMPLETED_EVENTS) {
+      eventsTemp = events.completed;
+    }
+    setState({
+      header: name,
+      events: eventsTemp,
+    });
+  }
+
+  /* const handleEventTypeChange = (name) => (event) => {
+    console.log(event.target.value);
+    setSelectedDropDown(event.target.value);
+    let eventsTemp = events.live;
+    if (event.target.value === UPCOMING_EVENTS) {
+      eventsTemp = events.upcoming;
+    } else if (event.target.value === COMPLETED_EVENTS) {
+      eventsTemp = events.completed;
+    }
+    setState({
+      header: event.target.value,
+      events: eventsTemp,
+    });
+  };
+ */
+  useEffect(() => {
+    fetchData();
+  }, []);
 
 
-    return (
-      <Card className="rt-events-card">
-        <div className="row">
-          <div className="col-md-2">
-            <h1 className="rt-events-header">{state.header}</h1>
-          </div>
-          <div className="col-md-2">
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <KeyboardDatePicker
-                disableToolbar
-                variant="inline"
-                format="MM/dd/yyyy"
-                margin="none"
-                id="date-picker-inline"
-                label="From"
-                value={from}
-                onChange={(date) => setFrom(date)}
-                KeyboardButtonProps={{
-            'aria-label': 'change date',
-          }}
-              />
-            </MuiPickersUtilsProvider>
-          </div>
-          <div className="col-md-2">
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <KeyboardDatePicker
-                disableToolbar
-                variant="inline"
-                format="MM/dd/yyyy"
-                margin="none"
-                id="date-picker-inline"
-                label="To"
-                value={to}
-                onChange={(date) => setTo(date)}
-                KeyboardButtonProps={{
-            'aria-label': 'change date',
-          }}
-              />
+  return (
+    <Card className="rt-events-card">
+      <div className="row">
+        <div className="col-md-7">
+          <h1 className="rt-events-header">{state.header}</h1>
+        </div>
+        <div className="col-md-2">
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardDatePicker
+              disableToolbar
+              variant="inline"
+              format="MM/dd/yyyy"
+              margin="none"
+              id="date-picker-inline"
+              label="From"
+              value={from}
+              onChange={(date) => setFrom(date)}
+              KeyboardButtonProps={{
+                'aria-label': 'change date',
+              }}
+            />
+          </MuiPickersUtilsProvider>
+        </div>
+        <div className="col-md-2">
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardDatePicker
+              disableToolbar
+              variant="inline"
+              format="MM/dd/yyyy"
+              margin="none"
+              id="date-picker-inline"
+              label="To"
+              value={to}
+              onChange={(date) => setTo(date)}
+              KeyboardButtonProps={{
+                'aria-label': 'change date',
+              }}
+            />
 
-            </MuiPickersUtilsProvider>
+          </MuiPickersUtilsProvider>
 
-          </div>
-          <div className="col-md-1">
-            <Button color="primary" variant="outlined" onClick={() => fetchData()}>Go</Button>
-          </div>
-          <div className="col-md-5">
+        </div>
+        <div className="col-md-1">
+          <Button color="primary" variant="outlined" onClick={() => fetchData()}>Go</Button>
+        </div>
+        {/* <div className="col-md-5">
             <div className="rt-event-type-dropdown">
               <FormControl>
                 <NativeSelect
@@ -150,32 +200,56 @@ const EventsList = () => {
                 <FormHelperText>select events type</FormHelperText>
               </FormControl>
             </div>
-          </div>
-        </div>
+          </div> */}
         <Divider className="row" />
-        <div>
-          <ul>
-            {state.events.length > 0 ? state.events.map((el) => (
-              <div>
-                <li>
-                  <EventListItem
-                    eventType={state.header}
-                    eventName={el.event_name}
-                    eventid={el._id}
-                    eventDescription={el.event_description}
-                    eventDate={() => {
-                      const vara = el.date_time;
-                      return vara;
-                    }}
-                  />
-                </li>
-                <Divider variant="middle" />
-              </div>
-  )) : `No ${state.header} exists`}
-          </ul>
-        </div>
-      </Card>
-    );
+        <Grid
+          container
+          spacing={0}
+          direction="row"
+          alignItems="center"
+          justify="center"
+        >
+          <Card className={classes.card}>
+            <CardMedia className="media">
+              <Avatar style={{ borderRadius: 0 }} alt="Live" src={Live} className={classes.avatar} onClick={() => setEventList(LIVE_EVENTS)} />
+            </CardMedia>
+          </Card>
+          <Card className={classes.card}>
+            <CardMedia className="media">
+              <Avatar style={{ borderRadius: 0 }} alt="Upcoming" src={Upcoming} className={classes.avatar1} onClick={() => setEventList(UPCOMING_EVENTS)} />
+            </CardMedia>
+          </Card>
+          <Card className={classes.card}>
+            <CardMedia className="media">
+              <Avatar style={{ borderRadius: 0 }} alt="Completed" src={Completed} className={classes.avatar2} onClick={() => setEventList(COMPLETED_EVENTS)} />
+            </CardMedia>
+          </Card>
+        </Grid>
+      </div>
+      <Divider className="row" />
+      <div>
+        <ul>
+          {state.events.length > 0 ? state.events.map((el) => (
+            <div>
+              <li>
+                <EventListItem
+                  eventType={state.header}
+                  eventName={el.event_name}
+                  eventid={el._id}
+                  eventDescription={el.event_description}
+                  eventDate={() => {
+                    const vara = el.date_time;
+                    return vara;
+                  }}
+                />
+              </li>
+              <Divider variant="middle" />
+            </div>
+          )) : `No ${state.header} exists`}
+        </ul>
+      </div>
+    </Card>
+  );
 };
 
 export default EventsList;
