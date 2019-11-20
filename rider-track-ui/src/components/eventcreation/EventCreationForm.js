@@ -81,6 +81,13 @@ class EventCreationForm extends Component {
     newViewport.longitude = Number(longi);
     this.setViewPort(newViewport);
     this.setState({ eventPlace });
+    var newMarker = this.state.marker;
+    newMarker[0].latitude = newViewport.latitude;
+    newMarker[0].longitude = newViewport.longitude;
+    newMarker[1].latitude = newViewport.latitude;
+    newMarker[1].longitude = newViewport.longitude;
+
+    this.setEventMarker(newMarker);
   }
 
   searchLocation = (loc) => {
@@ -299,7 +306,7 @@ class EventCreationForm extends Component {
         </Grid>
 
         <Grid container alignItems="flex-start" justify="center">
-          <form onSubmit={(e) => { this.onSubmit(e); }} noValidate autoComplete="off">
+          <form onSubmit={(e) => { this.onSubmit(e); }} noValidate >
             <Grid item xs={12}>
               <TextField
                 error={eventNameError}
@@ -337,6 +344,7 @@ class EventCreationForm extends Component {
               <Autocomplete
                 id="test-id"
                 freeSolo
+                //getOptionLabel={option => option.place_name}
                 disableClearable
                 options={topLocations.map(option => option.place_name)}
                 onInputChange={(event, val) => {
@@ -350,6 +358,7 @@ class EventCreationForm extends Component {
                     {...params}
                     label="Search location"
                     margin="normal"
+                    value={eventPlace}
                     InputLabelProps={{
                       shrink: true,
                     }}
