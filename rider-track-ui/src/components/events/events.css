@@ -37,3 +37,23 @@
     font-size: 14px !important;
     text-transform: none !important;
 }
+
+.carousel-rt {
+    min-height: 400px !important;
+    max-height: 400px !important;
+}
+
+
+.rt-carousel-img-1 {
+    background-image: url("../../../src/images/slide_1.jpg");
+    background-size: cover;
+    min-height: 400px !important;
+    max-height : 400px !important;
+}
+
+.rt-carousel-img-2 {
+    background-image: url("../../../src/images/slide_2.jpg");
+    background-size: cover;
+    min-height: 400px !important;
+    max-height : 400px !important;
+}
