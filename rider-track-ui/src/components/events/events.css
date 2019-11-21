@@ -72,4 +72,22 @@
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
+.carousel-rt {
+    min-height: 400px !important;
+    max-height: 400px !important;
+}
+
+
+.rt-carousel-img-1 {
+    background-image: url("../../../src/images/slide_1.jpg");
+    background-size: cover;
+    min-height: 400px !important;
+    max-height : 400px !important;
+}
+
+.rt-carousel-img-2 {
+    background-image: url("../../../src/images/slide_2.jpg");
+    background-size: cover;
+    min-height: 400px !important;
+    max-height : 400px !important;
 }
