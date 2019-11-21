@@ -33,23 +33,23 @@ import Completed from '../../assets/Completed.jpg';
 const useStyles = makeStyles({
   card: {
     margin: 20,
-    width: 62,
-    height: 50,
+    width: 75,
+    height: 75,
   },
   media: {
-    height: 60,
+    height: 75,
   },
   avatar: {
-    width: 50,
-    height: 50,
+    width: 74,
+    height: 75,
   },
   avatar1: {
-    width: 67,
-    height: 52,
+    width: 84,
+    height: 75,
   },
   avatar2: {
-    width: 62,
-    height: 50,
+    width: 74,
+    height: 75,
   },
 });
 
@@ -210,20 +210,37 @@ const EventsList = () => {
           justify="center"
         >
           <Card className={classes.card}>
-            <CardMedia className="media">
-              <Avatar style={{ borderRadius: 0 }} alt="Live" src={Live} className={classes.avatar} onClick={() => setEventList(LIVE_EVENTS)} />
-            </CardMedia>
+
+            <div className="rt-event-type-container">
+              <CardMedia className="media">
+                <Avatar style={{ borderRadius: 0 }} alt="Live" src={Live} className={classes.avatar} />
+              </CardMedia>
+              <div className="rt-event-type-overlay" onClick={() => setEventList(LIVE_EVENTS)}>
+                <div className="rt-event-type-overlay-text" onClick={() => setEventList(LIVE_EVENTS)}>View Live Events</div>
+              </div>
+            </div>
           </Card>
           <Card className={classes.card}>
-            <CardMedia className="media">
-              <Avatar style={{ borderRadius: 0 }} alt="Upcoming" src={Upcoming} className={classes.avatar1} onClick={() => setEventList(UPCOMING_EVENTS)} />
-            </CardMedia>
+            <div className="rt-event-type-container">
+              <CardMedia className="media">
+                <Avatar style={{ borderRadius: 0 }} alt="Upcoming" src={Upcoming} className={classes.avatar1} />
+              </CardMedia>
+              <div className="rt-event-type-overlay" onClick={() => setEventList(UPCOMING_EVENTS)}>
+                <div className="rt-event-type-overlay-text" onClick={() => setEventList(UPCOMING_EVENTS)}>View Upcoming Events</div>
+              </div>
+            </div>
           </Card>
           <Card className={classes.card}>
-            <CardMedia className="media">
-              <Avatar style={{ borderRadius: 0 }} alt="Completed" src={Completed} className={classes.avatar2} onClick={() => setEventList(COMPLETED_EVENTS)} />
-            </CardMedia>
+            <div className="rt-event-type-container">
+              <CardMedia className="media">
+                <Avatar style={{ borderRadius: 0 }} alt="Completed" src={Completed} className={classes.avatar2} />
+              </CardMedia>
+              <div className="rt-event-type-overlay" onClick={() => setEventList(COMPLETED_EVENTS)}>
+                <div className="rt-event-type-overlay-text" onClick={() => setEventList(COMPLETED_EVENTS)}>View Completed Events</div>
+              </div>
+            </div>
           </Card>
+
         </Grid>
       </div>
       <Divider className="row" />
