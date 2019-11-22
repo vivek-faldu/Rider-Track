@@ -14,19 +14,6 @@ var send = require("./pusher");
 var handle;
 var handles = new Map();
 
-//send random
-// function startStream(eventId) {
-//     handle = setInterval(() => {
-//         coordinates = [{ lat: 33.42 + _.random(0, 1, true), long: -111.94 + _.random(0, 1, true), name: 'Shilpa', url: "abc" },
-//         { lat: 33.42 + _.random(0, 1, true), long: -111.94 + _.random(0, 1, true), name: 'Shilpa', url: "abc" },
-//         { lat: 33.42 + _.random(0, 1, true), long: -111.94 + _.random(0, 1, true), name: 'Shilpa', url: "abc" },
-//         { lat: 33.42 + _.random(0, 1, true), long: -111.94 + _.random(0, 1, true), name: 'Shilpa', url: "abc" }]
-//         send('my-rider-tracker', 'my-event', coordinates)
-//     }, 1000);
-//     handles.set("event_" + eventId + "_channel", handle);
-//     console.log("stream started");
-//     console.log("map size " + handles.size);
-// }
 
 function startStream(eventId) {
     users = new Array();
@@ -64,6 +51,8 @@ var getCoordinatesFunction = function getCoordinates(users, eventId) {
     return new Promise(function (resolve, reject) {
         latestCoordinates = new Array();
         count = 0;
+        console.log("users are");
+        console.log(users);
         users.forEach((user) => {
             console.log("inside foreach");
             promisefun(user, eventId).then((res) => {
@@ -90,6 +79,7 @@ var promisefun = function again(user, eventId) {
             ob.longitude = parseFloat(cur.longitude);
             ob.name = user.name;
             ob.url = user.url;
+            ob.id = user.id;
             resolve(ob);
         })
     });
