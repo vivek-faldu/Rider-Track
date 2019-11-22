@@ -38,7 +38,6 @@
     text-transform: none !important;
 }
 
-<<<<<<< HEAD
 .rt-event-type-container {
     position: relative;
    
@@ -74,8 +73,6 @@
     transform: translate(-50%, -50%);
     text-align: center;
 }
-=======
->>>>>>> ac87401e1418aad1ac9511dacb20cfb11968ce1a
 .carousel-rt {
     min-height: 400px !important;
     max-height: 400px !important;

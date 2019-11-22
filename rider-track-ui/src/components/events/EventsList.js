@@ -26,7 +26,6 @@ import DateFnsUtils from '@date-io/date-fns';
 import { makeStyles } from '@material-ui/core/styles';
 import { LIVE_EVENTS, UPCOMING_EVENTS, COMPLETED_EVENTS } from './EventsConstants';
 import EventListItem from './EventListItem';
-<<<<<<< HEAD
 import Live from '../../assets/Live.png';
 import Upcoming from '../../assets/Upcoming-events.jpg';
 import Completed from '../../assets/Completed.jpg';
@@ -56,9 +55,6 @@ const useStyles = makeStyles({
     height: 75,
   },
 });
-=======
-import AppCarousel from './AppCarousel';
->>>>>>> ac87401e1418aad1ac9511dacb20cfb11968ce1a
 /*
     Added call to the backend api for list of events and filter to display them.
     Author: Sai Saran Kandimalla
@@ -156,10 +152,10 @@ const EventsList = () => {
       <Card className="rt-events-card">
         <div className="row">
           <div className="col-md-7">
-          <h1 className="rt-events-header">{state.header}</h1>
-        </div>
+            <h1 className="rt-events-header">{state.header}</h1>
+          </div>
           <div className="col-md-2">
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
               disableToolbar
               variant="inline"
@@ -174,9 +170,9 @@ const EventsList = () => {
               }}
             />
           </MuiPickersUtilsProvider>
-        </div>
+          </div>
           <div className="col-md-2">
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
               disableToolbar
               variant="inline"
@@ -193,10 +189,10 @@ const EventsList = () => {
 
           </MuiPickersUtilsProvider>
 
-        </div>
+          </div>
           <div className="col-md-1">
-          <Button color="primary" variant="outlined" onClick={() => fetchData()}>Go</Button>
-        </div>
+            <Button color="primary" variant="outlined" onClick={() => fetchData()}>Go</Button>
+          </div>
           {/* <div className="col-md-5">
             <div className="rt-event-type-dropdown">
               <FormControl>
@@ -219,13 +215,13 @@ const EventsList = () => {
           </div> */}
           <Divider className="row" />
           <Grid
-          container
-          spacing={0}
-          direction="row"
-          alignItems="center"
-          justify="center"
-        >
-          <Card className={classes.card}>
+            container
+            spacing={0}
+            direction="row"
+            alignItems="center"
+            justify="center"
+          >
+            <Card className={classes.card}>
 
             <div className="rt-event-type-container">
               <CardMedia className="media">
@@ -236,7 +232,7 @@ const EventsList = () => {
               </div>
             </div>
           </Card>
-          <Card className={classes.card}>
+            <Card className={classes.card}>
             <div className="rt-event-type-container">
               <CardMedia className="media">
                 <Avatar style={{ borderRadius: 0 }} alt="Upcoming" src={Upcoming} className={classes.avatar1} />
@@ -246,7 +242,7 @@ const EventsList = () => {
               </div>
             </div>
           </Card>
-          <Card className={classes.card}>
+            <Card className={classes.card}>
             <div className="rt-event-type-container">
               <CardMedia className="media">
                 <Avatar style={{ borderRadius: 0 }} alt="Completed" src={Completed} className={classes.avatar2} />
@@ -257,12 +253,12 @@ const EventsList = () => {
             </div>
           </Card>
 
-        </Grid>
+          </Grid>
         </div>
         <Divider className="row" />
         <div>
           <ul>
-          {state.events.length > 0 ? state.events.map((el) => (
+            {state.events.length > 0 ? state.events.map((el) => (
             <div>
               <li>
                 <EventListItem
@@ -279,7 +275,7 @@ const EventsList = () => {
               <Divider variant="middle" />
             </div>
           )) : `No ${state.header} exists`}
-        </ul>
+          </ul>
         </div>
       </Card>
     </div>
