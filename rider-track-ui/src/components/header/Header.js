@@ -176,13 +176,13 @@ class Header extends Component {
                           <Button color="inherit">My Created Events</Button>
                         </Link>
                       </MenuItem>
-                      <MenuItem
-                        onClick={this.handleMenuClose}
-                      >
-                        <Logout />
-                      </MenuItem>
                     </div>
                   ) : null }
+                  <MenuItem
+                    onClick={this.handleMenuClose}
+                  >
+                    <Logout />
+                  </MenuItem>
                 </div>
                 ) : (
                   <div>

@@ -30,6 +30,9 @@ import Live from '../../assets/Live.png';
 import Upcoming from '../../assets/Upcoming-events.jpg';
 import Completed from '../../assets/Completed.jpg';
 
+
+import AppCarousel from './AppCarousel';
+
 const useStyles = makeStyles({
   card: {
     margin: 20,
@@ -52,8 +55,14 @@ const useStyles = makeStyles({
     height: 75,
   },
 });
-
-
+/*
+    Added call to the backend api for list of events and filter to display them.
+    Author: Sai Saran Kandimalla
+    Author: Shaunak Shah
+    Date: 10/10/2019
+    US: 8 Task: 82
+    The state management has been referred from : https://material-ui.com/components/selects/
+*/
 const EventsList = () => {
   const [events, setEvents] = React.useState({
     live: [],
@@ -66,7 +75,7 @@ const EventsList = () => {
     events: [],
   });
 
-  //const [selectedDropDown, setSelectedDropDown] = React.useState(LIVE_EVENTS);
+  // const [selectedDropDown, setSelectedDropDown] = React.useState(LIVE_EVENTS);
   const currentDate = new Date();
   const startdate = currentDate.setMonth(currentDate.getMonth() - 12);
   const [from, setFrom] = React.useState(startdate);
@@ -91,7 +100,7 @@ const EventsList = () => {
             completedEvents.push(result[i]);
           }
         }
-        //setSelectedDropDown(LIVE_EVENTS);
+        // setSelectedDropDown(LIVE_EVENTS);
         setEvents({
           live: liveEvents,
           upcoming: upcomingEvents,
@@ -138,12 +147,14 @@ const EventsList = () => {
 
 
   return (
-    <Card className="rt-events-card">
-      <div className="row">
-        <div className="col-md-7">
+    <div>
+      <AppCarousel />
+      <Card className="rt-events-card">
+        <div className="row">
+          <div className="col-md-7">
           <h1 className="rt-events-header">{state.header}</h1>
         </div>
-        <div className="col-md-2">
+          <div className="col-md-2">
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
               disableToolbar
@@ -160,7 +171,7 @@ const EventsList = () => {
             />
           </MuiPickersUtilsProvider>
         </div>
-        <div className="col-md-2">
+          <div className="col-md-2">
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
               disableToolbar
@@ -179,30 +190,31 @@ const EventsList = () => {
           </MuiPickersUtilsProvider>
 
         </div>
-        <div className="col-md-1">
+          <div className="col-md-1">
           <Button color="primary" variant="outlined" onClick={() => fetchData()}>Go</Button>
         </div>
-        {/* <div className="col-md-5">
+          {/* <div className="col-md-5">
             <div className="rt-event-type-dropdown">
               <FormControl>
                 <NativeSelect
 
-                  inputProps={{
-                                    name: 'event-type-selector',
-                                }}
-                  value={selectedDropDown}
-                  onChange={handleEventTypeChange('event-type-selector')}
-                >
-                  <option value={LIVE_EVENTS}>Live</option>
-                  <option value={UPCOMING_EVENTS}>Upcoming</option>
-                  <option value={COMPLETED_EVENTS}>Completed</option>
-                </NativeSelect>
-                <FormHelperText>select events type</FormHelperText>
-              </FormControl>
+                    inputProps={{
+                                      name: 'event-type-selector',
+                                  }}
+                    value={selectedDropDown}
+                    onChange={handleEventTypeChange('event-type-selector')}
+                  >
+                    <option value={LIVE_EVENTS}>Live</option>
+                    <option value={UPCOMING_EVENTS}>Upcoming</option>
+                    <option value={COMPLETED_EVENTS}>Completed</option>
+                  </NativeSelect>
+                  <FormHelperText>select events type</FormHelperText>
+                </FormControl>
+              </div>
             </div>
           </div> */}
-        <Divider className="row" />
-        <Grid
+          <Divider className="row" />
+          <Grid
           container
           spacing={0}
           direction="row"
@@ -242,10 +254,10 @@ const EventsList = () => {
           </Card>
 
         </Grid>
-      </div>
-      <Divider className="row" />
-      <div>
-        <ul>
+        </div>
+        <Divider className="row" />
+        <div>
+          <ul>
           {state.events.length > 0 ? state.events.map((el) => (
             <div>
               <li>
@@ -264,8 +276,9 @@ const EventsList = () => {
             </div>
           )) : `No ${state.header} exists`}
         </ul>
-      </div>
-    </Card>
+        </div>
+      </Card>
+    </div>
   );
 };
 
