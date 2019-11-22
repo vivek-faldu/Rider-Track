@@ -33,7 +33,6 @@ function App() {
           <BrowserRouter>
             <Header />
             <div>
-              <AppCarousel />
               <Switch>
                 <Route exact path={HOME_ROUTE} component={EventsList} />
                 <Route path={EVENT_REGISTRATION_PATH} component={EventRegistrationForm} />

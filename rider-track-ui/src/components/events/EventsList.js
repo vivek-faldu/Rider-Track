@@ -11,6 +11,7 @@ import {
 import DateFnsUtils from '@date-io/date-fns';
 import { LIVE_EVENTS, UPCOMING_EVENTS, COMPLETED_EVENTS } from './EventsConstants';
 import EventListItem from './EventListItem';
+import AppCarousel from './AppCarousel';
 /*
     Added call to the backend api for list of events and filter to display them.
     Author: Sai Saran Kandimalla
@@ -88,93 +89,96 @@ const EventsList = () => {
 
 
     return (
-      <Card className="rt-events-card">
-        <div className="row">
-          <div className="col-md-2">
-            <h1 className="rt-events-header">{state.header}</h1>
-          </div>
-          <div className="col-md-2">
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <KeyboardDatePicker
-                disableToolbar
-                variant="inline"
-                format="MM/dd/yyyy"
-                margin="none"
-                id="date-picker-inline"
-                label="From"
-                value={from}
-                onChange={(date) => setFrom(date)}
-                KeyboardButtonProps={{
-            'aria-label': 'change date',
-          }}
-              />
-            </MuiPickersUtilsProvider>
-          </div>
-          <div className="col-md-2">
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <KeyboardDatePicker
-                disableToolbar
-                variant="inline"
-                format="MM/dd/yyyy"
-                margin="none"
-                id="date-picker-inline"
-                label="To"
-                value={to}
-                onChange={(date) => setTo(date)}
-                KeyboardButtonProps={{
-            'aria-label': 'change date',
-          }}
-              />
+      <div>
+        <AppCarousel />
+        <Card className="rt-events-card">
+          <div className="row">
+            <div className="col-md-2">
+              <h1 className="rt-events-header">{state.header}</h1>
+            </div>
+            <div className="col-md-2">
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardDatePicker
+                  disableToolbar
+                  variant="inline"
+                  format="MM/dd/yyyy"
+                  margin="none"
+                  id="date-picker-inline"
+                  label="From"
+                  value={from}
+                  onChange={(date) => setFrom(date)}
+                  KeyboardButtonProps={{
+              'aria-label': 'change date',
+            }}
+                />
+              </MuiPickersUtilsProvider>
+            </div>
+            <div className="col-md-2">
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardDatePicker
+                  disableToolbar
+                  variant="inline"
+                  format="MM/dd/yyyy"
+                  margin="none"
+                  id="date-picker-inline"
+                  label="To"
+                  value={to}
+                  onChange={(date) => setTo(date)}
+                  KeyboardButtonProps={{
+              'aria-label': 'change date',
+            }}
+                />
 
-            </MuiPickersUtilsProvider>
+              </MuiPickersUtilsProvider>
 
-          </div>
-          <div className="col-md-1">
-            <Button color="primary" variant="outlined" onClick={() => fetchData()}>Go</Button>
-          </div>
-          <div className="col-md-5">
-            <div className="rt-event-type-dropdown">
-              <FormControl>
-                <NativeSelect
+            </div>
+            <div className="col-md-1">
+              <Button color="primary" variant="outlined" onClick={() => fetchData()}>Go</Button>
+            </div>
+            <div className="col-md-5">
+              <div className="rt-event-type-dropdown">
+                <FormControl>
+                  <NativeSelect
 
-                  inputProps={{
-                                    name: 'event-type-selector',
-                                }}
-                  value={selectedDropDown}
-                  onChange={handleEventTypeChange('event-type-selector')}
-                >
-                  <option value={LIVE_EVENTS}>Live</option>
-                  <option value={UPCOMING_EVENTS}>Upcoming</option>
-                  <option value={COMPLETED_EVENTS}>Completed</option>
-                </NativeSelect>
-                <FormHelperText>select events type</FormHelperText>
-              </FormControl>
+                    inputProps={{
+                                      name: 'event-type-selector',
+                                  }}
+                    value={selectedDropDown}
+                    onChange={handleEventTypeChange('event-type-selector')}
+                  >
+                    <option value={LIVE_EVENTS}>Live</option>
+                    <option value={UPCOMING_EVENTS}>Upcoming</option>
+                    <option value={COMPLETED_EVENTS}>Completed</option>
+                  </NativeSelect>
+                  <FormHelperText>select events type</FormHelperText>
+                </FormControl>
+              </div>
             </div>
           </div>
-        </div>
-        <Divider className="row" />
-        <div>
-          <ul>
-            {state.events.length > 0 ? state.events.map((el) => (
-              <div>
-                <li>
-                  <EventListItem
-                    eventType={state.header}
-                    eventName={el.event_name}
-                    eventid={el._id}
-                    eventDescription={el.event_description}
-                    eventDate={() => {
-                      const vara = el.date_time;
-                      return vara;
-                    }}
-                  />
-                </li>
-                <Divider variant="middle" />
-              </div>
-  )) : `No ${state.header} exists`}
-          </ul>
-        </div>
-      </Card>
+          <Divider className="row" />
+          <div>
+            <ul>
+              {state.events.length > 0 ? state.events.map((el) => (
+                <div>
+                  <li>
+                    <EventListItem
+                      eventType={state.header}
+                      eventName={el.event_name}
+                      eventid={el._id}
+                      eventDescription={el.event_description}
+                      eventDate={() => {
+                        const vara = el.date_time;
+                        return vara;
+                      }}
+                    />
+                  </li>
+                  <Divider variant="middle" />
+                </div>
+    )) : `No ${state.header} exists`}
+            </ul>
+          </div>
+        </Card>
+      </div>
     );
 };
 
