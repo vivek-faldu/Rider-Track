@@ -26,6 +26,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import { makeStyles } from '@material-ui/core/styles';
 import { LIVE_EVENTS, UPCOMING_EVENTS, COMPLETED_EVENTS } from './EventsConstants';
 import EventListItem from './EventListItem';
+<<<<<<< HEAD
 import Live from '../../assets/Live.png';
 import Upcoming from '../../assets/Upcoming-events.jpg';
 import Completed from '../../assets/Completed.jpg';
@@ -55,6 +56,9 @@ const useStyles = makeStyles({
     height: 75,
   },
 });
+=======
+import AppCarousel from './AppCarousel';
+>>>>>>> ac87401e1418aad1ac9511dacb20cfb11968ce1a
 /*
     Added call to the backend api for list of events and filter to display them.
     Author: Sai Saran Kandimalla
