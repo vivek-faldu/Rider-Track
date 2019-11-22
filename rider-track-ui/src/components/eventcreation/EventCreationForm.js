@@ -25,13 +25,85 @@ import {
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import CreateEventMap from './CreateEventMap';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+// import Autocomplete from '@material-ui/lab/Autocomplete';
+import Autosuggest from 'react-autosuggest';
 
+
+const languages = [
+  {
+    name: 'C',
+    year: 1972
+  },
+  {
+    name: 'C#',
+    year: 2000
+  },
+  {
+    name: 'C++',
+    year: 1983
+  },
+  {
+    name: 'Clojure',
+    year: 2007
+  },
+  {
+    name: 'Elm',
+    year: 2012
+  },
+  {
+    name: 'Go',
+    year: 2009
+  },
+  {
+    name: 'Haskell',
+    year: 1990
+  },
+  {
+    name: 'Java',
+    year: 1995
+  },
+  {
+    name: 'Javascript',
+    year: 1995
+  },
+  {
+    name: 'Perl',
+    year: 1987
+  },
+  {
+    name: 'PHP',
+    year: 1995
+  },
+  {
+    name: 'Python',
+    year: 1991
+  },
+  {
+    name: 'Ruby',
+    year: 1995
+  },
+  {
+    name: 'Scala',
+    year: 2003
+  }
+];
+
+
+const getSuggestionValue = suggestion => suggestion.place_name;
+
+const renderSuggestion = suggestion => (
+  <div>
+    {suggestion.place_name}
+  </div>
+);
 
 class EventCreationForm extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
+      value: '',
+      suggestions: [],
       open: false,
       selectedDate: new Date(),
       eventName: null,
@@ -72,8 +144,8 @@ class EventCreationForm extends Component {
     this.setState({ eventName });
   }
 
-  setEventPlace = (evt, eventPlace) => {
-    const place = this.state.topLocations.find(place => place.place_name == eventPlace);
+  setEventPlace = (eventPlace) => {
+    const place = this.state.topLocations.find(place => place.place_name == eventPlace.place_name);
     const lat = place.center[1];
     const longi = place.center[0];
     var newViewport = this.state.viewport;
@@ -286,7 +358,58 @@ class EventCreationForm extends Component {
     this.setState({ open: true });
   }
 
+  onChange = (event, { newValue }) => {
+    this.setState({
+      value: newValue
+    });
+  };
+
+  onSuggestionSelected = (event, { suggestion }) => {
+    debugger;
+    this.setEventPlace(suggestion);
+  }
+  onSuggestionsFetchRequested = ({ value }) => {
+    var newSuggestions = [];
+    if (value.length > 3) {
+      const TOKEN = 'pk.eyJ1Ijoidml2ZWtmYWxkdSIsImEiOiJjazBzaGI1aGMwMm1hM2hwZDY5Zmc0OHd5In0.I2EViz8YDQwXvwW_38Oujg';
+      let url = "https://api.mapbox.com/geocoding/v5/mapbox.places/" + value + ".json?access_token=" + TOKEN;
+      const res = fetch(url)
+        .then((response) => response.json())
+        .then((result) => {
+          const test = result.features.map(v => v);
+          this.setState({ topLocations: test });
+          this.setState({
+            suggestions: test
+          });
+
+        }
+        )
+        .catch((err) => {
+          this.setState = {
+            errors: err,
+          }
+        });
+    } else {
+      this.setState({
+        suggestions: newSuggestions
+      });
+    }
+  };
+
+
+  // Autosuggest will call this function every time you need to clear suggestions.
+  onSuggestionsClearRequested = () => {
+    this.setState({
+      suggestions: []
+    });
+  };
   render() {
+    const { value, suggestions } = this.state;
+    const inputProps = {
+      placeholder: 'Search location',
+      value,
+      onChange: this.onChange
+    };
     const {
       eventName, eventDescription, selectedDate, eventDuration, eventPlace,
       eventMaxParticipant, marker, viewport, open, validateMessage, eventDescriptionError,
@@ -294,195 +417,188 @@ class EventCreationForm extends Component {
     } = this.state;
 
     return (
-      <Grid style={{
-        border: 'solid', borderWidth: '3px', height: '1100px', margin: 20,
-      }}
-      >
+      <div>
+        <Grid style={{
+          border: 'solid', borderWidth: '3px', height: '1100px', margin: 20,
+        }}
+        >
 
-        <Grid item xs={12}>
-          <Typography variant="h5" align="center" style={{ padding: '20px' }} gutterBottom>
-            Rider Track | Event | Create
+          <Grid item xs={12}>
+            <Typography variant="h5" align="center" style={{ padding: '20px' }} gutterBottom>
+              Rider Track | Event | Create
           </Typography>
-        </Grid>
+          </Grid>
 
-        <Grid container alignItems="flex-start" justify="center">
-          <form onSubmit={(e) => { this.onSubmit(e); }} noValidate >
-            <Grid item xs={12}>
-              <TextField
-                error={eventNameError}
-                helperText={eventNameError ? validateMessage : null}
-                id="eventname"
-                label="Event Name"
-                style={{ width: '40%' }}
-                value={eventName}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                onChange={(event) => {
-                  this.setEventName(event.target.value);
-                }}
-                margin="normal"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                error={eventDescriptionError}
-                helperText={eventDescriptionError ? validateMessage : null}
-                id="eventdescription"
-                label="Event Description"
-                style={{ width: '40%' }}
-                value={eventDescription}
-                multiline
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                onChange={(event) => { this.setEventDescription(event.target.value); }}
-                margin="normal"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Autocomplete
-                id="test-id"
-                freeSolo
-                //getOptionLabel={option => option.place_name}
-                disableClearable
-                options={topLocations.map(option => option.place_name)}
-                onInputChange={(event, val) => {
-                  this.searchLocation(val);
-                }}
-                onChange={(event, val) => {
-                  this.setEventPlace(event, val);
-                }}
-                renderInput={params => (
-                  <TextField
-                    {...params}
-                    label="Search location"
+          <Grid container alignItems="flex-start" justify="center">
+            <form onSubmit={(e) => { this.onSubmit(e); }} noValidate >
+              <Grid item xs={12}>
+                <TextField
+                  error={eventNameError}
+                  helperText={eventNameError ? validateMessage : null}
+                  id="eventname"
+                  label="Event Name"
+                  style={{ width: '40%' }}
+                  value={eventName}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={(event) => {
+                    this.setEventName(event.target.value);
+                  }}
+                  margin="normal"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  error={eventDescriptionError}
+                  helperText={eventDescriptionError ? validateMessage : null}
+                  id="eventdescription"
+                  label="Event Description"
+                  style={{ width: '40%' }}
+                  value={eventDescription}
+                  multiline
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={(event) => { this.setEventDescription(event.target.value); }}
+                  margin="normal"
+                />
+              </Grid>
+              {/* <Grid item xs={12}>
+                <Autosuggest
+                  suggestions={suggestions}
+                  onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+                  onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+                  getSuggestionValue={getSuggestionValue}
+                  renderSuggestion={renderSuggestion}
+                  inputProps={inputProps}
+                  onSuggestionSelected={this.onSuggestionSelected}
+                />
+
+              </Grid> */}
+              <Grid item xs={12}>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
                     margin="normal"
-                    value={eventPlace}
-                    InputLabelProps={{
-                      shrink: true,
+                    id="date-picker-dialog"
+                    label="Date"
+                    format="MM/dd/yyyy"
+                    value={selectedDate}
+                    onChange={(date) => { this.setSelectedDate(date); }}
+                    KeyboardButtonProps={{
+                      'aria-label': 'change date',
                     }}
-                    fullWidth
-                    style={{ width: '40%' }}
-                  // InputProps={{ ...params.InputProps, type: 'search' }}
                   />
-                )}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <KeyboardDatePicker
-                  margin="normal"
-                  id="date-picker-dialog"
-                  label="Date"
-                  format="MM/dd/yyyy"
-                  value={selectedDate}
-                  onChange={(date) => { this.setSelectedDate(date); }}
-                  KeyboardButtonProps={{
-                    'aria-label': 'change date',
+                  <KeyboardTimePicker
+                    margin="normal"
+                    id="time-picker"
+                    label="Event Time"
+                    value={selectedDate}
+                    onChange={(date) => { this.setSelectedDate(date); }}
+                    KeyboardButtonProps={{
+                      'aria-label': 'change time',
+                    }}
+                  />
+                </MuiPickersUtilsProvider>
+              </Grid>
+
+              <Grid item xs={12}>
+                <TextField
+                  id="max-participant"
+                  label="Max Participants"
+                  error={eventMaxParticipantError}
+                  helperText={eventMaxParticipantError ? validateMessage : null}
+                  style={{ width: '40%' }}
+                  value={eventMaxParticipant}
+                  InputLabelProps={{
+                    shrink: true,
                   }}
-                />
-                <KeyboardTimePicker
-                  margin="normal"
-                  id="time-picker"
-                  label="Event Time"
-                  value={selectedDate}
-                  onChange={(date) => { this.setSelectedDate(date); }}
-                  KeyboardButtonProps={{
-                    'aria-label': 'change time',
+                  onChange={(event) => {
+                    this.setEventMaxParticipant(event.target.value);
                   }}
+                  margin="normal"
                 />
-              </MuiPickersUtilsProvider>
-            </Grid>
+              </Grid>
 
-            <Grid item xs={12}>
-              <TextField
-                id="max-participant"
-                label="Max Participants"
-                error={eventMaxParticipantError}
-                helperText={eventMaxParticipantError ? validateMessage : null}
-                style={{ width: '40%' }}
-                value={eventMaxParticipant}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                onChange={(event) => {
-                  this.setEventMaxParticipant(event.target.value);
-                }}
-                margin="normal"
-              />
-            </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  id="duration"
+                  label="Duration"
+                  error={eventDurationError}
+                  helperText={eventDurationError ? validateMessage : null}
+                  style={{ width: '40%' }}
+                  value={eventDuration}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={(event) => {
+                    this.setEventDuration(event.target.value);
+                  }}
+                  margin="normal"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Autosuggest
+                  suggestions={suggestions}
+                  onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+                  onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+                  getSuggestionValue={getSuggestionValue}
+                  renderSuggestion={renderSuggestion}
+                  inputProps={inputProps}
+                  onSuggestionSelected={this.onSuggestionSelected}
+                />
 
-            <Grid item xs={12}>
-              <TextField
-                id="duration"
-                label="Duration"
-                error={eventDurationError}
-                helperText={eventDurationError ? validateMessage : null}
-                style={{ width: '40%' }}
-                value={eventDuration}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                onChange={(event) => {
-                  this.setEventDuration(event.target.value);
-                }}
-                margin="normal"
-              />
-            </Grid>
-
-            <Grid item xs={12} style={{ width: '1150px' }}>
-              Add Check Points
+              </Grid>
+              <Grid item xs={12} style={{ width: '1150px' }}>
+                Add Check Points
               <CreateEventMap setEventMarker={this.setEventMarker} marker={marker} viewport={viewport} setViewPort={this.setViewPort} />
-            </Grid>
+              </Grid>
 
-            <Grid item xs={12} style={{ marginTop: 50 }}>
+              <Grid item xs={12} style={{ marginTop: 50 }}>
 
-              <Button
-                type="button"
-                variant="contained"
-                onClick={() => { this.reset(); }}
+                <Button
+                  type="button"
+                  variant="contained"
+                  onClick={() => { this.reset(); }}
 
-              >
-                Reset
+                >
+                  Reset
 
               </Button>
-
-
-              <Button
-                variant="contained"
-                color="primary"
-                type="submit"
-              >
-                Submit
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                >
+                  Submit
               </Button>
-            </Grid>
-          </form>
+              </Grid>
+            </form>
+          </Grid>
+          <Snackbar
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            open={open}
+            autoHideDuration={6000}
+            onClose={this.handleClose}
+            ContentProps={{
+              'aria-describedby': 'message-id',
+            }}
+            message={<span id="message-id">Event Created Sucessfully</span>}
+            action={[
+              <IconButton
+                key="close"
+                aria-label="close"
+                color="inherit"
+                style={{ padding: 0.5 }}
+              />,
+            ]}
+          />
+
         </Grid>
-        <Snackbar
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left',
-          }}
-          open={open}
-          autoHideDuration={6000}
-          onClose={this.handleClose}
-          ContentProps={{
-            'aria-describedby': 'message-id',
-          }}
-          message={<span id="message-id">Event Created Sucessfully</span>}
-          action={[
-            <IconButton
-              key="close"
-              aria-label="close"
-              color="inherit"
-              style={{ padding: 0.5 }}
-            />,
-          ]}
-        />
-
-      </Grid>
-
+      </div>
     );
   }
 }
