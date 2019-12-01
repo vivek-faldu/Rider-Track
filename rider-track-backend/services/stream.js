@@ -24,15 +24,11 @@ function startStream(eventId) {
             //[{ id: "5d96e4e1e78f0b615d85cf34", name: "Shilpa" }]
             getCoordinatesFunction(users, eventId).then((res) => {
                 coordinates = res;
-                console.log("latest outside are " + JSON.stringify(coordinates));
-                console.log("latest outside size " + coordinates.length);
                 send("event_" + eventId + "_channel", 'my-event', coordinates);
                 coordinates = [];
             })
         }, 5000);
         handles.set("event_" + eventId + "_channel", handle);
-        console.log("stream started");
-        console.log("map size " + handles.size);
     });
 }
 
@@ -42,9 +38,6 @@ function stopStream(eventId) {
     if (handles.has(handle)) {
         handles.delete(handle)
     }
-    console.log("stream stopped");
-    console.log("map size " + handles.size);
-
 }
 
 var getCoordinatesFunction = function getCoordinates(users, eventId) {
@@ -52,6 +45,7 @@ var getCoordinatesFunction = function getCoordinates(users, eventId) {
         latestCoordinates = new Array();
         count = 0;
         console.log("users are");
+
         console.log(users);
         users.forEach((user) => {
             console.log("inside foreach");
