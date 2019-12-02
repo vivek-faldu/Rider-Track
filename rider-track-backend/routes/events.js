@@ -83,8 +83,8 @@ router.delete("/delete/:id", (request, response) => {
 
         return response.status(200).json();
     }).catch((err) => {
-        response.status(400).json({
-            message: "the event delete request is unsuccessful",
+        response.status(500).json({
+            message: "Event deletion request was unsuccessful",
             error: err
         });
     });
@@ -93,8 +93,10 @@ router.delete("/delete/:id", (request, response) => {
 router.get("/:id", async (req, res) => {
     Event.findById(req.params.id, (err, event) => {
         if (err) {
-            //console.log(err);
-            res.status(404).json();
+            res.status(404).json({
+                message: "Event not found",
+                error: err
+            });
         } else {
             User.findById(event.creator_id, function (err, user) {
                 result = {
@@ -126,7 +128,11 @@ router.route('/').post(bodyParser, (req, res) => {
         .then(event => {
             User.findById(req.body.creator_id, function (err, user) {
                 if (err) {
-                    send(err);
+                    res.status(500).json({
+                        status: 500,
+                        message: "Event creation failed due to internal server error",
+                        error: err
+                    });
                 }
                 user.created_events.push(event._id);
                 user.save().then(user => {
@@ -150,7 +156,10 @@ router.route('/').post(bodyParser, (req, res) => {
 router.route("/:id").put(bodyParser, (req, res) => {
     Event.findById(req.params.id, function (err, event) {
         if (err) {
-            res.status(500).json();
+            res.status(500).json({
+                message: "Event update failed due to internal server error",
+                error: err
+            });
         }
         event.participants.push({ id: req.body.userId, name: req.body.name });
         event
@@ -158,7 +167,10 @@ router.route("/:id").put(bodyParser, (req, res) => {
             .then(event => {
                 User.findById(req.body.userId, function (err, user) {
                     if (err) {
-                        send(err);
+                        res.status(500).json({
+                            message: "Event update failed due to internal server error",
+                            error: err
+                        });
                     }
                     user.participated_events.push(req.params.id);
                     user.save().then(user => {
@@ -174,10 +186,10 @@ router.route("/:id").put(bodyParser, (req, res) => {
                         user_event.save().then(user_event => {
                             res.status(200).json({
                                 status: 200,
-                                event: "Registered successfully"
+                                message: "Registered successfully"
                             });
                         }).catch(err => {
-                            res.status(400).send("Failed to register");
+                            res.status(500).send("Failed to register");
                         });
                     })
                 })
@@ -193,7 +205,10 @@ router.route("/:id").put(bodyParser, (req, res) => {
 router.route('/edit/:id').put(bodyParser, (req, res) => {
     Event.findById(req.params.id, function (err, event) {
         if (err) {
-            res.status(500).json();
+            res.status(500).json({
+                message: "Event update failed due to internal server error",
+                error: err
+            });
         }
         event.event_name = req.body.event_name;
         event.event_description = req.body.event_description;
@@ -209,7 +224,6 @@ router.route('/edit/:id').put(bodyParser, (req, res) => {
                 });
             })
             .catch(err => {
-                console.log(err);
                 res.status(400).send('Failed to Edit the event');
             });
     })

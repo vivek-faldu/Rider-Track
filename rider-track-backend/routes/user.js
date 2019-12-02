@@ -25,10 +25,17 @@ router.put("/profile/:id", async (req, res) => {
     let uid = req.params.id;
     Users.findById(uid, (err, user) => {
         if (err) {
-            res.status(500).json("Internal Server Error");
+            res.status(500).json({
+                status: 500,
+                message: "Internal server error",
+                error: err
+            });
         } else {
             if (user == null) {
-                res.status(404).json("User not found");
+                res.status(404).json({
+                    status: 404,
+                    message: "User not found",
+                });
             }
             else {
                 user.email = req.body.email;
@@ -36,10 +43,13 @@ router.put("/profile/:id", async (req, res) => {
                 user.save().then(newuser => {
                     res.status(200).json({
                         status: 200,
-                        event: "User information has been updated sucessfully"
+                        message: "User information has been updated sucessfully"
                     });
                 }).catch(err => {
-                    res.status(500).send("Failed to update the user info");
+                    res.status(500).json({
+                        status: 500,
+                        message: "Failed to update the user info due to internal server error"
+                    });
                 });
             }
         }
