@@ -264,7 +264,7 @@ const EventsList = () => {
           </ul>
             </div>
         ) : (
-          <div>
+          <div className="rt-spinner-div">
             <CircularProgress />
           </div>
 )}

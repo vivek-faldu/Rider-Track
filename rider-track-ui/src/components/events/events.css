@@ -118,3 +118,7 @@
 .carousel-banner button:hover {
     box-shadow: inset 400px 0 0 0 #ed8b00;
 }
+
+.rt-spinner-div {
+    margin: 50px;
+}
