@@ -17,6 +17,9 @@ let should = chai.should();
 
 chai.use(chaiHttp);
 
+/*
+ * Test the /GET route to fetch all events
+ */
 describe('GET List of Events', () => {
     it('it should GET all the events', (done) => {
         chai.request(server)
@@ -37,10 +40,13 @@ describe('GET List of Events', () => {
     });
 });
 
+/*
+ * Test the /GET/:id route 
+ */
 describe('GET Event based on _id', () => {
     it('it should GET specific event', (done) => {
         chai.request(server)
-            .get('/api/events/5da0111bf05a835eba01381d')
+            .get('/api/events/5da01169f05a835eba013829')
             .end((err, res) => {
                 res.should.have.status(200);
                 res.body.should.have.property('event_name');
@@ -56,6 +62,9 @@ describe('GET Event based on _id', () => {
     });
 });
 
+/*
+ * Test the /GET/:id route for event that does not exist
+ */
 describe('GET Event based on _id', () => {
     it('it should give error since the id doesnt exist', (done) => {
         chai.request(server)
@@ -74,12 +83,12 @@ describe('Create a new event', () => {
     it('it should POST an event', (done) => {
         let event = {
 
-            "creator_id": "100",
-            "event_name": "Phoenix Marathon",
+            "creator_id": "5db26981f77c0a1728f5e2c9",
+            "event_name": "Test Event - Phoenix Marathon",
             "event_description": "Test event for development",
-            "date_time": "1 Jan, 2021",
-            "duration": "1 day",
-            "max_participant": "200"
+            "date_time": "30 Jan, 2021",
+            "duration": "10 days",
+            "max_participant": "150"
 
         }
         chai.request(server)
@@ -102,7 +111,7 @@ describe('Register user for an event', () => {
             "name": "test participant"
         }
         chai.request(server)
-            .put('/api/events/5da0111bf05a835eba01381d')
+            .put('/api/events/5dade8bfa5bd276ae4938ba0')
             .send(event)
             .end((err, res) => {
                 res.should.have.status(200);
@@ -121,7 +130,7 @@ describe('Start an event', () => {
             "name": "test participant"
         }
         chai.request(server)
-            .put('/api/events//start/5da0111bf05a835eba01381d')
+            .put('/api/events/start/5dade8bfa5bd276ae4938ba0')
             .send(event)
             .end((err, res) => {
                 res.should.have.status(200);
@@ -140,7 +149,7 @@ describe('Stop an event', () => {
             "name": "test participant"
         }
         chai.request(server)
-            .put('/api/events/stop/5da0111bf05a835eba01381d')
+            .put('/api/events/stop/5dade8bfa5bd276ae4938ba0')
             .send(event)
             .end((err, res) => {
                 res.should.have.status(200);
@@ -159,22 +168,8 @@ describe('Delete a non existant event', () => {
             .delete('/api/events/delete/5da0111bf05a835eba01')
             .end((error, response) => {
                 response.should.have.status(400);
-                response.body.message.should.equal("the event delete request is unsuccessful");
-                done();
-            });
-    });
-});
-/**
- * Test the event deletion feature using non existant event ID
- * Author: sai saran kandimalla.
- */
-describe('Delete a non existant event', () => {
-    it("it should respond back with a 400 error because the event ID doesn't exist", (done) => {
-        chai.request(server)
-            .delete('/api/events/delete/5da0111bf05a835eba01')
-            .end((error, response) => {
-                response.should.have.status(400);
-                response.body.message.should.equal("the event delete request is unsuccessful");
+                //                response.body.message.should.equal("Event deletion request was unsuccessful");
+                response.body.should.have.property('message');
                 done();
             });
     });

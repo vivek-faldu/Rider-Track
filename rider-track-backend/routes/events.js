@@ -33,6 +33,9 @@ router.get("/stop/:id", (req, res) => {
     res.send("stream stopped")
 });
 
+/** 
+ * GET API to fetch all events in a specific date range
+ */
 router.get("/", async (req, res) => {
 
     var startDate = req.query.startDate;
@@ -83,13 +86,16 @@ router.delete("/delete/:id", (request, response) => {
 
         return response.status(200).json();
     }).catch((err) => {
-        response.status(500).json({
+        response.status(400).json({
             message: "Event deletion request was unsuccessful",
             error: err
         });
     });
 });
 
+/** 
+ * GET API to fetch specific event
+ */
 router.get("/:id", async (req, res) => {
     Event.findById(req.params.id, (err, event) => {
         if (err) {
@@ -121,7 +127,9 @@ router.get("/:id", async (req, res) => {
 
 });
 
-
+/** 
+ * POST API to create new events
+ */
 router.route('/').post(bodyParser, (req, res) => {
     let event = new Event(req.body);
     event.save()
@@ -148,11 +156,11 @@ router.route('/').post(bodyParser, (req, res) => {
         });
 });
 
-// Event registration
-// Edits row in event - adds participant to the given eventid
-//Edits row in user - adds eventid to participatedevents
-//adds new row in user-event
-
+/* Event registration
+ * Edits row in event - adds participant to the given eventid
+ * Edits row in user - adds eventid to participatedevents
+ * Adds new row in user-event
+ */
 router.route("/:id").put(bodyParser, (req, res) => {
     Event.findById(req.params.id, function (err, event) {
         if (err) {
@@ -197,11 +205,11 @@ router.route("/:id").put(bodyParser, (req, res) => {
     });
 });
 
-// Event Edit
-// Edits row in event - adds participant to the given eventid
-//Edits row in user - adds eventid to participatedevents
-//adds new row in user-event
-
+/* Event Edit
+ * Edits row in event - adds participant to the given eventid
+ * Edits row in user - adds eventid to participatedevents
+ * Adds new row in user-event
+*/
 router.route('/edit/:id').put(bodyParser, (req, res) => {
     Event.findById(req.params.id, function (err, event) {
         if (err) {

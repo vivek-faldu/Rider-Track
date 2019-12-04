@@ -20,7 +20,9 @@ var router = express.Router();
 const Users = require('../models/users');
 const Event = require('../models/events');
 const UserEvent = require('../models/user_events');
-
+/** 
+ * PUT API to update user profile
+ */
 router.put("/profile/:id", async (req, res) => {
     let uid = req.params.id;
     Users.findById(uid, (err, user) => {
@@ -56,6 +58,10 @@ router.put("/profile/:id", async (req, res) => {
     });
 });
 
+/** 
+ * GET API to fetch list of all participated/created events 
+ *      for a specific participant
+ */
 router.get("/events", async (req, res) => {
     let uid = req.query.userid;
     return fetchUserEvents(uid).then(function (user) {
@@ -75,6 +81,9 @@ router.get("/events", async (req, res) => {
     })
 });
 
+/** 
+ * GET API to fetch participant specific event details like checkpoints
+ */
 router.get("/eventdetail", async (req, res) => {
     let uid = req.query.userid;
     let eventId = req.query.eventid;
