@@ -15,7 +15,7 @@ export default class EventRegistration extends Component {
             userId: "5d9c0e1320132148b87762fd",
             name: "new participant testss"
         }
-        fetch('http://localhost:4241/api/events/5d81d95a0b52a97535d59b58', {
+        fetch('/api/events/5d81d95a0b52a97535d59b58', {
             method: 'PUT',
             headers: {
                 Accept: 'application/json',

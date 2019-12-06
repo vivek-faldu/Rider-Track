@@ -32,7 +32,7 @@ class RegisteredEventDetail extends Component {
 
   async componentDidMount() {
     let uid = this.props.authentication.user.id;
-    let url = 'http://localhost:4241/api/user/eventdetail?userid=' + uid + '&eventid=';
+    let url = '/api/user/eventdetail?userid=' + uid + '&eventid=';
     url = url.concat(this.props.match.params.id);
     const res = await fetch(url);
     res.json()

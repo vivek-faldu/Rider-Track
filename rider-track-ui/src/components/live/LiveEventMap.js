@@ -63,7 +63,7 @@ export default class LiveEventMap extends Component {
 
   // function fetches the checkpoints data for the track of the particular event.
   getPoints = async () => {
-    let url = 'http://localhost:4241/api/events/';
+    let url = '/api/events/';
     url = url.concat(this.props.eventid);
     const res = await fetch(url);
     res.json()

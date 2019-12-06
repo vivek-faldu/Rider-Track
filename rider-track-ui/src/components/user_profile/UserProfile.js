@@ -45,7 +45,7 @@ class UserProfile extends Component {
     }
 
     registerHandler = async (content) => {
-        const url = `http://localhost:4241/api/user/profile/${this.props.authentication.user.id}`;
+        const url = `/api/user/profile/${this.props.authentication.user.id}`;
 
         const res = await fetch(url, {
             method: 'PUT',

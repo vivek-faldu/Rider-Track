@@ -34,7 +34,7 @@ class ParticipantHistory extends Component {
 
   async componentDidMount() {
     let uid = this.props.authentication.user.id;
-    let url = 'http://localhost:4241/api/user/events?userid=' + uid;
+    let url = '/api/user/events?userid=' + uid;
     const res = await fetch(url);
     res.json()
       .then((res) => this.setState({ events: res.participated_events }))

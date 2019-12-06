@@ -44,7 +44,6 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:4241",
   "devDependencies": {
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-google": "^0.14.0",

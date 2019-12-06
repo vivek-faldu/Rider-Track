@@ -56,9 +56,8 @@ class EventRegistrationForm extends Component {
     }
   }
 
-  // Call the register api and pass the pararmeters to register the participant for the event
   registerHandler = async (content) => {
-    const res = await fetch(`http://localhost:4241/api/events/${this.props.match.params.id}`, {
+    const res = await fetch(`/api/events/${this.props.match.params.id}`, {
       method: 'PUT',
       headers: {
         Accept: 'application/json',
@@ -74,7 +73,6 @@ class EventRegistrationForm extends Component {
     }
   }
 
-  //Prepare body for registering participant
   onSubmit = (event) => {
     event.preventDefault();
     const {
@@ -266,7 +264,29 @@ class EventRegistrationForm extends Component {
                   margin="normal"
                 />
               </Grid>
+              {/* <Grid item xs={12}> */}
+              {/* <br></br> */}
+              {/* <Select
+                  value={values.age}
+                  onChange={handleChange}
+                  style={{ width: 200, float: "left" }}
+                // inputProps={{
+                //   name: "trackerWebsite",
+                //   id: "trackerWebsite"
+                // }}
+                >
+                  <MenuItem value={0}>Map Progress</MenuItem>
+                  <MenuItem value={1}>Trackleader</MenuItem>
+                  <MenuItem value={2}>TrackMeSpot</MenuItem>
+                </Select> */}
+              {/* <br></br>
+                <br></br> */}
 
+              {/* <FormHelperText style={{ float: "left" }}>
+                  Select Tracker Website
+                </FormHelperText> */}
+              {/* </Grid> */}
+              {/* <br></br> */}
               <Grid item xs={12} style={{ marginTop: 50 }}>
                 <Button type="button" variant="contained" onClick={() => { this.resetForm(); }}>
                   Reset

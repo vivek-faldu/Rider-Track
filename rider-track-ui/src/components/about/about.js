@@ -214,7 +214,7 @@ export default function About() {
                     </CardMedia>
                     <CardContent>
                         <Typography variant="body2" color="textSecondary" component="p">
-                            Vivek is a Software Engineering graduate student at Arizona State University. He has a bachelor’s degree in Computer Science from MSV university.
+                            Vivek is a Software Engineering graduate student at Arizona State University. He has a bachelor’s degree in Computer Science from MS university.
 
                                  </Typography>
                     </CardContent>

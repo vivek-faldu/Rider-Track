@@ -13,6 +13,7 @@ var cors = require('cors');
 const mongoose = require('mongoose');
 const bodyParser = require("body-parser");
 const app = express();
+const path = require('path');
 
 const PORT = process.env.PORT || 4241;
 
@@ -20,6 +21,9 @@ const eventsRoute = require("./routes/events");
 const userRoute = require("./routes/user");
 const authenticationRoute = require("./routes/authentication");
 const userEventsRoute = require("./routes/user_events");
+
+
+app.use(express.static(path.join(__dirname, 'rider-track-ui/build')));
 
 // middleware
 app.use(
@@ -39,6 +43,13 @@ app.use("/api/events", eventsRoute);
 app.use("/api/user", userRoute);
 app.use("/api/authentication", authenticationRoute);
 app.use("/api/user_events", userEventsRoute);
+
+
+app.get('*', (req,res) =>{
+    res.sendFile(path.join(__dirname+'/rider-track-ui/build/index.html'));
+});
+
+
 
 mongoose.connect('mongodb+srv://root-user:admin@softwarefactory-erwi0.mongodb.net/test?retryWrites=true&w=majority', {
         dbName: 'tracker',

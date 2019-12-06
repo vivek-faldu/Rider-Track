@@ -33,7 +33,7 @@ import Login from '../authentication/Login';
 
 class EventsDetail extends Component {
   start = async (eventId) => {
-    const url = `http://localhost:4241/api/events/start/${eventId}`;
+    const url = `/api/events/start/${eventId}`;
 
     const res = await fetch(url, {
       method: 'PUT',
@@ -50,7 +50,7 @@ class EventsDetail extends Component {
   }
 
   stop = async (eventId) => {
-    const url = `http://localhost:4241/api/events/stop/${eventId}`;
+    const url = `/api/events/stop/${eventId}`;
 
     const res = await fetch(url, {
       method: 'PUT',
@@ -110,7 +110,7 @@ class EventsDetail extends Component {
   }
 
   componentDidMount() {
-    let url = 'http://localhost:4241/api/events/';
+    let url = '/api/events/';
     url = url.concat(this.props.match.params.id);
     const res = fetch(url)
       .then((response) => response.json())

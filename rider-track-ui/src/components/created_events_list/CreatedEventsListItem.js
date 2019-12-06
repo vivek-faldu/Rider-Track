@@ -30,7 +30,7 @@ class CreatedEventsListItem extends Component {
     }
 
     start = async (eventId) => {
-        const url = `http://localhost:4241/api/events/start/${eventId}`;
+        const url = `/api/events/start/${eventId}`;
 
         const res = await fetch(url, {
             method: 'PUT',
@@ -47,7 +47,7 @@ class CreatedEventsListItem extends Component {
     }
 
     stop = async (eventId) => {
-        const url = `http://localhost:4241/api/events/stop/${eventId}`;
+        const url = `/api/events/stop/${eventId}`;
 
         const res = await fetch(url, {
             method: 'PUT',
@@ -91,7 +91,7 @@ class CreatedEventsListItem extends Component {
     }
 
     deleteEvent = async (eventId) => {
-        const url = `http://localhost:4241/api/events/delete/${eventId}`;
+        const url = `/api/events/delete/${eventId}`;
 
         const response = await fetch(url, {
             method: 'DELETE',
@@ -104,7 +104,7 @@ class CreatedEventsListItem extends Component {
     }
 
     deleteEvent = async (eventId) => {
-        const url = `http://localhost:4241/api/events/delete/${eventId}`;
+        const url = `/api/events/delete/${eventId}`;
 
         const response = await fetch(url, {
             method: 'DELETE',
@@ -119,7 +119,7 @@ class CreatedEventsListItem extends Component {
 
 
     editEvent = async (eventId) => {
-        const url = `http://localhost:4241/api/events/edit/${eventId}`;
+        const url = `/api/events/edit/${eventId}`;
         const response = await fetch(url, {
             method: 'EDIT',
             headers: {
@@ -132,7 +132,7 @@ class CreatedEventsListItem extends Component {
     }
 
     deleteEvent = async (eventId) => {
-        const url = `http://localhost:4241/api/events/delete/${eventId}`;
+        const url = `/api/events/delete/${eventId}`;
 
         const response = await fetch(url, {
             method: 'DELETE',
@@ -147,7 +147,7 @@ class CreatedEventsListItem extends Component {
 
 
     editEvent = async (eventId) => {
-        const url = `http://localhost:4241/api/events/edit/${eventId}`;
+        const url = `/api/events/edit/${eventId}`;
         const response = await fetch(url, {
             method: 'EDIT',
             headers: {

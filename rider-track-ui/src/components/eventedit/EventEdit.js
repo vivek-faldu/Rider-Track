@@ -61,7 +61,7 @@ export default class EventEdit extends Component {
   }
 
   componentDidMount() {
-    let url = 'http://localhost:4241/api/events/';
+    let url = '/api/events/';
     url = url.concat(this.props.match.params.id);
     const res = fetch(url)
       .then((response) => response.json())
@@ -112,7 +112,7 @@ export default class EventEdit extends Component {
   };
 
   send = async (content) => {
-    const res = await fetch('http://localhost:4241/api/events/edit/' + this.props.match.params.id, {
+    const res = await fetch('/api/events/edit/' + this.props.match.params.id, {
       method: 'PUT',
       headers: {
         Accept: 'application/json',

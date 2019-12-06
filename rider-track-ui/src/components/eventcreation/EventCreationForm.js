@@ -204,7 +204,7 @@ class EventCreationForm extends Component {
 
   send = async (content) => {
     content.place = content.place.place_name;
-    const res = await fetch('http://localhost:4241/api/events/', {
+    const res = await fetch('/api/events/', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
