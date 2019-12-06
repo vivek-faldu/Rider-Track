@@ -159,7 +159,7 @@ const EventsList = () => {
           <div className="col-md-7">
             <h1 className="rt-events-header">{state.header}</h1>
           </div>
-          <div className="col-md-2">
+          <div className="rt-margin col-md-2">
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
               disableToolbar
@@ -176,7 +176,7 @@ const EventsList = () => {
             />
             </MuiPickersUtilsProvider>
           </div>
-          <div className="col-md-2">
+          <div className="rt-margin col-md-2">
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
               disableToolbar
@@ -195,7 +195,7 @@ const EventsList = () => {
             </MuiPickersUtilsProvider>
 
           </div>
-          <div className="col-md-1">
+          <div className="col-md-1 rt-margin">
             <Button color="primary" variant="outlined" onClick={() => fetchData()}>Go</Button>
           </div>
           <Divider className="row" />
@@ -206,6 +206,7 @@ const EventsList = () => {
             alignItems="center"
             justify="center"
           >
+            <div className="media">
             <Card className={classes.card}>
 
               <div className="rt-event-type-container">
@@ -217,6 +218,8 @@ const EventsList = () => {
               </div>
             </div>
             </Card>
+            </div>
+            <div className="media">
             <Card className={classes.card}>
               <div className="rt-event-type-container">
               <CardMedia className="media">
@@ -227,6 +230,8 @@ const EventsList = () => {
               </div>
             </div>
             </Card>
+            </div>
+            <div className="media">
             <Card className={classes.card}>
               <div className="rt-event-type-container">
               <CardMedia className="media">
@@ -237,6 +242,7 @@ const EventsList = () => {
               </div>
             </div>
             </Card>
+            </div>
           </Grid>
         </div>
         <Divider className="row" />

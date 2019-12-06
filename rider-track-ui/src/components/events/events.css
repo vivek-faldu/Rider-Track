@@ -58,11 +58,24 @@
     transition: .3s ease;
     padding-right: 0;
 }
+
+.rt-margin {
+    margin-top: 10px !important;
+}
   
 .rt-event-type-container:hover .rt-event-type-overlay {
     transform: scale(1);
+    box-shadow: 0 1.5em 1.5em -1.4em var(--hover);
+    transform: translateY(-0.25em);
+    transition-duration: 1s;
 }
-  
+
+.media:hover {
+    box-shadow: 0 1.5em 1.5em -1.4em var(--hover);
+    transform: translateY(-1.0em);
+    transition-duration: 1s;
+}
+
 .rt-event-type-overlay-text {
     color: white;
     font-size: 12px;

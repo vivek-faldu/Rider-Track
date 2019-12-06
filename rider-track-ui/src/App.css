@@ -6,6 +6,16 @@
 .App Button {
   text-transform: none !important;
   margin: 5px;
+
+}
+
+/*
+* hover effects for react material UI buttons. 
+*/
+.App Button:hover {
+  box-shadow: 0 1.5em 1.5em -1.4em var(--hover);
+  transform: translateY(-0.5em);
+  transition-duration: 1s;
 }
 
 .App MenuItem {
@@ -30,6 +40,15 @@
 
 .App-intro {
   font-size: large;
+}
+
+/*
+* hover effects for buttons in application.
+*/
+.App button:hover {
+  box-shadow: 0 1.5em 1.5em -1.4em var(--hover);
+  transform: translateY(-0.5em);
+  transition-duration: 1s;
 }
 
 @keyframes App-logo-spin {
