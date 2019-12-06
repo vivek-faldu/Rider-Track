@@ -22,25 +22,24 @@ const userModel = require("../models/users");
  * referred from: https://blog.bitsrc.io/build-a-login-auth-app-with-mern-stack-part-1-c405048e3669
  */
 router.post("/register", (request, response) => {
-    const {errors, isValid} = validateRegistrationInput(request.body);
-    console.log(request.body);
-    
+    const { errors, isValid } = validateRegistrationInput(request.body);
+
     // send 400 error when input given is not valid.
-    if(!isValid) {
+    if (!isValid) {
         return response.status(400).json(errors);
     }
 
-    userModel.findOne({email: request.body.email}).then(user => {
-        if(user) {
-            return response.status(400).json({email: "email already exists"});
+    userModel.findOne({ email: request.body.email }).then(user => {
+        if (user) {
+            return response.status(400).json({ email: "email already exists" });
         } else {
             const addUser = new userModel({
                 username: request.body.username,
                 email: request.body.email,
-                password:request.body.password,
-                is_admin:request.body.is_admin
+                password: request.body.password,
+                is_admin: request.body.is_admin
             });
-            
+
             // hash password
             bcrypt.genSalt(10, (error, salt) => {
                 bcrypt.hash(addUser.password, salt, (error, hash) => {
@@ -64,22 +63,22 @@ router.post("/register", (request, response) => {
  * referred from: https://blog.bitsrc.io/build-a-login-auth-app-with-mern-stack-part-1-c405048e3669
  */
 router.post("/login", (request, response) => {
-    const {errors, isValid} = validateLoginInput(request.body);
+    const { errors, isValid } = validateLoginInput(request.body);
 
     // send 400 error when input given is not valid.
-    if(!isValid) {
+    if (!isValid) {
         return response.status(400).json(errors);
     }
 
     // get user by email
-    userModel.findOne({email: request.body.email}).then(user => {
+    userModel.findOne({ email: request.body.email }).then(user => {
         // Check if user exists
         if (!user) {
             return response.status(404).json({ emailNotFound: "Email not found" });
         }
         bcrypt.compare(request.body.password, user.password).then(isValidPassword => {
-            if(isValidPassword) {
-                const payload  = {
+            if (isValidPassword) {
+                const payload = {
                     id: user.id,
                     username: user.username,
                     is_admin: user.is_admin,
@@ -100,7 +99,7 @@ router.post("/login", (request, response) => {
                     }
                 );
             } else {
-                response.status(400).json({paswordInCorrect: "Password incorrect"});
+                response.status(400).json({ paswordInCorrect: "Password incorrect" });
             }
         });
     });

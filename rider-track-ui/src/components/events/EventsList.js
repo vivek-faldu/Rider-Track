@@ -14,7 +14,7 @@
 
 import React, { useEffect } from 'react';
 import {
-  Card, CardMedia, Divider, Button, Grid, Avatar,
+  Card, CardMedia, Divider, Button, Grid, Avatar, CircularProgress,
 } from '@material-ui/core';
 import './events.css';
 import {
@@ -29,7 +29,6 @@ import EventListItem from './EventListItem';
 import Live from '../../assets/Live.png';
 import Upcoming from '../../assets/Upcoming-events.jpg';
 import Completed from '../../assets/Completed.jpg';
-
 
 import AppCarousel from './AppCarousel';
 
@@ -75,6 +74,10 @@ const EventsList = () => {
     events: [],
   });
 
+  const [ready, setReady] = React.useState({
+    ready: false,
+  });
+
   // const [selectedDropDown, setSelectedDropDown] = React.useState(LIVE_EVENTS);
   const currentDate = new Date();
   const startdate = currentDate.setMonth(currentDate.getMonth() - 12);
@@ -109,6 +112,7 @@ const EventsList = () => {
         setState({
           header: 'Live Events',
           events: liveEvents,
+          ready: true,
         });
       });
   }
@@ -123,6 +127,7 @@ const EventsList = () => {
     setState({
       header: name,
       events: eventsTemp,
+      ready: true,
     });
   }
 
@@ -156,7 +161,7 @@ const EventsList = () => {
           </div>
           <div className="col-md-2">
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <KeyboardDatePicker
+              <KeyboardDatePicker
               disableToolbar
               variant="inline"
               format="MM/dd/yyyy"
@@ -169,11 +174,11 @@ const EventsList = () => {
                 'aria-label': 'change date',
               }}
             />
-          </MuiPickersUtilsProvider>
+            </MuiPickersUtilsProvider>
           </div>
           <div className="col-md-2">
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <KeyboardDatePicker
+              <KeyboardDatePicker
               disableToolbar
               variant="inline"
               format="MM/dd/yyyy"
@@ -187,32 +192,12 @@ const EventsList = () => {
               }}
             />
 
-          </MuiPickersUtilsProvider>
+            </MuiPickersUtilsProvider>
 
           </div>
           <div className="col-md-1">
             <Button color="primary" variant="outlined" onClick={() => fetchData()}>Go</Button>
           </div>
-          {/* <div className="col-md-5">
-            <div className="rt-event-type-dropdown">
-              <FormControl>
-                <NativeSelect
-
-                    inputProps={{
-                                      name: 'event-type-selector',
-                                  }}
-                    value={selectedDropDown}
-                    onChange={handleEventTypeChange('event-type-selector')}
-                  >
-                    <option value={LIVE_EVENTS}>Live</option>
-                    <option value={UPCOMING_EVENTS}>Upcoming</option>
-                    <option value={COMPLETED_EVENTS}>Completed</option>
-                  </NativeSelect>
-                  <FormHelperText>select events type</FormHelperText>
-                </FormControl>
-              </div>
-            </div>
-          </div> */}
           <Divider className="row" />
           <Grid
             container
@@ -223,7 +208,7 @@ const EventsList = () => {
           >
             <Card className={classes.card}>
 
-            <div className="rt-event-type-container">
+              <div className="rt-event-type-container">
               <CardMedia className="media">
                 <Avatar style={{ borderRadius: 0 }} alt="Live" src={Live} className={classes.avatar} />
               </CardMedia>
@@ -231,9 +216,9 @@ const EventsList = () => {
                 <div className="rt-event-type-overlay-text" onClick={() => setEventList(LIVE_EVENTS)}>View Live Events</div>
               </div>
             </div>
-          </Card>
+            </Card>
             <Card className={classes.card}>
-            <div className="rt-event-type-container">
+              <div className="rt-event-type-container">
               <CardMedia className="media">
                 <Avatar style={{ borderRadius: 0 }} alt="Upcoming" src={Upcoming} className={classes.avatar1} />
               </CardMedia>
@@ -241,9 +226,9 @@ const EventsList = () => {
                 <div className="rt-event-type-overlay-text" onClick={() => setEventList(UPCOMING_EVENTS)}>View Upcoming Events</div>
               </div>
             </div>
-          </Card>
+            </Card>
             <Card className={classes.card}>
-            <div className="rt-event-type-container">
+              <div className="rt-event-type-container">
               <CardMedia className="media">
                 <Avatar style={{ borderRadius: 0 }} alt="Completed" src={Completed} className={classes.avatar2} />
               </CardMedia>
@@ -251,12 +236,13 @@ const EventsList = () => {
                 <div className="rt-event-type-overlay-text" onClick={() => setEventList(COMPLETED_EVENTS)}>View Completed Events</div>
               </div>
             </div>
-          </Card>
-
+            </Card>
           </Grid>
         </div>
         <Divider className="row" />
-        <div>
+        {state.ready
+          ? (
+            <div>
           <ul>
             {state.events.length > 0 ? state.events.map((el) => (
             <div>
@@ -276,7 +262,14 @@ const EventsList = () => {
             </div>
           )) : `No ${state.header} exists`}
           </ul>
-        </div>
+            </div>
+        ) : (
+          <div className="rt-spinner-div">
+            <CircularProgress />
+          </div>
+)}
+
+
       </Card>
     </div>
   );
